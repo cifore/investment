@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.csi.sbs.investment.business.dao.StockInformationDao" >
+  <resultMap id="BaseResultMap" type="com.csi.sbs.investment.business.entity.StockInformationEntity" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="StockCode" property="stockcode" jdbcType="VARCHAR" />
+    <result column="LastPrice" property="lastprice" jdbcType="DECIMAL" />
+    <result column="Changed" property="changed" jdbcType="VARCHAR" />
+    <result column="ChangedPercent" property="changedpercent" jdbcType="VARCHAR" />
+    <result column="BuyPrice" property="buyprice" jdbcType="DECIMAL" />
+    <result column="SellPrice" property="sellprice" jdbcType="DECIMAL" />
+    <result column="Volume" property="volume" jdbcType="DECIMAL" />
+    <result column="Turnover" property="turnover" jdbcType="DECIMAL" />
+    <result column="EPS" property="eps" jdbcType="DECIMAL" />
+    <result column="Ratio" property="ratio" jdbcType="DECIMAL" />
+    <result column="LotSize" property="lotsize" jdbcType="DECIMAL" />
+    <result column="TradingPoint" property="tradingpoint" jdbcType="DECIMAL" />
+  </resultMap>
+ <select id="findMany" resultMap="BaseResultMap" parameterType="com.csi.sbs.investment.business.entity.StockInformationEntity" >
+    select * from t_stock_information
+    where 1=1
+    <if test="stockcode != null and stockcode !=''" >
+       and StockCode = #{stockcode}
+    </if>
+  </select>
+  
+  <select id="findOne" resultType="com.csi.sbs.investment.business.entity.StockInformationEntity" parameterType="com.csi.sbs.investment.business.entity.StockInformationEntity">
+	select * from t_stock_information
+	where 1=1
+    <if test="stockcode != null and stockcode != ''" >
+       and StockCode = #{stockcode}
+    </if>
+  </select>
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from t_stock_information
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.csi.sbs.investment.business.entity.StockInformationEntity" >
+    insert into t_stock_information
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="stockcode != null" >
+        StockCode,
+      </if>
+      <if test="lastprice != null" >
+        LastPrice,
+      </if>
+      <if test="changed != null" >
+        Changed,
+      </if>
+      <if test="changedpercent != null" >
+        ChangedPercent,
+      </if>
+      <if test="buyprice != null" >
+        BuyPrice,
+      </if>
+      <if test="sellprice != null" >
+        SellPrice,
+      </if>
+      <if test="volume != null" >
+        Volume,
+      </if>
+      <if test="turnover != null" >
+        Turnover,
+      </if>
+      <if test="eps != null" >
+        EPS,
+      </if>
+      <if test="ratio != null" >
+        Ratio,
+      </if>
+      <if test="lotsize != null" >
+        LotSize,
+      </if>
+      <if test="tradingpoint != null" >
+        TradingPoint,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="stockcode != null" >
+        #{stockcode,jdbcType=VARCHAR},
+      </if>
+      <if test="lastprice != null" >
+        #{lastprice,jdbcType=DECIMAL},
+      </if>
+      <if test="changed != null" >
+        #{changed,jdbcType=VARCHAR},
+      </if>
+      <if test="changedpercent != null" >
+        #{changedpercent,jdbcType=VARCHAR},
+      </if>
+      <if test="buyprice != null" >
+        #{buyprice,jdbcType=DECIMAL},
+      </if>
+      <if test="sellprice != null" >
+        #{sellprice,jdbcType=DECIMAL},
+      </if>
+      <if test="volume != null" >
+        #{volume,jdbcType=DECIMAL},
+      </if>
+      <if test="turnover != null" >
+        #{turnover,jdbcType=DECIMAL},
+      </if>
+      <if test="eps != null" >
+        #{eps,jdbcType=DECIMAL},
+      </if>
+      <if test="ratio != null" >
+        #{ratio,jdbcType=DECIMAL},
+      </if>
+      <if test="lotsize != null" >
+        #{lotsize,jdbcType=DECIMAL},
+      </if>
+      <if test="tradingpoint != null" >
+        #{tradingpoint,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.csi.sbs.investment.business.entity.StockInformationEntity" >
+    update t_stock_information
+    <set >
+      <if test="stockcode != null" >
+        StockCode = #{stockcode,jdbcType=VARCHAR},
+      </if>
+      <if test="lastprice != null" >
+        LastPrice = #{lastprice,jdbcType=DECIMAL},
+      </if>
+      <if test="changed != null" >
+        Changed = #{changed,jdbcType=VARCHAR},
+      </if>
+      <if test="changedpercent != null" >
+        ChangedPercent = #{changedpercent,jdbcType=VARCHAR},
+      </if>
+      <if test="buyprice != null" >
+        BuyPrice = #{buyprice,jdbcType=DECIMAL},
+      </if>
+      <if test="sellprice != null" >
+        SellPrice = #{sellprice,jdbcType=DECIMAL},
+      </if>
+      <if test="volume != null" >
+        Volume = #{volume,jdbcType=DECIMAL},
+      </if>
+      <if test="turnover != null" >
+        Turnover = #{turnover,jdbcType=DECIMAL},
+      </if>
+      <if test="eps != null" >
+        EPS = #{eps,jdbcType=DECIMAL},
+      </if>
+      <if test="ratio != null" >
+        Ratio = #{ratio,jdbcType=DECIMAL},
+      </if>
+      <if test="lotsize != null" >
+        LotSize = #{lotsize,jdbcType=DECIMAL},
+      </if>
+      <if test="tradingpoint != null" >
+        TradingPoint = #{tradingpoint,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

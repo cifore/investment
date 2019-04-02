@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.csi.sbs.investment.business.dao.StockPlatFormLogDao" >
+  <resultMap id="BaseResultMap" type="com.csi.sbs.investment.business.entity.StockPlatFormLogEntity" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CountryCode" property="countrycode" jdbcType="VARCHAR" />
+    <result column="ClearingCode" property="clearingcode" jdbcType="VARCHAR" />
+    <result column="BranchCode" property="branchcode" jdbcType="VARCHAR" />
+    <result column="AccountNumber" property="accountnumber" jdbcType="VARCHAR" />
+    <result column="TradingOption" property="tradingoption" jdbcType="VARCHAR" />
+    <result column="StockNumber" property="stocknumber" jdbcType="VARCHAR" />
+    <result column="SharingNo" property="sharingno" jdbcType="DECIMAL" />
+    <result column="StockTrdingAmount" property="stocktrdingamount" jdbcType="DECIMAL" />
+    <result column="StockTrdingCommission" property="stocktrdingcommission" jdbcType="DECIMAL" />
+    <result column="CustodyCharges" property="custodycharges" jdbcType="DECIMAL" />
+    <result column="TransactionAmount" property="transactionamount" jdbcType="DECIMAL" />
+    <result column="TransactionDate" property="transactiondate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="findMany" resultMap="BaseResultMap" parameterType="com.csi.sbs.investment.business.entity.StockPlatFormLogEntity">
+    select *  from t_stock_platform_log   
+    where 1=1
+    <if test="accountnumber != null and accountnumber !=''" >
+       and AccountNumber = #{accountnumber}
+    </if>
+    <if test="stocknumber != null and stocknumber !=''" >
+       and StockNumber = #{stocknumber}
+    </if>
+    <if test="transFromDate != null and transFromDate != ''" >
+       and DATE_FORMAT(TransactionDate, '%Y-%m-%d') &gt;= #{transFromDate}
+    </if>
+    <if test="transToDate != null and transToDate != ''" >
+       and DATE_FORMAT(TransactionDate, '%Y-%m-%d') &lt;= #{transToDate}
+    </if>
+    <if test="countrycode != null and countrycode !=''" >
+       and CountryCode = #{countrycode}
+    </if>
+    <if test="clearingcode != null and clearingcode !=''" >
+       and ClearingCode = #{clearingcode}
+    </if>
+    <if test="branchcode != null and branchcode !=''" >
+       and BranchCode = #{branchcode}
+    </if>
+  </select> 
+  <select id="findOne" resultType="com.csi.sbs.investment.business.entity.StockPlatFormLogEntity" parameterType="com.csi.sbs.investment.business.entity.StockPlatFormLogEntity">
+    select *  from t_stock_platform_log    
+    where 1=1
+    <if test="id != null and id !=''" >
+       and ID = #{id}
+    </if>
+  </select> 
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from t_stock_platform_log
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.csi.sbs.investment.business.entity.StockPlatFormLogEntity" >
+    insert into t_stock_platform_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="countrycode != null" >
+        CountryCode,
+      </if>
+      <if test="clearingcode != null" >
+        ClearingCode,
+      </if>
+      <if test="branchcode != null" >
+        BranchCode,
+      </if>
+      <if test="accountnumber != null" >
+        AccountNumber,
+      </if>
+      <if test="tradingoption != null" >
+        TradingOption,
+      </if>
+      <if test="stocknumber != null" >
+        StockNumber,
+      </if>
+      <if test="sharingno != null" >
+        SharingNo,
+      </if>
+      <if test="stocktrdingamount != null" >
+        StockTrdingAmount,
+      </if>
+      <if test="stocktrdingcommission != null" >
+        StockTrdingCommission,
+      </if>
+      <if test="custodycharges != null" >
+        CustodyCharges,
+      </if>
+      <if test="transactionamount != null" >
+        TransactionAmount,
+      </if>
+      <if test="transactiondate != null" >
+        TransactionDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="countrycode != null" >
+        #{countrycode,jdbcType=VARCHAR},
+      </if>
+      <if test="clearingcode != null" >
+        #{clearingcode,jdbcType=VARCHAR},
+      </if>
+      <if test="branchcode != null" >
+        #{branchcode,jdbcType=VARCHAR},
+      </if>
+      <if test="accountnumber != null" >
+        #{accountnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tradingoption != null" >
+        #{tradingoption,jdbcType=VARCHAR},
+      </if>
+      <if test="stocknumber != null" >
+        #{stocknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sharingno != null" >
+        #{sharingno,jdbcType=DECIMAL},
+      </if>
+      <if test="stocktrdingamount != null" >
+        #{stocktrdingamount,jdbcType=DECIMAL},
+      </if>
+      <if test="stocktrdingcommission != null" >
+        #{stocktrdingcommission,jdbcType=DECIMAL},
+      </if>
+      <if test="custodycharges != null" >
+        #{custodycharges,jdbcType=DECIMAL},
+      </if>
+      <if test="transactionamount != null" >
+        #{transactionamount,jdbcType=DECIMAL},
+      </if>
+      <if test="transactiondate != null" >
+        #{transactiondate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.csi.sbs.investment.business.entity.StockPlatFormLogEntity" >
+    update t_stock_platform_log
+    <set >
+      <if test="countrycode != null" >
+        CountryCode = #{countrycode,jdbcType=VARCHAR},
+      </if>
+      <if test="clearingcode != null" >
+        ClearingCode = #{clearingcode,jdbcType=VARCHAR},
+      </if>
+      <if test="branchcode != null" >
+        BranchCode = #{branchcode,jdbcType=VARCHAR},
+      </if>
+      <if test="accountnumber != null" >
+        AccountNumber = #{accountnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tradingoption != null" >
+        TradingOption = #{tradingoption,jdbcType=VARCHAR},
+      </if>
+      <if test="stocknumber != null" >
+        StockNumber = #{stocknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sharingno != null" >
+        SharingNo = #{sharingno,jdbcType=DECIMAL},
+      </if>
+      <if test="stocktrdingamount != null" >
+        StockTrdingAmount = #{stocktrdingamount,jdbcType=DECIMAL},
+      </if>
+      <if test="stocktrdingcommission != null" >
+        StockTrdingCommission = #{stocktrdingcommission,jdbcType=DECIMAL},
+      </if>
+      <if test="custodycharges != null" >
+        CustodyCharges = #{custodycharges,jdbcType=DECIMAL},
+      </if>
+      <if test="transactionamount != null" >
+        TransactionAmount = #{transactionamount,jdbcType=DECIMAL},
+      </if>
+      <if test="transactiondate != null" >
+        TransactionDate = #{transactiondate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
