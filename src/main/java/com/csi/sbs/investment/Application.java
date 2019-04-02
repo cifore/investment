@@ -1,4 +1,4 @@
-package com.csi.sbs.stock;
+package com.csi.sbs.investment;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

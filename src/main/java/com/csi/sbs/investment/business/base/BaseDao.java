@@ -1,4 +1,4 @@
-package com.csi.sbs.stock.business.base;
+package com.csi.sbs.investment.business.base;
 
 import java.util.List;
 

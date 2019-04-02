@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.csi.sbs</groupId>
-	<artifactId>stock</artifactId>
+	<artifactId>investment</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>stock</name>
-	<description>stock</description>
+	<name>investment</name>
+	<description>investment</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -38,6 +38,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>investment</finalName>
 	</build>
 
 </project>
