@@ -69,7 +69,7 @@ public class Swagger2 {
         return new Docket(DocumentationType.SWAGGER_2)
         		.globalOperationParameters(parameters)
                 .host(SysConstant.GATEWAY_SERVICE)
-                .groupName("deposit-api")
+                .groupName("investment-api")
                 .useDefaultResponseMessages(false)
                 .apiInfo(apiInfo())
                 .select()

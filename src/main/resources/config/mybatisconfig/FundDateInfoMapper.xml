@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.csi.sbs.investment.business.dao.FundDateInfoDao" >
+  <resultMap id="BaseResultMap" type="com.csi.sbs.investment.business.entity.FundDateInfoEntity" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="FundCode" property="fundcode" jdbcType="VARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="NAV" property="nav" jdbcType="DECIMAL" />
+  </resultMap>
+  
+    <select id="findOne" resultType="com.csi.sbs.investment.business.entity.FundDateInfoEntity" parameterType="com.csi.sbs.investment.business.entity.FundDateInfoEntity" >
+      select * from t_mutualfund_date_information
+      where 1=1
+     <if test="fundcode != null and fundcode !=''" >
+        and FundCode = #{fundcode}
+      </if>
+      <if test="checkdate != null and checkdate !=''" >
+         and DATE_FORMAT(UpdateDate, '%Y-%m-%d') = #{checkdate}
+      </if>
+      <if test="id != null and id !=''" >
+         and ID = #{id}
+      </if>
+    </select>
+  
+    <select id="findMany" resultMap="BaseResultMap" parameterType="com.csi.sbs.investment.business.entity.FundDateInfoEntity" >
+    select * from t_mutualfund_date_information
+    where 1=1
+    <if test="fundcode != null and fundcode !=''" >
+       and FundCode = #{fundcode}
+    </if>
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from t_mutualfund_date_information
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.csi.sbs.investment.business.entity.FundDateInfoEntity" >
+    insert into t_mutualfund_date_information
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="fundcode != null" >
+        FundCode,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="nav != null" >
+        NAV,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="fundcode != null" >
+        #{fundcode,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nav != null" >
+        #{nav,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="upate" parameterType="com.csi.sbs.investment.business.entity.FundDateInfoEntity" >
+    update t_mutualfund_date_information
+    <set >
+      <if test="fundcode != null" >
+        FundCode = #{fundcode,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nav != null" >
+        NAV = #{nav,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

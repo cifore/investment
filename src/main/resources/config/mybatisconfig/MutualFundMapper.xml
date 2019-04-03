@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.csi.sbs.investment.business.dao.MutualFundDao" >
+  <resultMap id="BaseResultMap" type="com.csi.sbs.investment.business.entity.MutualFundEntity" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CountryCode" property="countrycode" jdbcType="VARCHAR" />
+    <result column="ClearingCode" property="clearingcode" jdbcType="VARCHAR" />
+    <result column="BranchCode" property="branchcode" jdbcType="VARCHAR" />
+    <result column="CustomerNumber" property="customernumber" jdbcType="VARCHAR" />
+    <result column="AccountNumber" property="accountnumber" jdbcType="VARCHAR" />
+    <result column="RelAccountNumber" property="relaccountnumber" jdbcType="VARCHAR" />
+    <result column="AccountStatus" property="accountstatus" jdbcType="VARCHAR" />
+    <result column="LastUpdatedDate" property="lastupdateddate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  
+  <select id="findMany" resultMap="BaseResultMap" parameterType="com.csi.sbs.investment.business.entity.MutualFundEntity" >
+    select * from t_mutualfundaccount_master
+    where 1=1
+    <if test="accountnumber != null and accountnumber !=''" >
+       and AccountNumber = #{accountnumber}
+    </if>
+    
+    <if test="countrycode != null" >
+       and CountryCode = #{countrycode}
+    </if>
+    <if test="clearingcode != null" >
+       and ClearingCode = #{clearingcode}
+    </if>
+    <if test="branchcode != null" >
+       and BranchCode = #{branchcode}
+    </if>
+    <if test="customernumber != null and customernumber !=''" >
+       and CustomerNumber = #{customernumber}
+    </if>
+    <if test="relaccountnumber != null" >
+       and RelAccountNumber = #{relaccountnumber}
+    </if>
+  </select>
+  
+  <select id="findOne" resultType="com.csi.sbs.investment.business.entity.MutualFundEntity" parameterType="com.csi.sbs.investment.business.entity.MutualFundEntity">
+	select * from t_mutualfundaccount_master
+	where 1=1
+	<if test="accountnumber != null and accountnumber !=''" >
+       and AccountNumber = #{accountnumber}
+    </if>
+    <if test="countrycode != null" >
+       and CountryCode = #{countrycode}
+    </if>
+    <if test="clearingcode != null" >
+       and ClearingCode = #{clearingcode}
+    </if>
+    <if test="branchcode != null" >
+       and BranchCode = #{branchcode}
+    </if>
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from t_mutualfundaccount_master
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.csi.sbs.investment.business.entity.MutualFundEntity" >
+    insert into t_mutualfundaccount_master
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="countrycode != null" >
+        CountryCode,
+      </if>
+      <if test="clearingcode != null" >
+        ClearingCode,
+      </if>
+      <if test="branchcode != null" >
+        BranchCode,
+      </if>
+      
+      <if test="customernumber != null" >
+        CustomerNumber,
+      </if>
+      <if test="accountnumber != null" >
+        AccountNumber,
+      </if>
+      <if test="relaccountnumber != null" >
+        RelAccountNumber,
+      </if>
+      <if test="accountstatus != null" >
+        AccountStatus,
+      </if>
+      <if test="lastupdateddate != null" >
+        LastUpdatedDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="countrycode != null" >
+        #{countrycode,jdbcType=VARCHAR},
+      </if>
+      <if test="clearingcode != null" >
+        #{clearingcode,jdbcType=VARCHAR},
+      </if>
+      <if test="branchcode != null" >
+        #{branchcode,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="customernumber != null" >
+        #{customernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="accountnumber != null" >
+        #{accountnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="relaccountnumber != null" >
+        #{relaccountnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="accountstatus != null" >
+        #{accountstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="lastupdateddate != null" >
+        #{lastupdateddate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.csi.sbs.investment.business.entity.MutualFundEntity" >
+    update t_mutualfundaccount_master
+    <set >
+      <if test="countrycode != null" >
+        CountryCode = #{countrycode,jdbcType=VARCHAR},
+      </if>
+      <if test="clearingcode != null" >
+        ClearingCode = #{clearingcode,jdbcType=VARCHAR},
+      </if>
+      <if test="branchcode != null" >
+        BranchCode = #{branchcode,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="customernumber != null" >
+        CustomerNumber = #{customernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="accountnumber != null" >
+        AccountNumber = #{accountnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="relaccountnumber != null" >
+        RelAccountNumber = #{relaccountnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="accountstatus != null" >
+        AccountStatus = #{accountstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="lastupdateddate != null" >
+        LastUpdatedDate = #{lastupdateddate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="closeAccount" parameterType="com.csi.sbs.investment.business.entity.MutualFundEntity" >
+    update t_mutualfundaccount_master
+    <set >
+      <if test="accountstatus != null" >
+        AccountStatus = #{accountstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="lastupdateddate != null" >
+        LastUpdatedDate = #{lastupdateddate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where AccountNumber = #{accountnumber,jdbcType=VARCHAR}
+  </update>
+</mapper>
