@@ -20,7 +20,7 @@ public class SRUtil {
 	 */
 	public static ResponseEntity<String> sendOne(String path, String json) {
 		ResponseEntity<String> result = InitRestTemplateUtil.getRestTemplate().postForEntity(path, PostUtil.getRequestEntity(json),String.class);
-	    System.out.println("====="+result);
+	    //System.out.println("====="+result);
 	    if(result.getStatusCodeValue()==200){
 	    	return result;
 	    }
@@ -42,7 +42,7 @@ public class SRUtil {
         HttpEntity<String> requestEntity = new HttpEntity<String>(json, requestHeaders);
 
 		ResponseEntity<String> result = InitRestTemplateUtil.getRestTemplate().postForEntity(path, requestEntity,String.class);
-	    System.out.println("====="+result);
+	    //System.out.println("====="+result);
 	    if(result.getStatusCodeValue()==200){
 	    	return result;
 	    }

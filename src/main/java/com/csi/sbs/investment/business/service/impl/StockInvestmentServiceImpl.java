@@ -13,11 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.csi.sbs.common.business.constant.CommonConstant;
 import com.csi.sbs.common.business.json.JsonProcess;
 import com.csi.sbs.common.business.util.UUIDUtil;
+import com.csi.sbs.common.business.util.XmlToJsonUtil;
 import com.csi.sbs.investment.business.clientmodel.CurrentAccountMasterModel;
 import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.InsertTransactionLogModel;
@@ -142,6 +144,9 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			savaccount.setCustomernumber(header.getCustomerNumber());
 			savaccount.setAccountnumber(stm.getDebitaccountnumber());
 			ResponseEntity<String> result = SRUtil.sendOne(PathConstant.GET_SAV, JsonProcess.changeEntityTOJSON(savaccount));
+			String temp = XmlToJsonUtil.xmlToJson(result.getBody()).toString();
+			String temp_ = JsonProcess.returnValue(JSON.parseObject(temp), "SavingAccountInternalModel");
+			resavaccount = JSON.parseObject(temp_, SavingAccountMasterModel.class);
 			//resavaccount =  (SavingAccountMasterModel) savingAccountMasterDao.findOne(savaccount);
 			if(resavaccount == null){
 				throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),ExceptionConstant.ERROR_CODE404010);
@@ -155,15 +160,19 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			current.setCustomernumber(header.getCustomerNumber());
 			current.setAccountnumber(stm.getDebitaccountnumber());
 			ResponseEntity<String> result = SRUtil.sendOne(PathConstant.GET_CURRENT, JsonProcess.changeEntityTOJSON(current));
+			String temp = XmlToJsonUtil.xmlToJson(result.getBody()).toString();
+			String temp_ = JsonProcess.returnValue(JSON.parseObject(temp), "CurrentAccountInternalModel");
+			CurrentAccountMasterModel recurrent = new CurrentAccountMasterModel();
+			recurrent = JSON.parseObject(temp_, CurrentAccountMasterModel.class);
 			//CurrentAccountMasterEntity recurrent = (CurrentAccountMasterEntity) currentAccountMasterDao.findOne(current);
-//			if(recurrent == null){
-//				throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),ExceptionConstant.ERROR_CODE404010);
-//			}
+			if(recurrent == null){
+				throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),ExceptionConstant.ERROR_CODE404010);
+			}
 			resavaccount.setAccountnumber(stm.getDebitaccountnumber());
-//			resavaccount.setBalance(recurrent.getBalance());
-//			resavaccount.setAccountstatus(recurrent.getAccountstatus());
-//			resavaccount.setId(recurrent.getId());
-//			resavaccount.setCurrencycode(recurrent.getCurrencycode());
+			resavaccount.setBalance(recurrent.getBalance());
+			resavaccount.setAccountstatus(recurrent.getAccountstatus());
+			resavaccount.setId(recurrent.getId());
+			resavaccount.setCurrencycode(recurrent.getCurrencycode());
 		}
 		
 		if(!resavaccount.getAccountstatus().equals("A")){
@@ -300,7 +309,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			accountInfo.setCountryCode(header.getCountryCode());
 			accountInfo.setCustomerNumber(header.getCustomerNumber());
 			accountInfo.setUserID(header.getUserID());
-			SRUtil.sendOne(path, JsonProcess.changeEntityTOJSON(accountInfo));
+			SRUtil.sendOne(PathConstant.UPDATE_BALANCE, JsonProcess.changeEntityTOJSON(accountInfo));
 			//accountMasterService.updateAccountBalance(header, accountInfo, restTemplate);
 		}
 		if(tradingaction.equals("SELL")){
@@ -314,7 +323,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			accountInfo.setCountryCode(header.getCountryCode());
 			accountInfo.setCustomerNumber(header.getCustomerNumber());
 			accountInfo.setUserID(header.getUserID());
-			SRUtil.sendOne(path, JsonProcess.changeEntityTOJSON(accountInfo));
+			SRUtil.sendOne(PathConstant.UPDATE_BALANCE, JsonProcess.changeEntityTOJSON(accountInfo));
 			//accountMasterService.updateAccountBalance(header1, accountInfo, restTemplate);
 		}
 		
