@@ -114,8 +114,12 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		//校验debit account格式
 		checknumber.setAccountnumber(ase.getDebitaccountnumber());
 		param = JsonProcess.changeEntityTOJSON(checknumber);
-		JSONObject debitRes = JsonProcess.changeToJSONObject(param);
-		code = JsonProcess.returnValue(debitRes, "code");
+		String debitRes = getResponse(path,param);
+  		if(debitRes.length() == 0){
+  			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404005),ExceptionConstant.ERROR_CODE404005);
+  		}
+		JSONObject debitObject = JsonProcess.changeToJSONObject(debitRes);
+		code = JsonProcess.returnValue(debitObject, "code");
 		if(code.equals("0")){
 			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),ExceptionConstant.ERROR_CODE404010);
 		}
@@ -337,8 +341,12 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		//校验debit account格式
 		checknumber.setAccountnumber(ase.getDebitaccountnumber());
 		param = JsonProcess.changeEntityTOJSON(checknumber);
-		JSONObject debitRes = JsonProcess.changeToJSONObject(param);
-		code = JsonProcess.returnValue(debitRes, "code");
+		String debitRes = getResponse(path,param);
+  		if(debitRes.length() == 0){
+  			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404005),ExceptionConstant.ERROR_CODE404005);
+  		}
+		JSONObject debitObject = JsonProcess.changeToJSONObject(debitRes);
+		code = JsonProcess.returnValue(debitObject, "code");
 		if(code.equals("0")){
 			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),ExceptionConstant.ERROR_CODE404010);
 		}

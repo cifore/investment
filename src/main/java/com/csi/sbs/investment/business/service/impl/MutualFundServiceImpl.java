@@ -64,8 +64,12 @@ public class MutualFundServiceImpl implements MutualFundService {
         CheckAccountNumberModel  checknumber =  new CheckAccountNumberModel();
         checknumber.setAccountnumber(fun.getAccountnumber());
 		String param = JsonProcess.changeEntityTOJSON(checknumber);
-		JSONObject debitRes = JsonProcess.changeToJSONObject(param);
-		String code = JsonProcess.returnValue(debitRes, "code");
+		String debitRes = getResponse(path,param);
+  		if(debitRes.length() == 0){
+  			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404005),ExceptionConstant.ERROR_CODE404005);
+  		}
+		JSONObject debitObject = JsonProcess.changeToJSONObject(debitRes);
+		String code = JsonProcess.returnValue(debitObject, "code");
 		if(code.equals("0")){
 			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),ExceptionConstant.ERROR_CODE404010);
 		}
