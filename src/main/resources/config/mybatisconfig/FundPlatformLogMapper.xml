@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.csi.sbs.investment.business.dao.FundPlatformLogDao" >
+  <resultMap id="BaseResultMap" type="com.csi.sbs.investment.business.entity.FundPlatformLogEntity" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CountryCode" property="countrycode" jdbcType="VARCHAR" />
+    <result column="ClearingCode" property="clearingcode" jdbcType="VARCHAR" />
+    <result column="BranchCode" property="branchcode" jdbcType="VARCHAR" />
+    <result column="CurrencyCode" property="currencycode" jdbcType="VARCHAR" />
+    <result column="AccountNumber" property="accountnumber" jdbcType="VARCHAR" />
+    <result column="TradingOption" property="tradingoption" jdbcType="VARCHAR" />
+    <result column="FundCode" property="fundcode" jdbcType="VARCHAR" />
+    <result column="SharingNo" property="sharingno" jdbcType="DECIMAL" />
+    <result column="TradingAmount" property="tradingamount" jdbcType="DECIMAL" />
+    <result column="TrdingCommission" property="trdingcommission" jdbcType="DECIMAL" />
+    <result column="TransactionAmount" property="transactionamount" jdbcType="DECIMAL" />
+    <result column="TransactionDate" property="transactiondate" jdbcType="TIMESTAMP" />
+  </resultMap>
+	 <select id="findOne" resultType="com.csi.sbs.investment.business.entity.FundPlatformLogEntity" parameterType="com.csi.sbs.investment.business.entity.FundPlatformLogEntity" >
+      select * from t_mutualfund_platform_log
+      where 1=1
+      <if test="fundcode != null and fundcode !=''" >
+        and FundCode = #{fundcode}
+      </if>
+      <if test="id != null and id !=''" >
+         and ID = #{id}
+      </if>
+    </select>
+  
+    <select id="findMany" resultMap="BaseResultMap" parameterType="com.csi.sbs.investment.business.entity.FundPlatformLogEntity" >
+    select * from t_mutualfund_platform_log
+    where 1=1
+    <if test="currencycode != null" >
+       and CurrencyCode = #{currencycode}
+    </if>
+    <if test="accountnumber != null and accountnumber !=''" >
+       and AccountNumber = #{accountnumber}
+    </if>
+
+    <if test="countrycode != null" >
+       and CountryCode = #{countrycode}
+    </if>
+    <if test="clearingcode != null" >
+       and ClearingCode = #{clearingcode}
+    </if>
+    <if test="branchcode != null" >
+       and BranchCode = #{branchcode}
+    </if>
+  </select>
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from t_mutualfund_platform_log
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.csi.sbs.investment.business.entity.FundPlatformLogEntity" >
+    insert into t_mutualfund_platform_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="countrycode != null" >
+        CountryCode,
+      </if>
+      <if test="clearingcode != null" >
+        ClearingCode,
+      </if>
+      <if test="branchcode != null" >
+        BranchCode,
+      </if>
+      <if test="currencycode != null" >
+        CurrencyCode,
+      </if>
+      <if test="accountnumber != null" >
+        AccountNumber,
+      </if>
+      <if test="tradingoption != null" >
+        TradingOption,
+      </if>
+      <if test="fundcode != null" >
+        FundCode,
+      </if>
+      <if test="sharingno != null" >
+        SharingNo,
+      </if>
+      <if test="tradingamount != null" >
+        TradingAmount,
+      </if>
+      <if test="trdingcommission != null" >
+        TrdingCommission,
+      </if>
+      <if test="transactionamount != null" >
+        TransactionAmount,
+      </if>
+      <if test="transactiondate != null" >
+        TransactionDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="countrycode != null" >
+        #{countrycode,jdbcType=VARCHAR},
+      </if>
+      <if test="clearingcode != null" >
+        #{clearingcode,jdbcType=VARCHAR},
+      </if>
+      <if test="branchcode != null" >
+        #{branchcode,jdbcType=VARCHAR},
+      </if>
+      <if test="currencycode != null" >
+        #{currencycode,jdbcType=VARCHAR},
+      </if>
+      <if test="accountnumber != null" >
+        #{accountnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tradingoption != null" >
+        #{tradingoption,jdbcType=VARCHAR},
+      </if>
+      <if test="fundcode != null" >
+        #{fundcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sharingno != null" >
+        #{sharingno,jdbcType=DECIMAL},
+      </if>
+      <if test="tradingamount != null" >
+        #{tradingamount,jdbcType=DECIMAL},
+      </if>
+      <if test="trdingcommission != null" >
+        #{trdingcommission,jdbcType=DECIMAL},
+      </if>
+      <if test="transactionamount != null" >
+        #{transactionamount,jdbcType=DECIMAL},
+      </if>
+      <if test="transactiondate != null" >
+        #{transactiondate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.csi.sbs.investment.business.entity.FundPlatformLogEntity" >
+    update t_mutualfund_platform_log
+    <set >
+      <if test="countrycode != null" >
+        CountryCode = #{countrycode,jdbcType=VARCHAR},
+      </if>
+      <if test="clearingcode != null" >
+        ClearingCode = #{clearingcode,jdbcType=VARCHAR},
+      </if>
+      <if test="branchcode != null" >
+        BranchCode = #{branchcode,jdbcType=VARCHAR},
+      </if>
+      <if test="currencycode != null" >
+        CurrencyCode = #{currencycode,jdbcType=VARCHAR},
+      </if>
+      <if test="accountnumber != null" >
+        AccountNumber = #{accountnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tradingoption != null" >
+        TradingOption = #{tradingoption,jdbcType=VARCHAR},
+      </if>
+      <if test="fundcode != null" >
+        FundCode = #{fundcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sharingno != null" >
+        SharingNo = #{sharingno,jdbcType=DECIMAL},
+      </if>
+      <if test="tradingamount != null" >
+        TradingAmount = #{tradingamount,jdbcType=DECIMAL},
+      </if>
+      <if test="trdingcommission != null" >
+        TrdingCommission = #{trdingcommission,jdbcType=DECIMAL},
+      </if>
+      <if test="transactionamount != null" >
+        TransactionAmount = #{transactionamount,jdbcType=DECIMAL},
+      </if>
+      <if test="transactiondate != null" >
+        TransactionDate = #{transactiondate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

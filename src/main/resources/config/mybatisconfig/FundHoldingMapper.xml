@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.csi.sbs.investment.business.dao.FundHoldingDao" >
+  <resultMap id="BaseResultMap" type="com.csi.sbs.investment.business.entity.FundHoldingEntity" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="AccountNumber" property="accountnumber" jdbcType="VARCHAR" />
+    <result column="CurrencyCode" property="currencycode" jdbcType="VARCHAR" />
+    <result column="FundCode" property="fundcode" jdbcType="VARCHAR" />
+    <result column="SharesHolding" property="sharesholding" jdbcType="DECIMAL" />
+    <result column="AveragePrice" property="averageprice" jdbcType="DECIMAL" />
+    <result column="LastUpdateDate" property="lastupdatedate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+   <select id="findOne" resultType="com.csi.sbs.investment.business.entity.FundHoldingEntity" parameterType="com.csi.sbs.investment.business.entity.FundHoldingEntity" >
+      select * from t_mutualfund_holdings
+      where 1=1
+     <if test="fundcode != null and fundcode !=''" >
+        and FundCode = #{fundcode}
+      </if>
+      <if test="currencycode != null" >
+       and CurrencyCode = #{currencycode}
+      </if>
+      <if test="accountnumber != null and accountnumber !=''" >
+         and AccountNumber = #{accountnumber}
+      </if>
+      <if test="id != null and id !=''" >
+         and ID = #{id}
+      </if>
+    </select>
+  
+    <select id="findMany" resultMap="BaseResultMap" parameterType="com.csi.sbs.investment.business.entity.FundHoldingEntity" >
+    select * from t_mutualfund_holdings
+    where 1=1
+    <if test="accountnumber != null and accountnumber !=''" >
+       and AccountNumber = #{accountnumber}
+    </if>
+    <if test="currencycode != null" >
+       and CurrencyCode = #{currencycode}
+    </if>
+  </select>
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from t_mutualfund_holdings
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.csi.sbs.investment.business.entity.FundHoldingEntity" >
+    insert into t_mutualfund_holdings
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="accountnumber != null" >
+        AccountNumber,
+      </if>
+      <if test="currencycode != null" >
+        CurrencyCode,
+      </if>
+      <if test="fundcode != null" >
+        FundCode,
+      </if>
+      <if test="sharesholding != null" >
+        SharesHolding,
+      </if>
+      <if test="averageprice != null" >
+        AveragePrice,
+      </if>
+      <if test="lastupdatedate != null" >
+        LastUpdateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="accountnumber != null" >
+        #{accountnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="currencycode != null" >
+        #{currencycode,jdbcType=VARCHAR},
+      </if>
+      <if test="fundcode != null" >
+        #{fundcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sharesholding != null" >
+        #{sharesholding,jdbcType=DECIMAL},
+      </if>
+      <if test="averageprice != null" >
+        #{averageprice,jdbcType=DECIMAL},
+      </if>
+      <if test="lastupdatedate != null" >
+        #{lastupdatedate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.csi.sbs.investment.business.entity.FundHoldingEntity" >
+    update t_mutualfund_holdings
+    <set >
+      <if test="accountnumber != null" >
+        AccountNumber = #{accountnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="currencycode != null" >
+        CurrencyCode = #{currencycode,jdbcType=VARCHAR},
+      </if>
+      <if test="fundcode != null" >
+        FundCode = #{fundcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sharesholding != null" >
+        SharesHolding = #{sharesholding,jdbcType=DECIMAL},
+      </if>
+      <if test="averageprice != null" >
+        AveragePrice = #{averageprice,jdbcType=DECIMAL},
+      </if>
+      <if test="lastupdatedate != null" >
+        LastUpdateDate = #{lastupdatedate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -4,11 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SysConstant {
-	
-	
-	
-	
-	   //账号类型
+
+	  //账号类型
 	   public static final String ACCOUNT_TYPE1 = "001";
 	   public static final String ACCOUNT_TYPE2 = "002";
 	   public static final String ACCOUNT_TYPE3 = "003";
@@ -116,9 +113,9 @@ public class SysConstant {
 	   public static final String NEXT_AVAILABLE_ACCOUNTNUMBER = "NextAvailableAccountNumber";
 	   //可用CustomerNumber Item
 	   public static final String NEXT_AVAILABLE_CUSTOMERNUMBER = "NextAvailableCustomerNumber";
-       //可用TD Number
+    //可用TD Number
 	   public static final String NEXT_AVAILABLE_TDNUMBER = "NextAvailableTDNumber";
-	   
+  
 	   //可用CustomerNumber Item
 	   public static final String NEXT_AVAILABLE_SEQ = "SEQ";
 	   
@@ -147,6 +144,5 @@ public class SysConstant {
        public static final String CREATE_SUCCESS_TIP = "Creation Succeed";
        //HTTP 协议
        public static final String HTTP = "http://";
-       
        
 }

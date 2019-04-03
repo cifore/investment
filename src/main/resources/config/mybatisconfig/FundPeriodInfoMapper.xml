@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.csi.sbs.investment.business.dao.FundPeriodInfoDao" >
+  <resultMap id="BaseResultMap" type="com.csi.sbs.investment.business.entity.FundPeriodInfoEntity" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="FundCode" property="fundcode" jdbcType="VARCHAR" />
+    <result column="OneM" property="onem" jdbcType="DECIMAL" />
+    <result column="ThreeM" property="threem" jdbcType="DECIMAL" />
+    <result column="SixM" property="sixm" jdbcType="DECIMAL" />
+    <result column="YTD" property="ytd" jdbcType="DECIMAL" />
+    <result column="OneY" property="oney" jdbcType="DECIMAL" />
+    <result column="ThreeY" property="threey" jdbcType="DECIMAL" />
+    <result column="FiveY" property="fivey" jdbcType="DECIMAL" />
+    <result column="SinceLaunch" property="sincelaunch" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, FundCode, OneM, ThreeM, SixM, YTD, OneY, ThreeY, FiveY, SinceLaunch
+  </sql>
+  <select id="findOne" resultType="com.csi.sbs.investment.business.entity.FundPeriodInfoEntity" parameterType="com.csi.sbs.investment.business.entity.FundPeriodInfoEntity" >
+      select * from t_mutualfund_period_information
+      where 1=1
+      <if test="fundcode != null and fundcode !=''" >
+        and FundCode = #{fundcode}
+      </if>
+      <if test="id != null and id !=''" >
+         and ID = #{id}
+      </if>
+    </select>
+  
+    <select id="findMany" resultMap="BaseResultMap" parameterType="com.csi.sbs.investment.business.entity.FundPeriodInfoEntity" >
+    select * from t_mutualfund_period_information
+    where 1=1
+  </select>
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from t_mutualfund_period_information
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.csi.sbs.investment.business.entity.FundPeriodInfoEntity" >
+    insert into t_mutualfund_period_information
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="fundcode != null" >
+        FundCode,
+      </if>
+      <if test="onem != null" >
+        OneM,
+      </if>
+      <if test="threem != null" >
+        ThreeM,
+      </if>
+      <if test="sixm != null" >
+        SixM,
+      </if>
+      <if test="ytd != null" >
+        YTD,
+      </if>
+      <if test="oney != null" >
+        OneY,
+      </if>
+      <if test="threey != null" >
+        ThreeY,
+      </if>
+      <if test="fivey != null" >
+        FiveY,
+      </if>
+      <if test="sincelaunch != null" >
+        SinceLaunch,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="fundcode != null" >
+        #{fundcode,jdbcType=VARCHAR},
+      </if>
+      <if test="onem != null" >
+        #{onem,jdbcType=DECIMAL},
+      </if>
+      <if test="threem != null" >
+        #{threem,jdbcType=DECIMAL},
+      </if>
+      <if test="sixm != null" >
+        #{sixm,jdbcType=DECIMAL},
+      </if>
+      <if test="ytd != null" >
+        #{ytd,jdbcType=DECIMAL},
+      </if>
+      <if test="oney != null" >
+        #{oney,jdbcType=DECIMAL},
+      </if>
+      <if test="threey != null" >
+        #{threey,jdbcType=DECIMAL},
+      </if>
+      <if test="fivey != null" >
+        #{fivey,jdbcType=DECIMAL},
+      </if>
+      <if test="sincelaunch != null" >
+        #{sincelaunch,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.csi.sbs.investment.business.entity.FundPeriodInfoEntity" >
+    update t_mutualfund_period_information
+    <set >
+      <if test="fundcode != null" >
+        FundCode = #{fundcode,jdbcType=VARCHAR},
+      </if>
+      <if test="onem != null" >
+        OneM = #{onem,jdbcType=DECIMAL},
+      </if>
+      <if test="threem != null" >
+        ThreeM = #{threem,jdbcType=DECIMAL},
+      </if>
+      <if test="sixm != null" >
+        SixM = #{sixm,jdbcType=DECIMAL},
+      </if>
+      <if test="ytd != null" >
+        YTD = #{ytd,jdbcType=DECIMAL},
+      </if>
+      <if test="oney != null" >
+        OneY = #{oney,jdbcType=DECIMAL},
+      </if>
+      <if test="threey != null" >
+        ThreeY = #{threey,jdbcType=DECIMAL},
+      </if>
+      <if test="fivey != null" >
+        FiveY = #{fivey,jdbcType=DECIMAL},
+      </if>
+      <if test="sincelaunch != null" >
+        SinceLaunch = #{sincelaunch,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
