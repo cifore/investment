@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.csi.sbs.investment.business.dao.StockHoldingDao" >
+  <resultMap id="BaseResultMap" type="com.csi.sbs.investment.business.entity.StockHoldingEntity" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="AccountNumber" property="accountnumber" jdbcType="VARCHAR" />
+    <result column="StockCode" property="stockcode" jdbcType="VARCHAR" />
+    <result column="SharesHoldingNo" property="sharesholdingno" jdbcType="DECIMAL" />
+    <result column="AveragePrice" property="averageprice" jdbcType="DECIMAL" />
+    <result column="LastUpdateDate" property="lastupdatedate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="findMany" resultMap="BaseResultMap" parameterType="com.csi.sbs.investment.business.entity.StockHoldingEntity" >
+    select * from t_stock_holdings
+    where 1=1
+    <if test="accountnumber != null and accountnumber !=''" >
+       and AccountNumber = #{accountnumber}
+    </if>
+  </select>
+  
+  <select id="findOne" resultType="com.csi.sbs.investment.business.entity.StockHoldingEntity" parameterType="com.csi.sbs.investment.business.entity.StockHoldingEntity">
+	select * from t_stock_holdings
+	where 1=1
+	<if test="accountnumber != null and accountnumber !=''" >
+       and AccountNumber = #{accountnumber}
+    </if>
+    <if test="stockcode != null and stockcode != ''" >
+       and StockCode = #{stockcode}
+    </if>
+    <if test="id != null and id != ''" >
+       and ID = #{id}
+    </if>
+  </select>
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from t_stock_holdings
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.csi.sbs.investment.business.entity.StockHoldingEntity" >
+    insert into t_stock_holdings
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="accountnumber != null" >
+        AccountNumber,
+      </if>
+      <if test="stockcode != null" >
+        StockCode,
+      </if>
+      <if test="sharesholdingno != null" >
+        SharesHoldingNo,
+      </if>
+      <if test="averageprice != null" >
+        AveragePrice,
+      </if>
+      <if test="lastupdatedate != null" >
+        LastUpdateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="accountnumber != null" >
+        #{accountnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="stockcode != null" >
+        #{stockcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sharesholdingno != null" >
+        #{sharesholdingno,jdbcType=DECIMAL},
+      </if>
+      <if test="averageprice != null" >
+        #{averageprice,jdbcType=DECIMAL},
+      </if>
+      <if test="lastupdatedate != null" >
+        #{lastupdatedate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.csi.sbs.investment.business.entity.StockHoldingEntity" >
+    update t_stock_holdings
+    <set >
+      <if test="accountnumber != null" >
+        AccountNumber = #{accountnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="stockcode != null" >
+        StockCode = #{stockcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sharesholdingno != null" >
+        SharesHoldingNo = #{sharesholdingno,jdbcType=DECIMAL},
+      </if>
+      <if test="averageprice != null" >
+        AveragePrice = #{averageprice,jdbcType=DECIMAL},
+      </if>
+      <if test="lastupdatedate != null" >
+        LastUpdateDate = #{lastupdatedate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

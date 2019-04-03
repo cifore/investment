@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SysConstant {
+
 	  //账号类型
 	   public static final String ACCOUNT_TYPE1 = "001";
 	   public static final String ACCOUNT_TYPE2 = "002";
@@ -114,33 +115,34 @@ public class SysConstant {
 	   public static final String NEXT_AVAILABLE_CUSTOMERNUMBER = "NextAvailableCustomerNumber";
     //可用TD Number
 	   public static final String NEXT_AVAILABLE_TDNUMBER = "NextAvailableTDNumber";
-	   
+  
 	   //可用CustomerNumber Item
 	   public static final String NEXT_AVAILABLE_SEQ = "SEQ";
 	   
 	   //写日志服务地址
 	   public static final String WRITE_LOG_SERVICEPATH = "http://SYSADMIN/sysadmin/log/writeTransactionLog";
 	   //返回内部服务接口地址 URL
-	    public static final String SERVICE_INTERNAL_URL = "/sysadmin/getServiceInternalURL";
-	    //本服务内网地址
-	    public static final String LOCAL_SERVICE_URL = "http://localhost:8097/investment";
-	    //网关地址(服务器)
-	    public static final String GATEWAY_SERVICE = "117.78.38.89:8086/investment";
-	    //网关地址(本地)
-	    public static final String GATEWAY_LOCALHOST = "localhost:8086/investment";
-	    //本服务名称
-	    public static final String LOCAL_SERVICE_NAME = "investment";
-	    //本服务描述
-	    public static final String LOCAL_DESCRIBE = "This is the investment service module, which contains all associated API resources.";
-	     
-	    //maturity Status
-	    public static final String MATURITY_STATUS_A = "A";
-	    public static final String MATURITY_STATUS_D = "D";
-	    
-	    //客户默认密码
-	    public static final String INIT_PWD = "123456";
-	    //创建成功提示
-	    public static final String CREATE_SUCCESS_TIP = "Creation Succeed";
-	    //HTTP 协议
-	    public static final String HTTP = "http://";
+       public static final String SERVICE_INTERNAL_URL = "/sysadmin/getServiceInternalURL";
+       //本服务内网地址
+       public static final String LOCAL_SERVICE_URL = "http://localhost:8097/investment";
+       //网关地址(服务器)
+       public static final String GATEWAY_SERVICE = "117.78.38.89:8086/investment";
+       //网关地址(本地)
+       public static final String GATEWAY_LOCALHOST = "localhost:8086/investment";
+       //本服务名称
+       public static final String LOCAL_SERVICE_NAME = "investment";
+       //本服务描述
+       public static final String LOCAL_DESCRIBE = "This is the investment service module, which contains all associated API resources.";
+        
+       //maturity Status
+       public static final String MATURITY_STATUS_A = "A";
+       public static final String MATURITY_STATUS_D = "D";
+       
+       //客户默认密码
+       public static final String INIT_PWD = "123456";
+       //创建成功提示
+       public static final String CREATE_SUCCESS_TIP = "Creation Succeed";
+       //HTTP 协议
+       public static final String HTTP = "http://";
+       
 }

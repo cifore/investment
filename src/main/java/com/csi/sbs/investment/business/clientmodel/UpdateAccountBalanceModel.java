@@ -2,38 +2,31 @@ package com.csi.sbs.investment.business.clientmodel;
 
 import java.math.BigDecimal;
 
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
-
-import io.swagger.annotations.ApiModel;
-
-@ApiModel
 public class UpdateAccountBalanceModel {
-	
-    @NotNull(message="accountNumber is a required field")
-	@NotBlank(message="accountNumber is a required field")		
-    private String accountnumber;
-    		
-    private String currencycode;
 
-    private BigDecimal balance;
-    
-    public String getAccountnumber() {
-        return accountnumber;
-    }
+	private String accountnumber;
 
-    public void setAccountnumber(String accountnumber) {
-        this.accountnumber = accountnumber == null ? null : accountnumber.trim();
-    }
+	private String currencycode;
 
-    public BigDecimal getBalance() {
-        return balance;
-    }
+	private BigDecimal balance;
 
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
+	private String userID;
+
+	private String countryCode;
+
+	private String clearingCode;
+
+	private String branchCode;
+
+	private String customerNumber;
+
+	public String getAccountnumber() {
+		return accountnumber;
+	}
+
+	public void setAccountnumber(String accountnumber) {
+		this.accountnumber = accountnumber;
+	}
 
 	public String getCurrencycode() {
 		return currencycode;
@@ -42,4 +35,53 @@ public class UpdateAccountBalanceModel {
 	public void setCurrencycode(String currencycode) {
 		this.currencycode = currencycode;
 	}
+
+	public BigDecimal getBalance() {
+		return balance;
+	}
+
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}
+
+	public String getUserID() {
+		return userID;
+	}
+
+	public void setUserID(String userID) {
+		this.userID = userID;
+	}
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
+
+	public String getClearingCode() {
+		return clearingCode;
+	}
+
+	public void setClearingCode(String clearingCode) {
+		this.clearingCode = clearingCode;
+	}
+
+	public String getBranchCode() {
+		return branchCode;
+	}
+
+	public void setBranchCode(String branchCode) {
+		this.branchCode = branchCode;
+	}
+
+	public String getCustomerNumber() {
+		return customerNumber;
+	}
+
+	public void setCustomerNumber(String customerNumber) {
+		this.customerNumber = customerNumber;
+	}
+
 }

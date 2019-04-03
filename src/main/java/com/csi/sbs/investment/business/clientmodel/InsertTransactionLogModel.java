@@ -1,8 +1,6 @@
 package com.csi.sbs.investment.business.clientmodel;
 
 import java.math.BigDecimal;
-
-
 public class InsertTransactionLogModel {
 
     private String accountnumber;
