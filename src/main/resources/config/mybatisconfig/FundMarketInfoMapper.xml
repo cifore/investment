@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.csi.sbs.investment.business.dao.FundMarketInfoDao" >
+  <resultMap id="BaseResultMap" type="com.csi.sbs.investment.business.entity.FundMarketInfoEntity" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="FundCode" property="fundcode" jdbcType="VARCHAR" />
+    <result column="FundType" property="fundtype" jdbcType="VARCHAR" />
+    <result column="FundHouse" property="fundhouse" jdbcType="VARCHAR" />
+    <result column="Sector" property="sector" jdbcType="VARCHAR" />
+    <result column="Geographic" property="geographic" jdbcType="VARCHAR" />
+    <result column="FundName" property="fundname" jdbcType="VARCHAR" />
+    <result column="FundCurrency" property="fundcurrency" jdbcType="VARCHAR" />
+    <result column="ManagementFee" property="managementfee" jdbcType="DECIMAL" />
+    <result column="LastNAV" property="lastnav" jdbcType="DECIMAL" />
+    <result column="ValuationDate" property="valuationdate" jdbcType="TIMESTAMP" />
+    <result column="IssueDate" property="issuedate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="findOne" resultType="com.csi.sbs.investment.business.entity.FundMarketInfoEntity" parameterType="com.csi.sbs.investment.business.entity.FundMarketInfoEntity" >
+      select * from t_mutualfund_market_information
+      where 1=1
+     <if test="fundcode != null and fundcode !=''" >
+        and FundCode = #{fundcode}
+      </if>
+      <if test="id != null and id !=''" >
+         and ID = #{id}
+      </if>
+    </select>
+  
+    <select id="findMany" resultMap="BaseResultMap" parameterType="com.csi.sbs.investment.business.entity.FundMarketInfoEntity" >
+    select * from t_mutualfund_market_information
+    where 1=1
+    <if test="fundtype != null and fundtype !=''" >
+       and FundType = #{fundtype}
+    </if>
+    <if test="fundhouse != null and fundhouse !=''" >
+       and FundHouse = #{fundhouse}
+    </if>
+    <if test="sector != null and sector !=''" >
+       and Sector = #{sector}
+    </if>
+    <if test="geographic != null and geographic !=''" >
+       and Geographic = #{geographic}
+    </if>
+    <if test="fundname != null and fundname !=''" >
+       and FundName = #{fundname}
+    </if>
+    <if test="fundcurrency != null and fundcurrency !=''" >
+       and FundCurrency = #{fundcurrency}
+    </if>
+    <if test="managerangefee != null and managerangefee !=''" >
+       and ManagementFee &lt; = #{managerangefee}
+    </if>
+  </select>
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from t_mutualfund_market_information
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.csi.sbs.investment.business.entity.FundMarketInfoEntity" >
+    insert into t_mutualfund_market_information
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="fundcode != null" >
+        FundCode,
+      </if>
+      <if test="fundtype != null" >
+        FundType,
+      </if>
+      <if test="fundhouse != null" >
+        FundHouse,
+      </if>
+      <if test="sector != null" >
+        Sector,
+      </if>
+      <if test="geographic != null" >
+        Geographic,
+      </if>
+      <if test="fundname != null" >
+        FundName,
+      </if>
+      <if test="fundcurrency != null" >
+        FundCurrency,
+      </if>
+      <if test="managementfee != null" >
+        ManagementFee,
+      </if>
+      <if test="lastnav != null" >
+        LastNAV,
+      </if>
+      <if test="valuationdate != null" >
+        ValuationDate,
+      </if>
+      <if test="issuedate != null" >
+        IssueDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="fundcode != null" >
+        #{fundcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fundtype != null" >
+        #{fundtype,jdbcType=VARCHAR},
+      </if>
+      <if test="fundhouse != null" >
+        #{fundhouse,jdbcType=VARCHAR},
+      </if>
+      <if test="sector != null" >
+        #{sector,jdbcType=VARCHAR},
+      </if>
+      <if test="geographic != null" >
+        #{geographic,jdbcType=VARCHAR},
+      </if>
+      <if test="fundname != null" >
+        #{fundname,jdbcType=VARCHAR},
+      </if>
+      <if test="fundcurrency != null" >
+        #{fundcurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="managementfee != null" >
+        #{managementfee,jdbcType=VARCHAR},
+      </if>
+      <if test="lastnav != null" >
+        #{lastnav,jdbcType=DECIMAL},
+      </if>
+      <if test="valuationdate != null" >
+        #{valuationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="issuedate != null" >
+        #{issuedate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.csi.sbs.investment.business.entity.FundMarketInfoEntity" >
+    update t_mutualfund_market_information
+    <set >
+      <if test="fundcode != null" >
+        FundCode = #{fundcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fundtype != null" >
+        FundType = #{fundtype,jdbcType=VARCHAR},
+      </if>
+      <if test="fundhouse != null" >
+        FundHouse = #{fundhouse,jdbcType=VARCHAR},
+      </if>
+      <if test="sector != null" >
+        Sector = #{sector,jdbcType=VARCHAR},
+      </if>
+      <if test="geographic != null" >
+        Geographic = #{geographic,jdbcType=VARCHAR},
+      </if>
+      <if test="fundname != null" >
+        FundName = #{fundname,jdbcType=VARCHAR},
+      </if>
+      <if test="fundcurrency != null" >
+        FundCurrency = #{fundcurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="managementfee != null" >
+        ManagementFee = #{managementfee,jdbcType=VARCHAR},
+      </if>
+      <if test="lastnav != null" >
+        LastNAV = #{lastnav,jdbcType=DECIMAL},
+      </if>
+      <if test="valuationdate != null" >
+        ValuationDate = #{valuationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="issuedate != null" >
+        IssueDate = #{issuedate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
