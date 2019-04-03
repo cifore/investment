@@ -52,7 +52,7 @@ public class Stock {
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value = "/stockTrading", method = RequestMethod.GET)
+	@RequestMapping(value = "/stockTrading", method = RequestMethod.POST)
 	@ResponseBody
 	@ApiOperation(value = "This API allows you to buy/sell stocks.", notes = "version 0.0.1")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Query completed successfully.(Returned By Get)"),
