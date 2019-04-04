@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.csi.sbs.investment.business.clientmodel.HeaderModel;
+import com.csi.sbs.investment.business.clientmodel.StockHoldingEnquiryModel;
 import com.csi.sbs.investment.business.clientmodel.StockTradingModel;
 import com.csi.sbs.investment.business.service.StockInvestmentService;
 import com.csi.sbs.investment.business.util.ResultUtil;
@@ -45,9 +46,9 @@ public class Stock {
 	
 	
 	/**
-	 * Alina股票交易
-	 * 
-	 * @param StockTradingModel
+	 * 股票交易
+	 * @param stm
+	 * @param request
 	 * @return
 	 * @throws Exception
 	 */
@@ -81,6 +82,50 @@ public class Stock {
 			result.setCode(normalmap.get("code").toString());
 			result.setMsg(normalmap.get("msg").toString());
 			result.setData("");
+			return result;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	
+	/**
+	 * 股票持有信息查询
+	 * @param sth
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/stockHoldingEnquiry", method = RequestMethod.POST)
+	@ResponseBody
+	@ApiOperation(value = "This API is designed to retrieve stock holding information.", notes = "version 0.0.1")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Query completed successfully.(Returned By Get)"),
+			@ApiResponse(code = 404, message = "The requested deposit account does not exist.Action: Please make sure the account number and account type you’re inputting are correct."),
+			@ApiResponse(code = 201, message = "Normal execution. The request has succeeded. (Returned By Post)"),
+			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
+			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
+	public ResultUtil stockHoldingEnquiry(@RequestBody @Validated StockHoldingEnquiryModel sth,
+			HttpServletRequest request) throws Exception {
+		Map<String, Object> normalmap = null;
+		ResultUtil result = new ResultUtil();
+		try {
+			// 获取请求头参数
+			String userID = request.getHeader("developerID");
+			String countryCode = request.getHeader("countryCode");
+			String clearingCode = request.getHeader("clearingCode");
+			String branchCode = request.getHeader("branchCode");
+			String customerNumber = request.getHeader("customerNumber");
+			HeaderModel header = new HeaderModel();
+			header.setUserID(userID);
+			header.setCountryCode(countryCode);
+			header.setClearingCode(clearingCode);
+			header.setBranchCode(branchCode);
+			header.setCustomerNumber(customerNumber);
+			normalmap = stockInvestmentService.stockHoldingEnquiry(header, sth, restTemplate);
+			result.setCode(normalmap.get("code").toString());
+			result.setMsg(normalmap.get("msg").toString());
+			result.setData(normalmap.get("list"));
 			return result;
 		} catch (Exception e) {
 			throw e;

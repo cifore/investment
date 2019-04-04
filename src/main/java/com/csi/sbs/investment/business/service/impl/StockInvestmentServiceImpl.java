@@ -2,9 +2,11 @@ package com.csi.sbs.investment.business.service.impl;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 //import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -24,6 +26,8 @@ import com.csi.sbs.investment.business.clientmodel.CurrentAccountMasterModel;
 import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.InsertTransactionLogModel;
 import com.csi.sbs.investment.business.clientmodel.SavingAccountMasterModel;
+import com.csi.sbs.investment.business.clientmodel.StockHoldingEnquiryModel;
+import com.csi.sbs.investment.business.clientmodel.StockInvestmentModel;
 import com.csi.sbs.investment.business.clientmodel.StockTradingModel;
 import com.csi.sbs.investment.business.clientmodel.StockTradingPlatformModel;
 import com.csi.sbs.investment.business.clientmodel.UpdateAccountBalanceModel;
@@ -360,10 +364,6 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 	}
 	
 
-	
-	
-	
-	
 	private boolean CheckDate(String date){
 		String rexp1 = "((\\d{2}(([02468][048])|([13579][26]))[\\-]((((0?[13578])|(1[02]))[\\-]((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-]((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-]((0?[1-9])|([1-2][0-9])))))|(\\d{2}(([02468][1235679])|([13579][01345789]))[\\-]((((0?[13578])|(1[02]))[\\-]((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-]((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-]((0?[1-9])|(1[0-9])|(2[0-8]))))))";
 		if(date.matches(rexp1)){
@@ -372,10 +372,6 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			return false;
 		}
 	}
-
-
-
-
 
 
 	@SuppressWarnings("unchecked")
@@ -503,6 +499,54 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		map.put("code", "1");
 		map.put("msg", "Succeeded");
 		map.put("transactionAmount", transactionAmount.toString());
+		return map;
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<String, Object> stockHoldingEnquiry(HeaderModel header, StockHoldingEnquiryModel sth,
+			RestTemplate restTemplate) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		StockInvestmentEntity stockInvestmentEntity = new StockInvestmentEntity();
+		stockInvestmentEntity.setCustomernumber(header.getCustomerNumber());
+		stockInvestmentEntity.setCountrycode(header.getCountryCode());
+		stockInvestmentEntity.setClearingcode(header.getClearingCode());
+		stockInvestmentEntity.setBranchcode(header.getBranchCode());
+		stockInvestmentEntity.setAccountnumber(sth.getStkaccountnumber());
+		StockInvestmentEntity stkaccount = (StockInvestmentEntity) stockInvestmentDao.findOne(stockInvestmentEntity);
+		if(stkaccount == null){
+			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),ExceptionConstant.ERROR_CODE404010);
+		}
+		if(!stkaccount.getAccountstatus().equals("A")){
+			throw new AcceptException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE202001),ExceptionConstant.ERROR_CODE202001);
+		}
+		StockHoldingEntity stockHoldingEntity = new StockHoldingEntity();
+		stockHoldingEntity.setAccountnumber(sth.getStkaccountnumber());
+		List<StockHoldingEntity> list = stockHoldingDao.findMany(stockHoldingEntity);
+		List<StockInvestmentModel> list1 = new ArrayList<StockInvestmentModel>();
+		if(list.size() > 0 ){
+			for(int i=0; i<list.size(); i++){
+				StockHoldingEntity stkholdingInfo = list.get(i);
+				StockInvestmentModel stkmodel =  new StockInvestmentModel();
+				stkmodel.setId(stkholdingInfo.getId());
+				stkmodel.setAccountnumber(stkholdingInfo.getAccountnumber());
+				stkmodel.setAverageprice(stkholdingInfo.getAverageprice());
+				stkmodel.setLastupdatedate(format.format(stkholdingInfo.getLastupdatedate()));
+				stkmodel.setSharesholdingno(stkholdingInfo.getSharesholdingno());
+				stkmodel.setStockcode(stkholdingInfo.getStockcode());
+				list1.add(stkmodel);
+			}
+		}else{
+			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404012),ExceptionConstant.ERROR_CODE404012);
+		}
+		map.put("code", "1");
+		map.put("msg", "Information collected");
+		map.put("list", list1);
+		// 写入日志
+		String logstr1 = "Check Stock Holding Info Succeed:" + sth.getStkaccountnumber();
+		LogUtil.saveLog(restTemplate, SysConstant.OPERATION_QUERY, SysConstant.LOCAL_SERVICE_NAME,
+						SysConstant.OPERATION_SUCCESS, logstr1);
 		return map;
 	}	
 }
