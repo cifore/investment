@@ -57,6 +57,7 @@ public class SysConstant {
 	   public static final String TRANSACTION_TYPE9 = "0009";
 	   public static final String TRANSACTION_TYPE10 = "00010";
 	   public static final String TRANSACTION_TYPE11 = "00011";
+	   public static final String TRANSACTION_TYPE12 = "00012";
 	   
 	   public static Map<String,Object> getTransactionTypeMap(){
 		   Map<String,Object> map = new HashMap<String,Object>();
@@ -71,7 +72,8 @@ public class SysConstant {
 		   map.put(TRANSACTION_TYPE8, "外汇卖出");
 		   map.put(TRANSACTION_TYPE9, "股票买入");
 		   map.put(TRANSACTION_TYPE10, "股票卖出");
-		   map.put(TRANSACTION_TYPE11, "基金卖出");
+		   map.put(TRANSACTION_TYPE11, "基金买入");
+		   map.put(TRANSACTION_TYPE12, "基金卖出");
 		   
 		   return map;
 	   }
