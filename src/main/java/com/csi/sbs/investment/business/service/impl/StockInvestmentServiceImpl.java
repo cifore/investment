@@ -2,6 +2,9 @@ package com.csi.sbs.investment.business.service.impl;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+
+import java.util.Calendar;
+
 import java.util.ArrayList;
 import java.util.Date;
 //import java.text.SimpleDateFormat;
@@ -17,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.codingapi.tx.annotation.TxTransaction;
 import com.csi.sbs.common.business.constant.CommonConstant;
@@ -115,10 +117,41 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE202016),ExceptionConstant.ERROR_CODE202016);
 		}
 		
-		if(!CheckDate(stm.getExpiredate())){
-			throw new DateException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500004),ExceptionConstant.ERROR_CODE500004);
+		if(ordertype.equals("MARKET PRICE") && stm.getExpiredate()!=null && stm.getExpiredate().length() > 0){
+			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE202022),ExceptionConstant.ERROR_CODE202022);
 		}
 		
+		if(ordertype.equals("FIX PRICE")){
+			if(!CheckDate(stm.getExpiredate())){
+				throw new DateException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500004),ExceptionConstant.ERROR_CODE500004);
+			}
+			// 调用服务接口地址
+			String param1 = "{\"apiname\":\"getSystemParameter\"}";
+			ResponseEntity<String> result1 = restTemplate.postForEntity(
+					"http://" + CommonConstant.getSYSADMIN() + SysConstant.SERVICE_INTERNAL_URL + "",
+					PostUtil.getRequestEntity(param1), String.class);
+			if (result1.getStatusCodeValue() != 200) {
+				throw new CallOtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500003),ExceptionConstant.ERROR_CODE500003);
+			}
+			String path = JsonProcess.returnValue(JsonProcess.changeToJSONObject(result1.getBody()), "internaURL");
+			
+			// 调用系统参数服务接口
+			String param2 = "{\"item\":\"ExpiredDateLong\"}";
+			ResponseEntity<String> result2 = restTemplate.postForEntity(path, PostUtil.getRequestEntity(param2),
+					String.class);
+			if (result2.getStatusCodeValue() != 200) {
+				throw new CallOtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500003),ExceptionConstant.ERROR_CODE500003);
+			}
+			// 返回数据处理
+			JSONObject jsonObject1 = JsonProcess
+						.changeToJSONObject(JsonProcess.changeToJSONArray(result2.getBody()).get(0).toString());
+			String datelong = JsonProcess.returnValue(jsonObject1, "value");
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DATE, Integer.parseInt(datelong));
+			if(format1.parse(stm.getExpiredate()).getTime() < format1.parse(format1.format(new Date())).getTime() || format1.parse(stm.getExpiredate()).getTime() > format1.parse(format1.format(cal.getTime())).getTime()){
+				throw new AcceptException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE202017),ExceptionConstant.ERROR_CODE202017);
+			}
+		}
 		// If the Order Type is equal to Fix Price, but the trading price is empty ,reject
 		if(ordertype.equals("FIX PRICE") && (stm.getTradingPrice() == null || stm.getTradingPrice().length() == 0)){
 			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE202022),ExceptionConstant.ERROR_CODE202022);
@@ -188,29 +221,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		if(!resavaccount.getAccountstatus().equals("A")){
 			throw new AcceptException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE202001),ExceptionConstant.ERROR_CODE202001);
 		}
-		// 调用服务接口地址
-		String param1 = "{\"apiname\":\"getSystemParameter\"}";
-		ResponseEntity<String> result1 = restTemplate.postForEntity(
-				"http://" + CommonConstant.getSYSADMIN() + SysConstant.SERVICE_INTERNAL_URL + "",
-				PostUtil.getRequestEntity(param1), String.class);
-		if (result1.getStatusCodeValue() != 200) {
-			throw new CallOtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500003),ExceptionConstant.ERROR_CODE500003);
-		}
-		String path = JsonProcess.returnValue(JsonProcess.changeToJSONObject(result1.getBody()), "internaURL");
 		
-		// 调用系统参数服务接口
-		String param2 = "{\"item\":\"SystemDate\"}";
-		ResponseEntity<String> result2 = restTemplate.postForEntity(path, PostUtil.getRequestEntity(param2),
-				String.class);
-		if (result2.getStatusCodeValue() != 200) {
-			throw new CallOtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500003),ExceptionConstant.ERROR_CODE500003);
-		}
-		JSONArray restr = JsonProcess.changeToJSONArray(result2.getBody());
-		String redate = JsonProcess.returnValue(JsonProcess.changeToJSONObject(restr.get(0).toString()), "value");
-		
-		if(format1.parse(stm.getExpiredate()).getTime() < format.parse(redate).getTime() ){
-			throw new AcceptException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE202017),ExceptionConstant.ERROR_CODE202017);
-		}
 		
 		StockInformationEntity  stockInformationEntity = new StockInformationEntity();
 		stockInformationEntity.setStockcode(stm.getStocknumber());
@@ -232,7 +243,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			//For Order Type = Fix Price
 			if(ordertype.equals("FIX PRICE")){
 				//If the buy price is larger than 30 trading points,  reject the transaction
-				if(new BigDecimal(stm.getTradingPrice()).compareTo(stkInfo.getSellprice().add(stkInfo.getTradingpoint().multiply(new BigDecimal("30")))) > 0 || new BigDecimal(stm.getTradingPrice()).compareTo(stkInfo.getSellprice().subtract(stkInfo.getTradingpoint().multiply(new BigDecimal("30")))) <0){
+				if(new BigDecimal(stm.getTradingPrice()).compareTo(stkInfo.getSellprice().add(stkInfo.getTradingpoint().multiply(new BigDecimal("15")))) > 0 || new BigDecimal(stm.getTradingPrice()).compareTo(stkInfo.getSellprice().subtract(stkInfo.getTradingpoint().multiply(new BigDecimal("15")))) <0){
 					throw new AcceptException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE202019),ExceptionConstant.ERROR_CODE202019);
 				}
 			}
@@ -284,7 +295,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			//For Order Type = Fix Price
 			if(ordertype.equals("FIX PRICE")){
 				//If the sell price is larger than 30 trading points,  reject the transaction
-				if(new BigDecimal(stm.getTradingPrice()).compareTo(stkInfo.getBuyprice().add(stkInfo.getTradingpoint().multiply(new BigDecimal("30")))) > 0 || new BigDecimal(stm.getTradingPrice()).compareTo(stkInfo.getBuyprice().subtract(stkInfo.getTradingpoint().multiply(new BigDecimal("30")))) < 0){
+				if(new BigDecimal(stm.getTradingPrice()).compareTo(stkInfo.getBuyprice().add(stkInfo.getTradingpoint().multiply(new BigDecimal("15")))) > 0 || new BigDecimal(stm.getTradingPrice()).compareTo(stkInfo.getBuyprice().subtract(stkInfo.getTradingpoint().multiply(new BigDecimal("15")))) < 0){
 					throw new AcceptException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE202019),ExceptionConstant.ERROR_CODE202019);
 				}
 			}
