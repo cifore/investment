@@ -13,11 +13,13 @@ import javax.annotation.Resource;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.codingapi.tx.annotation.TxTransaction;
 import com.csi.sbs.common.business.constant.CommonConstant;
 import com.csi.sbs.common.business.json.JsonProcess;
 import com.csi.sbs.common.business.util.UUIDUtil;
@@ -25,6 +27,7 @@ import com.csi.sbs.common.business.util.XmlToJsonUtil;
 import com.csi.sbs.investment.business.clientmodel.CurrentAccountMasterModel;
 import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.InsertTransactionLogModel;
+import com.csi.sbs.investment.business.clientmodel.InvestmentOpeningAccountModel;
 import com.csi.sbs.investment.business.clientmodel.SavingAccountMasterModel;
 import com.csi.sbs.investment.business.clientmodel.StockHoldingEnquiryModel;
 import com.csi.sbs.investment.business.clientmodel.StockInvestmentModel;
@@ -48,9 +51,12 @@ import com.csi.sbs.investment.business.exception.DateException;
 import com.csi.sbs.investment.business.exception.NotFoundException;
 import com.csi.sbs.investment.business.exception.OtherException;
 import com.csi.sbs.investment.business.service.StockInvestmentService;
+import com.csi.sbs.investment.business.util.AvailableNumberUtil;
+import com.csi.sbs.investment.business.util.GenerateAccountNumberUtil;
 import com.csi.sbs.investment.business.util.LogUtil;
 import com.csi.sbs.investment.business.util.PostUtil;
 import com.csi.sbs.investment.business.util.SRUtil;
+import com.csi.sbs.investment.business.util.ValidateAccountTypeUtil;
 
 
 @Service
@@ -547,6 +553,54 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		String logstr1 = "Check Stock Holding Info Succeed:" + sth.getStkaccountnumber();
 		LogUtil.saveLog(restTemplate, SysConstant.OPERATION_QUERY, SysConstant.LOCAL_SERVICE_NAME,
 						SysConstant.OPERATION_SUCCESS, logstr1);
+		return map;
+	}
+
+
+	@SuppressWarnings({ "unchecked", "unused" })
+	@Override
+	@TxTransaction(isStart = true)
+	@Transactional
+	public Map<String, Object> openingSTKccount(HeaderModel header, InvestmentOpeningAccountModel stk,
+			RestTemplate restTemplate) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String relaccountType = stk.getAccountnumber().substring(stk.getAccountnumber().length() - 3,
+				stk.getAccountnumber().length());
+		// 校验关联账号
+		Map<String, Object> map2 = ValidateAccountTypeUtil.checkRelAccountNumber(header, relaccountType, stk.getAccountnumber());
+		if (map2.get("code").equals(ExceptionConstant.ERROR_CODE201001)) {
+			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE201001),ExceptionConstant.ERROR_CODE201001);
+		}
+		// 获取账号
+		String accountNumber = null;
+		String localccy = null;
+		Map<String, Object> map3 = GenerateAccountNumberUtil.getAccountNumber(SysConstant.ACCOUNT_TYPE6, header, restTemplate);
+		if (map3.get("code").equals("1")) {
+			accountNumber = map3.get("accountNumber").toString();
+			localccy = map3.get("localCCy").toString();
+		}
+
+		// model change
+		StockInvestmentEntity account = new StockInvestmentEntity();
+		account.setAccountnumber(accountNumber);
+		account.setRelaccountnumber(stk.getAccountnumber());
+		account.setAccountstatus(SysConstant.ACCOUNT_STATE2);
+		account.setId(UUIDUtil.generateUUID());
+		account.setCustomernumber(header.getCustomerNumber());
+		account.setCountrycode(stk.getCountrycode());
+		account.setClearingcode(stk.getClearingcode());
+		account.setBranchcode(stk.getBranchcode());
+
+		stockInvestmentDao.insert(account);
+
+		// 写入日志
+		String logstr = "create accountNumber:" + account.getAccountnumber() + " success!";
+		LogUtil.saveLog(restTemplate, SysConstant.OPERATION_CREATE, SysConstant.LOCAL_SERVICE_NAME,
+				SysConstant.OPERATION_SUCCESS, logstr);
+		AvailableNumberUtil.availableNumberIncrease(restTemplate, SysConstant.NEXT_AVAILABLE_ACCOUNTNUMBER);
+		map.put("msg", SysConstant.CREATE_SUCCESS_TIP);
+		map.put("accountNumber", account.getAccountnumber());
+		map.put("code", "1");
 		return map;
 	}	
 }
