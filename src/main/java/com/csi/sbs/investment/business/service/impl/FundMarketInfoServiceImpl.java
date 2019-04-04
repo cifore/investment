@@ -523,9 +523,9 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		insertTransacitonlog.setCountrycode(header.getCountryCode());
 		insertTransacitonlog.setPreviousbalamt(resavaccount.getBalance());
 		insertTransacitonlog.setTranamt(transactionamount);
-		insertTransacitonlog.setTrandesc("stock sell");
+		insertTransacitonlog.setTrandesc("fund sell");
 		insertTransacitonlog.setCrdrmaintind(SysConstant.CR_DR_MAINT_IND_TYPE2);
-		insertTransacitonlog.setTrantype(SysConstant.TRANSACTION_TYPE10);
+		insertTransacitonlog.setTrantype(SysConstant.TRANSACTION_TYPE12);
 		
 		//更新 transaction detail file
 		String insertTransactionString = JsonProcess.changeEntityTOJSON(insertTransacitonlog);
