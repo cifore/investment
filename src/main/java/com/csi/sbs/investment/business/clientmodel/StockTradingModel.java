@@ -30,18 +30,17 @@ public class StockTradingModel{
 	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "Order Type: Market Price or Fix Price",example="Fix Price")
 	private String orderType;
 	
-	@ApiModelProperty(allowEmptyValue=true,required=false,notes = "Buy/Sell Price",example="7.2")
+	@ApiModelProperty(allowEmptyValue=true,required=false,notes = "Keep tradingPrice empty when orderType is Market Price",example="7.2")
 	private String tradingPrice;
 	
 	@ApiModelProperty(allowEmptyValue=true,required=false,notes = "No. of Shares",example="200")
 	private String sharingNo;
 
-	@ApiModelProperty(allowEmptyValue=true,required=false,notes = "Sell All Options Y/N",example="N")
+	@ApiModelProperty(allowEmptyValue=true,required=false,notes = "Keep sellAll empty when tradingOption is Buy",example="N")
 	private String sellAll;
 	
-	@NotNull(message = "expiredate is a require field")
-	@NotBlank(message = "expiredate is a require field")
-	@ApiModelProperty(allowEmptyValue=false,required=true,notes="Expire Date"
+
+	@ApiModelProperty(allowEmptyValue=true,required=false,notes="Keep expiredate empty when orderType is Market Price"
 			,example="YYYY-MM-DD")
 	private String expiredate;
 	
