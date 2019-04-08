@@ -243,7 +243,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			//For Order Type = Fix Price
 			if(ordertype.equals("FIX PRICE")){
 				//If the buy price is larger than 30 trading points,  reject the transaction
-				if(new BigDecimal(stm.getTradingPrice()).compareTo(stkInfo.getSellprice().add(stkInfo.getTradingpoint().multiply(new BigDecimal("15")))) > 0 || new BigDecimal(stm.getTradingPrice()).compareTo(stkInfo.getSellprice().subtract(stkInfo.getTradingpoint().multiply(new BigDecimal("15")))) <0){
+				if(new BigDecimal(stm.getTradingPrice()).compareTo(stkInfo.getSellprice().subtract(stkInfo.getTradingpoint().multiply(new BigDecimal("15")))) <0){
 					throw new AcceptException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE202019),ExceptionConstant.ERROR_CODE202019);
 				}
 			}
@@ -295,7 +295,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			//For Order Type = Fix Price
 			if(ordertype.equals("FIX PRICE")){
 				//If the sell price is larger than 30 trading points,  reject the transaction
-				if(new BigDecimal(stm.getTradingPrice()).compareTo(stkInfo.getBuyprice().add(stkInfo.getTradingpoint().multiply(new BigDecimal("15")))) > 0 || new BigDecimal(stm.getTradingPrice()).compareTo(stkInfo.getBuyprice().subtract(stkInfo.getTradingpoint().multiply(new BigDecimal("15")))) < 0){
+				if(new BigDecimal(stm.getTradingPrice()).compareTo(stkInfo.getBuyprice().add(stkInfo.getTradingpoint().multiply(new BigDecimal("15")))) > 0){
 					throw new AcceptException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE202019),ExceptionConstant.ERROR_CODE202019);
 				}
 			}
@@ -468,7 +468,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		}else{
 			if(tradingOption.equals("buy")){
 				//new average price = (number of shares holding from file * average price from file+Stock trading amount)/(Number of shares holding from file + No. of shares)
-				avaeragePrice =(stkHoldInfo.getSharesholdingno().multiply(stkHoldInfo.getAverageprice()).add(tradingAmount)).divide(stkHoldInfo.getSharesholdingno().add(stp.getSharingNo()),2,BigDecimal.ROUND_HALF_UP);
+				avaeragePrice =(stkHoldInfo.getSharesholdingno().multiply(stkHoldInfo.getAverageprice()).add(tradingAmount).add(tradingcommission)).divide(stkHoldInfo.getSharesholdingno().add(stp.getSharingNo()),2,BigDecimal.ROUND_HALF_UP);
 				sharingsHoldingNum = stkHoldInfo.getSharesholdingno().add(stp.getSharingNo());
 				stockHoldingEntity.setAverageprice(avaeragePrice);
 				stockHoldingEntity.setSharesholdingno(sharingsHoldingNum);
@@ -481,7 +481,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 					stockHoldingDao.delete(stkHoldInfo.getId());
 				}else{
 					//new average price = (number of shares holding from file * average price from file+Stock trading amount)/(Number of shares holding from file + No. of shares)
-					avaeragePrice =(stkHoldInfo.getSharesholdingno().multiply(stkHoldInfo.getAverageprice()).subtract(tradingAmount)).divide(stkHoldInfo.getSharesholdingno().subtract(stp.getSharingNo()),2,BigDecimal.ROUND_HALF_UP);
+					avaeragePrice =(stkHoldInfo.getSharesholdingno().multiply(stkHoldInfo.getAverageprice()).subtract(tradingAmount).subtract(tradingcommission)).divide(stkHoldInfo.getSharesholdingno().subtract(stp.getSharingNo()),2,BigDecimal.ROUND_HALF_UP);
 					sharingsHoldingNum = stkHoldInfo.getSharesholdingno().subtract(stp.getSharingNo());
 					stockHoldingEntity.setAverageprice(avaeragePrice);
 					stockHoldingEntity.setSharesholdingno(sharingsHoldingNum);

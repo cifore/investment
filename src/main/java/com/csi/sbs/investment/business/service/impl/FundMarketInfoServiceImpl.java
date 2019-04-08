@@ -214,11 +214,11 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 			fundHoldingEntity.setId(UUIDUtil.generateUUID());
 			fundHoldingEntity.setCurrencycode(fundInfo.getFundcurrency());
 			fundHoldingEntity.setSharesholding(sharingNo);
-			fundHoldingEntity.setAverageprice(fundInfo.getLastnav());
+			fundHoldingEntity.setAverageprice(ase.getTradingamount().divide(sharingNo, 4, BigDecimal.ROUND_HALF_UP));
 			fundHoldingEntity.setLastupdatedate(format.parse(format.format(new Date())));
 			fundHoldingDao.insert(fundHoldingEntity);
 		}else{
-			newAverage = (fundHoldInfo.getAverageprice().multiply(fundHoldInfo.getSharesholding()).add(tradingAmount)).divide(fundHoldInfo.getSharesholding().add(sharingNo),4, BigDecimal.ROUND_UP);
+			newAverage = (fundHoldInfo.getAverageprice().multiply(fundHoldInfo.getSharesholding()).add(ase.getTradingamount())).divide(fundHoldInfo.getSharesholding().add(sharingNo),4, BigDecimal.ROUND_UP);
 			fundHoldingEntity.setId(fundHoldInfo.getId());
 			fundHoldingEntity.setSharesholding(fundHoldInfo.getSharesholding().add(sharingNo));
 			fundHoldingEntity.setAverageprice(newAverage);
