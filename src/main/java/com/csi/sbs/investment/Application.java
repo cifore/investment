@@ -16,6 +16,8 @@ import com.csi.sbs.common.business.log.InitLog;
 @SpringBootApplication
 @EnableEurekaClient
 public class Application {
+	
+	
 	@Bean
     @LoadBalanced
     public RestTemplate rest() {

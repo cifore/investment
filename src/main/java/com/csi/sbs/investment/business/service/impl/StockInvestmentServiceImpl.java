@@ -186,7 +186,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			savaccount.setBranchcode(header.getBranchCode());
 			savaccount.setCustomernumber(header.getCustomerNumber());
 			savaccount.setAccountnumber(stm.getDebitaccountnumber());
-			ResponseEntity<String> result = SRUtil.sendOne(PathConstant.GET_SAV, JsonProcess.changeEntityTOJSON(savaccount));
+			ResponseEntity<String> result = SRUtil.sendOne(restTemplate,PathConstant.GET_SAV, JsonProcess.changeEntityTOJSON(savaccount));
 			String temp = XmlToJsonUtil.xmlToJson(result.getBody()).toString();
 			String temp_ = JsonProcess.returnValue(JSON.parseObject(temp), "SavingAccountInternalModel");
 			resavaccount = JSON.parseObject(temp_, SavingAccountMasterModel.class);
@@ -202,7 +202,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			current.setBranchcode(header.getBranchCode());
 			current.setCustomernumber(header.getCustomerNumber());
 			current.setAccountnumber(stm.getDebitaccountnumber());
-			ResponseEntity<String> result = SRUtil.sendOne(PathConstant.GET_CURRENT, JsonProcess.changeEntityTOJSON(current));
+			ResponseEntity<String> result = SRUtil.sendOne(restTemplate,PathConstant.GET_CURRENT, JsonProcess.changeEntityTOJSON(current));
 			String temp = XmlToJsonUtil.xmlToJson(result.getBody()).toString();
 			String temp_ = JsonProcess.returnValue(JSON.parseObject(temp), "CurrentAccountInternalModel");
 			CurrentAccountMasterModel recurrent = new CurrentAccountMasterModel();
@@ -330,7 +330,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			accountInfo.setCountryCode(header.getCountryCode());
 			accountInfo.setCustomerNumber(header.getCustomerNumber());
 			accountInfo.setUserID(header.getUserID());
-			SRUtil.sendOne(PathConstant.UPDATE_BALANCE, JsonProcess.changeEntityTOJSON(accountInfo));
+			SRUtil.sendOne(restTemplate,PathConstant.UPDATE_BALANCE, JsonProcess.changeEntityTOJSON(accountInfo));
 			//accountMasterService.updateAccountBalance(header, accountInfo, restTemplate);
 		}
 		if(tradingaction.equals("SELL")){
@@ -344,7 +344,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			accountInfo.setCountryCode(header.getCountryCode());
 			accountInfo.setCustomerNumber(header.getCustomerNumber());
 			accountInfo.setUserID(header.getUserID());
-			SRUtil.sendOne(PathConstant.UPDATE_BALANCE, JsonProcess.changeEntityTOJSON(accountInfo));
+			SRUtil.sendOne(restTemplate,PathConstant.UPDATE_BALANCE, JsonProcess.changeEntityTOJSON(accountInfo));
 			//accountMasterService.updateAccountBalance(header1, accountInfo, restTemplate);
 		}
 		
@@ -368,7 +368,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			insertTransacitonlog.setTrantype(SysConstant.TRANSACTION_TYPE9);
 			insertTransacitonlog.setTrandesc("stock buy");
 		}
-		SRUtil.sendTwo(PathConstant.WRITE_LOG, header, JsonProcess.changeEntityTOJSON(insertTransacitonlog));
+		SRUtil.sendTwo(restTemplate,PathConstant.WRITE_LOG, header, JsonProcess.changeEntityTOJSON(insertTransacitonlog));
 		//transactionLogService.insertTransacitonLog(restTemplate, insertTransacitonlog);
 		
 		// 写入日志
@@ -578,7 +578,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		String relaccountType = stk.getAccountnumber().substring(stk.getAccountnumber().length() - 3,
 				stk.getAccountnumber().length());
 		// 校验关联账号
-		Map<String, Object> map2 = ValidateAccountTypeUtil.checkRelAccountNumber(header, relaccountType, stk.getAccountnumber());
+		Map<String, Object> map2 = ValidateAccountTypeUtil.checkRelAccountNumber(restTemplate,header, relaccountType, stk.getAccountnumber());
 		if (map2.get("code").equals(ExceptionConstant.ERROR_CODE201001)) {
 			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE201001),ExceptionConstant.ERROR_CODE201001);
 		}

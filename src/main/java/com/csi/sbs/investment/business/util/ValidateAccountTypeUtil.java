@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -22,7 +23,7 @@ import com.csi.sbs.investment.business.exception.NotFoundException;
 public class ValidateAccountTypeUtil {
 
 	
-	public static Map<String, Object> checkRelAccountNumber(HeaderModel header,String accountType, String relaccountNumber) throws Exception {
+	public static Map<String, Object> checkRelAccountNumber(RestTemplate restTemplate,HeaderModel header,String accountType, String relaccountNumber) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (accountType.equals(SysConstant.ACCOUNT_TYPE1)) {
 			// get customerID
@@ -32,7 +33,7 @@ public class ValidateAccountTypeUtil {
 			savaccount.setClearingcode(header.getClearingCode());
 			savaccount.setBranchcode(header.getBranchCode());
 			savaccount.setCustomernumber(header.getCustomerNumber());
-			ResponseEntity<String> result = SRUtil.sendOne(PathConstant.GET_SAV, JsonProcess.changeEntityTOJSON(savaccount));
+			ResponseEntity<String> result = SRUtil.sendOne(restTemplate,PathConstant.GET_SAV, JsonProcess.changeEntityTOJSON(savaccount));
             JSONObject temp = XmlToJsonUtil.xmlToJson(result.getBody());
             String temp_ = JsonProcess.returnValue(temp, "SavingAccountInternalModel");
             SavingAccountMasterModel savresult = JSON.parseObject(temp_, SavingAccountMasterModel.class);
@@ -52,7 +53,7 @@ public class ValidateAccountTypeUtil {
 			currentaccount.setClearingcode(header.getClearingCode());
 			currentaccount.setBranchcode(header.getBranchCode());
 			currentaccount.setCustomernumber(header.getCustomerNumber());
-			ResponseEntity<String> result = SRUtil.sendOne(PathConstant.GET_SAV, JsonProcess.changeEntityTOJSON(currentaccount));
+			ResponseEntity<String> result = SRUtil.sendOne(restTemplate,PathConstant.GET_SAV, JsonProcess.changeEntityTOJSON(currentaccount));
             JSONObject temp = XmlToJsonUtil.xmlToJson(result.getBody());
             String temp_ = JsonProcess.returnValue(temp, "CurrentAccountInternalModel");
             CurrentAccountMasterModel currentresult = JSON.parseObject(temp_, CurrentAccountMasterModel.class);
