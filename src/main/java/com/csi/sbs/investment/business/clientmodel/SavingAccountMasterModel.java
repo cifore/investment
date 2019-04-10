@@ -25,11 +25,21 @@ public class SavingAccountMasterModel {
 
     private Date lastupdateddate;
     
+    private String sandboxid;
+    
     
     
     
 
-    public String getCountrycode() {
+    public String getSandboxid() {
+		return sandboxid;
+	}
+
+	public void setSandboxid(String sandboxid) {
+		this.sandboxid = sandboxid;
+	}
+
+	public String getCountrycode() {
 		return countrycode;
 	}
 

@@ -1,5 +1,7 @@
 package com.csi.sbs.investment.business.constant;
 
+import com.csi.sbs.common.business.constant.CommonConstant;
+
 public class PathConstant {
 	
 	
@@ -11,4 +13,6 @@ public class PathConstant {
 	public static final String UPDATE_BALANCE = "http://DEPOSIT/deposit/account/updateABalance";
     //写交易日志
 	public static final String WRITE_LOG = "http://DEPOSIT/deposit/transactionLog/transactionLogAdding";
+	public static final String SERVICE_INTERNAL_URL = "http://" + CommonConstant.getSYSADMIN() + "/sysadmin/getServiceInternalURL";
+	
 }

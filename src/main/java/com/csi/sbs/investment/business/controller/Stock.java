@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -83,12 +84,14 @@ public class Stock {
 			String countryCode = request.getHeader("countryCode");
 			String clearingCode = request.getHeader("clearingCode");
 			String branchCode = request.getHeader("branchCode");
+			String sandBoxId = request.getHeader("sandBoxId");
 			String customerNumber = request.getHeader("customerNumber");
 			HeaderModel header = new HeaderModel();
 			header.setUserID(userID);
 			header.setCountryCode(countryCode);
 			header.setClearingCode(clearingCode);
 			header.setBranchCode(branchCode);
+			header.setSandBoxId(sandBoxId);
 			header.setCustomerNumber(customerNumber);
 			investmentOpeningAccountModel.setCountrycode(countryCode);
 			investmentOpeningAccountModel.setClearingcode(clearingCode);
@@ -147,12 +150,14 @@ public class Stock {
 			String countryCode = request.getHeader("countryCode");
 			String clearingCode = request.getHeader("clearingCode");
 			String branchCode = request.getHeader("branchCode");
+			String sandBoxId = request.getHeader("sandBoxId");
 			String customerNumber = request.getHeader("customerNumber");
 			HeaderModel header = new HeaderModel();
 			header.setUserID(userID);
 			header.setCountryCode(countryCode);
 			header.setClearingCode(clearingCode);
 			header.setBranchCode(branchCode);
+			header.setSandBoxId(sandBoxId);
 			header.setCustomerNumber(customerNumber);
 			normalmap = stockInvestmentService.stockTradingService(header, stm, restTemplate);
 			result.setCode(normalmap.get("code").toString());
@@ -191,12 +196,18 @@ public class Stock {
 			String countryCode = request.getHeader("countryCode");
 			String clearingCode = request.getHeader("clearingCode");
 			String branchCode = request.getHeader("branchCode");
+			String sandBoxId = request.getHeader("sandBoxId");
 			String customerNumber = request.getHeader("customerNumber");
 			HeaderModel header = new HeaderModel();
 			header.setUserID(userID);
 			header.setCountryCode(countryCode);
 			header.setClearingCode(clearingCode);
-			header.setBranchCode(branchCode);
+			if(!StringUtils.isEmpty(sandBoxId)){
+				header.setBranchCode(null);
+			}else{
+				header.setBranchCode(branchCode);
+			}
+			header.setSandBoxId(sandBoxId);
 			header.setCustomerNumber(customerNumber);
 			normalmap = stockInvestmentService.stockHoldingEnquiry(header, sth, restTemplate);
 			result.setCode(normalmap.get("code").toString());

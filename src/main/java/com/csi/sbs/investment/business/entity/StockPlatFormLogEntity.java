@@ -11,6 +11,8 @@ public class StockPlatFormLogEntity {
     private String clearingcode;
 
     private String branchcode;
+    
+    private String sandboxid;
 
     private String accountnumber;
 
@@ -34,8 +36,20 @@ public class StockPlatFormLogEntity {
     private String transFromDate;
     
     private String transToDate;
+    
+    
+    
+    
 
-    public String getId() {
+    public String getSandboxid() {
+		return sandboxid;
+	}
+
+	public void setSandboxid(String sandboxid) {
+		this.sandboxid = sandboxid;
+	}
+
+	public String getId() {
         return id;
     }
 

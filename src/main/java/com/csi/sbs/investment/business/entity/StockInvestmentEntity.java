@@ -9,6 +9,8 @@ public class StockInvestmentEntity {
     private String clearingcode;
 
     private String branchcode;
+    
+    private String sandboxid;
 
     private String customernumber;
 
@@ -18,6 +20,17 @@ public class StockInvestmentEntity {
 
     private String accountstatus;
     
+
+    
+    
+    
+	public String getSandboxid() {
+		return sandboxid;
+	}
+
+	public void setSandboxid(String sandboxid) {
+		this.sandboxid = sandboxid;
+	}
 
 	public String getCountrycode() {
 		return countrycode;

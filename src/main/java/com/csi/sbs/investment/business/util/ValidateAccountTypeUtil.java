@@ -32,6 +32,7 @@ public class ValidateAccountTypeUtil {
 			savaccount.setCountrycode(header.getCountryCode());
 			savaccount.setClearingcode(header.getClearingCode());
 			savaccount.setBranchcode(header.getBranchCode());
+			savaccount.setSandboxid(header.getSandBoxId());
 			savaccount.setCustomernumber(header.getCustomerNumber());
 			ResponseEntity<String> result = SRUtil.sendOne(restTemplate,PathConstant.GET_SAV, JsonProcess.changeEntityTOJSON(savaccount));
             JSONObject temp = XmlToJsonUtil.xmlToJson(result.getBody());
@@ -52,6 +53,7 @@ public class ValidateAccountTypeUtil {
 			currentaccount.setCountrycode(header.getCountryCode());
 			currentaccount.setClearingcode(header.getClearingCode());
 			currentaccount.setBranchcode(header.getBranchCode());
+			currentaccount.setSandboxid(header.getSandBoxId());
 			currentaccount.setCustomernumber(header.getCustomerNumber());
 			ResponseEntity<String> result = SRUtil.sendOne(restTemplate,PathConstant.GET_SAV, JsonProcess.changeEntityTOJSON(currentaccount));
             JSONObject temp = XmlToJsonUtil.xmlToJson(result.getBody());
