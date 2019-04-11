@@ -27,6 +27,7 @@ import com.csi.sbs.investment.business.clientmodel.FundHoldingEnquiryModel;
 import com.csi.sbs.investment.business.clientmodel.FundSellTradingModel;
 import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.InvestmentOpeningAccountModel;
+import com.csi.sbs.investment.business.clientmodel.QueryMutualModel;
 import com.csi.sbs.investment.business.constant.ExceptionConstant;
 import com.csi.sbs.investment.business.exception.AcceptException;
 import com.csi.sbs.investment.business.exception.AuthorityException;
@@ -83,12 +84,14 @@ public class MutualFund {
 			String countryCode = request.getHeader("countryCode");
 			String clearingCode = request.getHeader("clearingCode");
 			String branchCode = request.getHeader("branchCode");
+			String sandBoxId = request.getHeader("sandBoxId");
 			String customerNumber = request.getHeader("customerNumber");
 			HeaderModel header = new HeaderModel();
 			header.setUserID(userID);
 			header.setCountryCode(countryCode);
 			header.setClearingCode(clearingCode);
 			header.setBranchCode(branchCode);
+			header.setSandBoxId(sandBoxId);
 			header.setCustomerNumber(customerNumber);
 			investmentOpeningAccountModel.setCountrycode(countryCode);
 			investmentOpeningAccountModel.setClearingcode(clearingCode);
@@ -223,4 +226,29 @@ public class MutualFund {
 		}
 	}
 
+	
+	/**
+	 * 获取基金账号
+	 * @param qmm
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/getMutualAccount", method = RequestMethod.POST)
+	@ResponseBody
+	@ApiOperation(value = "This API is designed to retrieve Mutual information.", notes = "version 0.0.1")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Query completed successfully.(Returned By Get)"),
+			@ApiResponse(code = 404, message = "The requested deposit account does not exist.Action: Please make sure the account number and account type you’re inputting are correct."),
+			@ApiResponse(code = 201, message = "Normal execution. The request has succeeded. (Returned By Post)"),
+			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
+			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
+	public ResultUtil getMutualAccount(@RequestBody @Validated QueryMutualModel qmm,
+			HttpServletRequest request) throws Exception {
+		try {
+			return mutualFundService.getMutualAccount(qmm);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 }

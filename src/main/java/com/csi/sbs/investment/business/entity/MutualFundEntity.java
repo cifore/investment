@@ -22,6 +22,19 @@ public class MutualFundEntity {
 
     private String branchcode;
     
+    private String sandboxid;
+    
+    
+    
+    
+	public String getSandboxid() {
+		return sandboxid;
+	}
+
+	public void setSandboxid(String sandboxid) {
+		this.sandboxid = sandboxid;
+	}
+
 	public String getCountrycode() {
 		return countrycode;
 	}
