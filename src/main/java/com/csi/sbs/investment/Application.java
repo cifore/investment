@@ -11,7 +11,7 @@ import com.csi.sbs.investment.Application;
 
 import org.springframework.context.ApplicationContext;
 
-import com.csi.sbs.common.business.log.InitLog;
+//import com.csi.sbs.common.business.log.InitLog;
 
 @SpringBootApplication
 @EnableEurekaClient
@@ -26,8 +26,9 @@ public class Application {
 
 	
 	public static void main(String[] args) {
+		@SuppressWarnings("unused")
 		ApplicationContext context = SpringApplication.run(Application.class, args);
-		InitLog.loadLogConfig(context,"investment");//初始化日志相关配置
+		//InitLog.loadLogConfig(context,"investment");//初始化日志相关配置
 	}
 
 }

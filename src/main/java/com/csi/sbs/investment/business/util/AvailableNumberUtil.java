@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.csi.sbs.common.business.json.JsonProcess;
+import com.csi.sbs.investment.business.constant.PathConstant;
 import com.csi.sbs.investment.business.constant.SysConstant;
 
 public class AvailableNumberUtil {
@@ -22,7 +23,7 @@ public class AvailableNumberUtil {
 	 */
 	public static void availableNumberIncrease(RestTemplate restTemplate,String item) {
 		Map<String,Object> map = new HashMap<String,Object>();
-		String currentNumber = restTemplate.getForEntity("http://SYSADMIN/sysadmin/generate/getNextAvailableNumber/"+item, String.class).getBody();
+		String currentNumber = restTemplate.getForEntity(PathConstant.NEXT_AVAILABLE+item, String.class).getBody();
 		if (currentNumber == null) {
 			map.put("msg", "调用系统参数失败");
 			map.put("code", "0");
@@ -37,28 +38,37 @@ public class AvailableNumberUtil {
 		// 可用number长度判断
 		switch (availableNumberLength) {
 		case 1:
-			appendSave = "00000" + nextAvailableNumber;
+			appendSave = "00000000" + nextAvailableNumber;
 			break;
 		case 2:
-			appendSave = "0000" + nextAvailableNumber;
+			appendSave = "0000000" + nextAvailableNumber;
 			break;
 		case 3:
-			appendSave = "000" + nextAvailableNumber;
+			appendSave = "000000" + nextAvailableNumber;
 			break;
 		case 4:
-			appendSave = "00" + nextAvailableNumber;
+			appendSave = "00000" + nextAvailableNumber;
 			break;
 		case 5:
-			appendSave = "0" + nextAvailableNumber;
+			appendSave = "0000" + nextAvailableNumber;
 			break;
 		case 6:
+			appendSave = "000" + nextAvailableNumber;
+			break;
+		case 7:
+			appendSave = "00" + nextAvailableNumber;
+			break;
+		case 8:
+			appendSave = "0" + nextAvailableNumber;
+			break;
+		case 9:
 			appendSave = nextAvailableNumber + "";
 			break;
 		}
 		
 		
         String param = "{\"value\":\""+appendSave+"\",\"item\":\""+item+"\"}";
-		ResponseEntity<String> result = restTemplate.postForEntity("http://SYSADMIN/sysadmin/generate/saveNextAvailableNumber", PostUtil.getRequestEntity(param),String.class);
+		ResponseEntity<String> result = restTemplate.postForEntity(PathConstant.SAVE_NEXT_AVAILABLE, PostUtil.getRequestEntity(param),String.class);
 		if (!result.getStatusCode().equals("200")) {
 			map.put("msg", "生成下一个可用number失败");
 			map.put("code", "0");
@@ -70,7 +80,7 @@ public class AvailableNumberUtil {
 	 */
 	public static void availableSEQIncrease(RestTemplate restTemplate,String item) {
 		Map<String,Object> map = new HashMap<String,Object>();
-		String currentNumber = restTemplate.getForEntity("http://SYSADMIN/sysadmin/generate/getNextAvailableNumber/"+SysConstant.NEXT_AVAILABLE_SEQ, String.class).getBody();
+		String currentNumber = restTemplate.getForEntity(PathConstant.NEXT_AVAILABLE+SysConstant.NEXT_AVAILABLE_SEQ, String.class).getBody();
 		if (currentNumber == null) {
 			map.put("msg", "调用系统参数失败");
 			map.put("code", "0");
@@ -85,28 +95,37 @@ public class AvailableNumberUtil {
 		// 可用number长度判断
 		switch (availableNumberLength) {
 		case 1:
-			appendSave = "00000" + nextAvailableNumber;
+			appendSave = "00000000" + nextAvailableNumber;
 			break;
 		case 2:
-			appendSave = "0000" + nextAvailableNumber;
+			appendSave = "0000000" + nextAvailableNumber;
 			break;
 		case 3:
-			appendSave = "000" + nextAvailableNumber;
+			appendSave = "000000" + nextAvailableNumber;
 			break;
 		case 4:
-			appendSave = "00" + nextAvailableNumber;
+			appendSave = "00000" + nextAvailableNumber;
 			break;
 		case 5:
-			appendSave = "0" + nextAvailableNumber;
+			appendSave = "0000" + nextAvailableNumber;
 			break;
 		case 6:
+			appendSave = "000" + nextAvailableNumber;
+			break;
+		case 7:
+			appendSave = "00" + nextAvailableNumber;
+			break;
+		case 8:
+			appendSave = "0" + nextAvailableNumber;
+			break;
+		case 9:
 			appendSave = nextAvailableNumber + "";
 			break;
 		}
 		
 		
         String param = "{\"value\":\""+appendSave+"\",\"item\":\""+item+"\"}";
-		ResponseEntity<String> result = restTemplate.postForEntity("http://SYSADMIN/sysadmin/generate/saveNextAvailableNumber", PostUtil.getRequestEntity(param),String.class);
+		ResponseEntity<String> result = restTemplate.postForEntity(PathConstant.SAVE_NEXT_AVAILABLE, PostUtil.getRequestEntity(param),String.class);
 		if (!result.getStatusCode().equals("200")) {
 			map.put("msg", "生成下一个可用number失败");
 			map.put("code", "0");
@@ -118,7 +137,7 @@ public class AvailableNumberUtil {
 	 */
 	public static void availableTDNumberIncrease(RestTemplate restTemplate,String item) {
 		Map<String,Object> map = new HashMap<String,Object>();
-		String currentNumber = restTemplate.getForEntity("http://SYSADMIN/sysadmin/generate/getNextAvailableNumber/"+SysConstant.NEXT_AVAILABLE_TDNUMBER, String.class).getBody();
+		String currentNumber = restTemplate.getForEntity(PathConstant.NEXT_AVAILABLE+SysConstant.NEXT_AVAILABLE_TDNUMBER, String.class).getBody();
 		if (currentNumber == null) {
 			map.put("msg", "调用系统参数失败");
 			map.put("code", "0");
@@ -133,25 +152,37 @@ public class AvailableNumberUtil {
 		// 可用number长度判断
 		switch (availableNumberLength) {
 		case 1:
-			appendSave = "0000" + nextAvailableNumber;
+			appendSave = "00000000" + nextAvailableNumber;
 			break;
 		case 2:
-			appendSave = "000" + nextAvailableNumber;
+			appendSave = "0000000" + nextAvailableNumber;
 			break;
 		case 3:
-			appendSave = "00" + nextAvailableNumber;
+			appendSave = "000000" + nextAvailableNumber;
 			break;
 		case 4:
-			appendSave = "0" + nextAvailableNumber;
+			appendSave = "00000" + nextAvailableNumber;
 			break;
 		case 5:
+			appendSave = "0000" + nextAvailableNumber;
+			break;
+		case 6:
+			appendSave = "000" + nextAvailableNumber;
+			break;
+		case 7:
+			appendSave = "00" + nextAvailableNumber;
+			break;
+		case 8:
+			appendSave = "0" + nextAvailableNumber;
+			break;
+		case 9:
 			appendSave = nextAvailableNumber + "";
 			break;
 		}
 		
 		
         String param = "{\"value\":\""+appendSave+"\",\"item\":\""+item+"\"}";
-		ResponseEntity<String> result = restTemplate.postForEntity("http://SYSADMIN/sysadmin/generate/saveNextAvailableNumber", PostUtil.getRequestEntity(param),String.class);
+		ResponseEntity<String> result = restTemplate.postForEntity(PathConstant.SAVE_NEXT_AVAILABLE, PostUtil.getRequestEntity(param),String.class);
 		if (!result.getStatusCode().equals("200")) {
 			map.put("msg", "生成下一个可用number失败");
 			map.put("code", "0");
@@ -164,7 +195,7 @@ public class AvailableNumberUtil {
 	 */
 	public static void availableDealIncrease(RestTemplate restTemplate,String item) {
 		Map<String,Object> map = new HashMap<String,Object>();
-		String currentNumber = restTemplate.getForEntity("http://SYSADMIN/sysadmin/generate/getNextAvailableNumber/"+SysConstant.NEXT_AVAILABLE_DEALNUMBER, String.class).getBody();
+		String currentNumber = restTemplate.getForEntity(PathConstant.NEXT_AVAILABLE+SysConstant.NEXT_AVAILABLE_DEALNUMBER, String.class).getBody();
 		if (currentNumber == null) {
 			map.put("msg", "调用系统参数失败");
 			map.put("code", "0");
@@ -179,22 +210,37 @@ public class AvailableNumberUtil {
 		// 可用number长度判断
 		switch (availableNumberLength) {
 		case 1:
-			appendSave = "0000" + nextAvailableNumber;
+			appendSave = "00000000" + nextAvailableNumber;
 			break;
 		case 2:
-			appendSave = "000" + nextAvailableNumber;
+			appendSave = "0000000" + nextAvailableNumber;
 			break;
 		case 3:
-			appendSave = "00" + nextAvailableNumber;
+			appendSave = "000000" + nextAvailableNumber;
 			break;
 		case 4:
+			appendSave = "00000" + nextAvailableNumber;
+			break;
+		case 5:
+			appendSave = "0000" + nextAvailableNumber;
+			break;
+		case 6:
+			appendSave = "000" + nextAvailableNumber;
+			break;
+		case 7:
+			appendSave = "00" + nextAvailableNumber;
+			break;
+		case 8:
 			appendSave = "0" + nextAvailableNumber;
+			break;
+		case 9:
+			appendSave = nextAvailableNumber + "";
 			break;
 		}
 		
 		appendSave = sf.format(new Date())+appendSave;
         String param = "{\"value\":\""+appendSave+"\",\"item\":\""+item+"\"}";
-		ResponseEntity<String> result = restTemplate.postForEntity("http://SYSADMIN/sysadmin/generate/saveNextAvailableNumber", PostUtil.getRequestEntity(param),String.class);
+		ResponseEntity<String> result = restTemplate.postForEntity(PathConstant.SAVE_NEXT_AVAILABLE, PostUtil.getRequestEntity(param),String.class);
 		if (!result.getStatusCode().equals("200")) {
 			map.put("msg", "生成下一个可用number失败");
 			map.put("code", "0");

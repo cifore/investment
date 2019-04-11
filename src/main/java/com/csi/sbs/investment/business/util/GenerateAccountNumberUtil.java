@@ -7,25 +7,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONObject;
-import com.csi.sbs.common.business.constant.CommonConstant;
 import com.csi.sbs.common.business.json.JsonProcess;
 import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.constant.ExceptionConstant;
-import com.csi.sbs.investment.business.constant.SysConstant;
+import com.csi.sbs.investment.business.constant.PathConstant;
 import com.csi.sbs.investment.business.exception.OtherException;
 
 public class GenerateAccountNumberUtil {
 
-	public static Map<String, Object> getAccountNumber(String accountType,
-			HeaderModel header, RestTemplate restTemplate) throws Exception {
+	public static Map<String, Object> getAccountNumber(String accountType, HeaderModel header,
+			RestTemplate restTemplate) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 调用服务接口地址
 		String param1 = "{\"apiname\":\"getSystemParameter\"}";
-		ResponseEntity<String> result1 = restTemplate.postForEntity(
-				"http://" + CommonConstant.getSYSADMIN() + SysConstant.SERVICE_INTERNAL_URL + "",
+		ResponseEntity<String> result1 = restTemplate.postForEntity(PathConstant.SERVICE_INTERNAL_URL,
 				PostUtil.getRequestEntity(param1), String.class);
 		if (result1.getStatusCodeValue() != 200) {
-			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500002),ExceptionConstant.ERROR_CODE500002);
+			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500002),
+					ExceptionConstant.ERROR_CODE500002);
 		}
 		String path = JsonProcess.returnValue(JsonProcess.changeToJSONObject(result1.getBody()), "internaURL");
 
@@ -34,7 +33,8 @@ public class GenerateAccountNumberUtil {
 		ResponseEntity<String> result2 = restTemplate.postForEntity(path, PostUtil.getRequestEntity(param2),
 				String.class);
 		if (result2.getStatusCodeValue() != 200) {
-			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500003),ExceptionConstant.ERROR_CODE500003);
+			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500003),
+					ExceptionConstant.ERROR_CODE500003);
 		}
 
 		// 返回数据处理
@@ -55,29 +55,27 @@ public class GenerateAccountNumberUtil {
 
 		// 调用可用accountNumber服务接口
 		String result3 = restTemplate
-				.getForEntity("http://SYSADMIN/sysadmin/generate/getNextAvailableNumber/NextAvailableAccountNumber",
-						String.class)
-				.getBody();
+				.getForEntity(PathConstant.NEXT_AVAILABLE + "NextAvailableAccountNumber", String.class).getBody();
 		String nextAccountNumber = "";
 		if (result3 == null) {
-			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500003),ExceptionConstant.ERROR_CODE500003);
+			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500003),
+					ExceptionConstant.ERROR_CODE500003);
 		}
 
 		// 调用可用customerNumber服务接口
 		String result4 = restTemplate
-				.getForEntity("http://SYSADMIN/sysadmin/generate/getNextAvailableNumber/NextAvailableCustomerNumber",
-						String.class)
-				.getBody();
+				.getForEntity(PathConstant.NEXT_AVAILABLE + "NextAvailableCustomerNumber", String.class).getBody();
 		String customerNumber = "";
 		if (result4 == null) {
-			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500003),ExceptionConstant.ERROR_CODE500003);
+			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500003),
+					ExceptionConstant.ERROR_CODE500003);
 		}
 
 		// 返回数据处理
 		nextAccountNumber = JsonProcess.returnValue(JsonProcess.changeToJSONObject(result3), "nextAvailableNumber");
 
-		customerNumber = JsonProcess.returnValue(JsonProcess.changeToJSONObject(result4), "nextAvailableNumber");;
-		
+		customerNumber = JsonProcess.returnValue(JsonProcess.changeToJSONObject(result4), "nextAvailableNumber");
+
 		accountnumber = header.getCountryCode() + "00" + header.getClearingCode() + header.getBranchCode()
 				+ nextAccountNumber + accountType;
 
@@ -91,9 +89,9 @@ public class GenerateAccountNumberUtil {
 
 		return map;
 	}
-	
+
 	private static String getAccountNumberFunc(String D) {
-		if (D != null && D.length() == 20) {
+		if (D != null && D.length() == 23) {
 			String accountnumber = "";
 			String still = D.substring(4);
 			String countrycode = D.substring(0, 2);
@@ -125,7 +123,7 @@ public class GenerateAccountNumberUtil {
 			return "N";
 		}
 	}
-	
+
 	private static String getCountryCodeNumber(String countrycode) {
 		String number = "";
 		for (int i = 0; i < countrycode.length(); i++) {

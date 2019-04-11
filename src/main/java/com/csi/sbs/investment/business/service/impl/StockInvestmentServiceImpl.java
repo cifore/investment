@@ -29,6 +29,8 @@ import com.csi.sbs.investment.business.clientmodel.CurrentAccountMasterModel;
 import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.InsertTransactionLogModel;
 import com.csi.sbs.investment.business.clientmodel.InvestmentOpeningAccountModel;
+import com.csi.sbs.investment.business.clientmodel.QueryStockModel;
+import com.csi.sbs.investment.business.clientmodel.ReStockModel;
 import com.csi.sbs.investment.business.clientmodel.SavingAccountMasterModel;
 import com.csi.sbs.investment.business.clientmodel.StockHoldingEnquiryModel;
 import com.csi.sbs.investment.business.clientmodel.StockInvestmentModel;
@@ -56,6 +58,7 @@ import com.csi.sbs.investment.business.util.AvailableNumberUtil;
 import com.csi.sbs.investment.business.util.GenerateAccountNumberUtil;
 import com.csi.sbs.investment.business.util.LogUtil;
 import com.csi.sbs.investment.business.util.PostUtil;
+import com.csi.sbs.investment.business.util.ResultUtil;
 import com.csi.sbs.investment.business.util.SRUtil;
 import com.csi.sbs.investment.business.util.ValidateAccountTypeUtil;
 
@@ -691,5 +694,32 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		map.put("accountNumber", account.getAccountnumber());
 		map.put("code", "1");
 		return map;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public ResultUtil getStockAccount(QueryStockModel qsm) {
+		ResultUtil result = new ResultUtil();
+		List<ReStockModel> restock = new ArrayList<ReStockModel>();
+		//model change
+		StockInvestmentEntity sie = new StockInvestmentEntity();
+		sie.setCustomernumber(qsm.getCustomerNumber());
+		List<StockInvestmentEntity> stock = stockInvestmentDao.findMany(sie);
+		if(stock!=null && stock.size()>0){
+			for(int i=0;i<stock.size();i++){
+				ReStockModel rm = new ReStockModel();
+				rm.setAccountnumber(stock.get(i).getAccountnumber());
+				restock.add(rm);
+			}
+			result.setCode("1");
+			result.setMsg("Search Success");
+			result.setData(restock);
+			return result;
+		}
+		result.setCode("0");
+		result.setMsg("Search Fail");
+		result.setData(restock);
+		
+		return result;
 	}
 }
