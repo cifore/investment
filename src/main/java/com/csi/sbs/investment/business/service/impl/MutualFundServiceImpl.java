@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.codingapi.tx.annotation.TxTransaction;
 import com.csi.sbs.common.business.constant.CommonConstant;
@@ -24,20 +23,18 @@ import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.InvestmentOpeningAccountModel;
 import com.csi.sbs.investment.business.clientmodel.QueryMutualModel;
 import com.csi.sbs.investment.business.clientmodel.ReMutualModel;
-import com.csi.sbs.investment.business.clientmodel.CheckAccountNumberModel;
-import com.csi.sbs.investment.business.clientmodel.DebitAccountModel;
 import com.csi.sbs.investment.business.constant.ExceptionConstant;
 import com.csi.sbs.investment.business.constant.SysConstant;
 import com.csi.sbs.investment.business.dao.MutualFundDao;
 import com.csi.sbs.investment.business.entity.MutualFundEntity;
-import com.csi.sbs.investment.business.exception.CallOtherException;
-import com.csi.sbs.investment.business.exception.NotFoundException;
+import com.csi.sbs.investment.business.exception.OtherException;
 import com.csi.sbs.investment.business.service.MutualFundService;
 import com.csi.sbs.investment.business.util.AvailableNumberUtil;
 import com.csi.sbs.investment.business.util.GenerateAccountNumberUtil;
 import com.csi.sbs.investment.business.util.LogUtil;
 import com.csi.sbs.investment.business.util.PostUtil;
 import com.csi.sbs.investment.business.util.ResultUtil;
+import com.csi.sbs.investment.business.util.ValidateAccountTypeUtil;
 
 @Service("MutualFundService")
 public class MutualFundServiceImpl implements MutualFundService {
@@ -58,51 +55,15 @@ public class MutualFundServiceImpl implements MutualFundService {
 	public Map<String, Object> openingFUNccount(HeaderModel header, InvestmentOpeningAccountModel fun,
 			RestTemplate restTemplate) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-
-		// 获取API的内网地址
-		String path = getInternalUrl("accountNumberValidation");
-		if (path.length() == 0) {
-			throw new CallOtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500002),
-					ExceptionConstant.ERROR_CODE500002);
+		String relaccountType = fun.getAccountnumber().substring(fun.getAccountnumber().length() - 3,
+				fun.getAccountnumber().length());
+		// 校验关联账号
+		Map<String, Object> map2 = ValidateAccountTypeUtil.checkRelAccountNumber(restTemplate, header, relaccountType,
+				fun.getAccountnumber());
+		if (map2.get("code").equals(ExceptionConstant.ERROR_CODE201001)) {
+			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE201001),
+					ExceptionConstant.ERROR_CODE201001);
 		}
-		// 校验关联账号格式
-		CheckAccountNumberModel checknumber = new CheckAccountNumberModel();
-		checknumber.setAccountnumber(fun.getAccountnumber());
-		String param = JsonProcess.changeEntityTOJSON(checknumber);
-		String debitRes = getResponse(path, param);
-		if (debitRes.length() == 0) {
-			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404005),
-					ExceptionConstant.ERROR_CODE404005);
-		}
-		JSONObject debitObject = JsonProcess.changeToJSONObject(debitRes);
-		String code = JsonProcess.returnValue(debitObject, "code");
-		if (code.equals("0")) {
-			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),
-					ExceptionConstant.ERROR_CODE404010);
-		}
-		// 获取API accountSearch的内网地址
-		String path1 = getInternalUrl("accountSearch");
-		if (path1.length() == 0) {
-			throw new CallOtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500002),
-					ExceptionConstant.ERROR_CODE500002);
-		}
-		// 根据 debitAccountNum
-		String debitAccountParam = "{\"customerNumber\":\"" + header.getCustomerNumber() + "\",\"accountNumber\":\""
-				+ fun.getAccountnumber() + "\",\"countrycode\":\"" + header.getCountryCode() + "\",\"clearingcode\":\""
-				+ header.getClearingCode() + "\",\"branchcode\":\"" + header.getBranchCode() + "\"}";
-		String debitAccountRes = getResponse(path1, debitAccountParam);
-		if (debitAccountRes.length() == 0) {
-			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404005),
-					ExceptionConstant.ERROR_CODE404005);
-		}
-		JSONObject transObject = JsonProcess.changeToJSONObject(debitAccountRes);
-		String debitAccountInfo = JsonProcess.returnValue(transObject, "account");
-		DebitAccountModel resavaccount = JSON.parseObject(debitAccountInfo, DebitAccountModel.class);
-		if (resavaccount == null) {
-			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),
-					ExceptionConstant.ERROR_CODE404010);
-		}
-
 		// 获取账号
 		String accountNumber = null;
 		// String localccy = null;
@@ -139,6 +100,7 @@ public class MutualFundServiceImpl implements MutualFundService {
 	}
 
 	// 获取内网地址公共方法
+	@SuppressWarnings("unused")
 	private String getInternalUrl(String apiname) {
 		String param = "{\"apiname\":\"" + apiname + "\"}";
 		ResponseEntity<String> result = restTemplate.postForEntity(
@@ -156,6 +118,7 @@ public class MutualFundServiceImpl implements MutualFundService {
 	}
 
 	// 根据传参获取response string
+	@SuppressWarnings("unused")
 	private String getResponse(String path, String param) {
 		ResponseEntity<String> responseEntity = restTemplate.postForEntity(path, PostUtil.getRequestEntity(param),
 				String.class);
@@ -177,12 +140,12 @@ public class MutualFundServiceImpl implements MutualFundService {
 	public ResultUtil getMutualAccount(QueryMutualModel qmm) {
 		List<ReMutualModel> reMutual = new ArrayList<ReMutualModel>();
 		ResultUtil result = new ResultUtil();
-		//model change
+		// model change
 		MutualFundEntity mfe = new MutualFundEntity();
 		mfe.setCustomernumber(qmm.getCustomerNumber());
 		List<MutualFundEntity> remfe = mutualFundDao.findMany(mfe);
-		if(remfe!=null && remfe.size()>0){
-			for(int i=0;i<remfe.size();i++){
+		if (remfe != null && remfe.size() > 0) {
+			for (int i = 0; i < remfe.size(); i++) {
 				ReMutualModel rm = new ReMutualModel();
 				rm.setAccountnumber(remfe.get(i).getAccountnumber());
 				reMutual.add(rm);
@@ -190,7 +153,7 @@ public class MutualFundServiceImpl implements MutualFundService {
 			result.setCode("1");
 			result.setMsg("Search Success");
 			result.setData(reMutual);
-			
+
 			return result;
 		}
 		result.setCode("0");
