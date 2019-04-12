@@ -3,6 +3,7 @@ package com.csi.sbs.investment.business.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.axis.utils.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,7 +32,11 @@ public class ValidateAccountTypeUtil {
 			savaccount.setAccountnumber(relaccountNumber);
 			savaccount.setCountrycode(header.getCountryCode());
 			savaccount.setClearingcode(header.getClearingCode());
-			savaccount.setBranchcode(header.getBranchCode());
+			if(!StringUtils.isEmpty(header.getSandBoxId())){
+				savaccount.setBranchcode(null);
+			}else{
+				savaccount.setBranchcode(header.getBranchCode());
+			}
 			savaccount.setSandboxid(header.getSandBoxId());
 			savaccount.setCustomernumber(header.getCustomerNumber());
 			ResponseEntity<String> result = SRUtil.sendOne(restTemplate,PathConstant.GET_SAV, JsonProcess.changeEntityTOJSON(savaccount));
@@ -52,7 +57,11 @@ public class ValidateAccountTypeUtil {
 			currentaccount.setAccountnumber(relaccountNumber);
 			currentaccount.setCountrycode(header.getCountryCode());
 			currentaccount.setClearingcode(header.getClearingCode());
-			currentaccount.setBranchcode(header.getBranchCode());
+			if(!StringUtils.isEmpty(header.getSandBoxId())){
+				currentaccount.setBranchcode(null);
+			}else{
+				currentaccount.setBranchcode(header.getBranchCode());
+			}
 			currentaccount.setSandboxid(header.getSandBoxId());
 			currentaccount.setCustomernumber(header.getCustomerNumber());
 			ResponseEntity<String> result = SRUtil.sendOne(restTemplate,PathConstant.GET_SAV, JsonProcess.changeEntityTOJSON(currentaccount));

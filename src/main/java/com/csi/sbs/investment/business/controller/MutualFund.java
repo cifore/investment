@@ -20,6 +20,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import springfox.documentation.annotations.ApiIgnore;
 
 import com.csi.sbs.common.business.exception.CallOtherException;
 import com.csi.sbs.investment.business.clientmodel.FundBuyTradingModel;
@@ -243,6 +244,7 @@ public class MutualFund {
 			@ApiResponse(code = 201, message = "Normal execution. The request has succeeded. (Returned By Post)"),
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
+	@ApiIgnore()
 	public ResultUtil getMutualAccount(@RequestBody @Validated QueryMutualModel qmm,
 			HttpServletRequest request) throws Exception {
 		try {
@@ -268,6 +270,7 @@ public class MutualFund {
 			@ApiResponse(code = 201, message = "Normal execution. The request has succeeded. (Returned By Post)"),
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
+	@ApiIgnore()
 	public ResultUtil getOneMutualAccount(@RequestBody @Validated QueryMutualModel qmm,
 			HttpServletRequest request) throws Exception {
 		try {

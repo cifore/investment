@@ -37,6 +37,9 @@
     <if test="relaccountnumber != null" >
        and RelAccountNumber = #{relaccountnumber}
     </if>
+    <if test="sandboxid != null" >
+       and SandBoxId = #{sandboxid}
+    </if>
   </select>
   
   <select id="findOne" resultType="com.csi.sbs.investment.business.entity.MutualFundEntity" parameterType="com.csi.sbs.investment.business.entity.MutualFundEntity">
@@ -53,6 +56,9 @@
     </if>
     <if test="branchcode != null" >
        and BranchCode = #{branchcode}
+    </if>
+    <if test="sandboxid != null" >
+       and SandBoxId = #{sandboxid}
     </if>
   </select>
   
