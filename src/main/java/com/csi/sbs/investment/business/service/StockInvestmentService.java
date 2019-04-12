@@ -28,4 +28,7 @@ public interface StockInvestmentService{
 	@SuppressWarnings("rawtypes")
 	public ResultUtil getStockAccount(QueryStockModel qsm);
 	
+	@SuppressWarnings("rawtypes")
+	public ResultUtil getOneStockAccount(QueryStockModel qsm);
+	
 }

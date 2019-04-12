@@ -8,6 +8,18 @@ public class QueryStockModel {
 	private String branchCode;
 	private String sandBoxId;
 	private String customerNumber;
+	private String accountNumber;
+	
+	
+	
+
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
 
 	public String getUserID() {
 		return userID;

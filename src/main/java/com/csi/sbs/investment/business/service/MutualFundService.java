@@ -15,5 +15,8 @@ public interface MutualFundService{
 
     @SuppressWarnings("rawtypes")
 	public ResultUtil getMutualAccount(QueryMutualModel qmm);
+    
+    @SuppressWarnings("rawtypes")
+	public ResultUtil getOneMutualAccount(QueryMutualModel qmm);
 
 }

@@ -14,6 +14,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.axis.utils.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -711,6 +712,40 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 				rm.setAccountnumber(stock.get(i).getAccountnumber());
 				restock.add(rm);
 			}
+			result.setCode("1");
+			result.setMsg("Search Success");
+			result.setData(restock);
+			return result;
+		}
+		result.setCode("0");
+		result.setMsg("Search Fail");
+		result.setData(restock);
+		
+		return result;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public ResultUtil getOneStockAccount(QueryStockModel qsm) {
+		ResultUtil result = new ResultUtil();
+		ReStockModel restock = new ReStockModel();
+		//model change
+		StockInvestmentEntity sie = new StockInvestmentEntity();
+		sie.setAccountnumber(qsm.getAccountNumber());
+		sie.setCountrycode(qsm.getCountryCode());
+		sie.setClearingcode(qsm.getClearingCode());
+		if(!StringUtils.isEmpty(qsm.getSandBoxId())){
+			sie.setBranchcode(null);
+		}else{
+			sie.setBranchcode(qsm.getBranchCode());
+		}
+		sie.setSandboxid(qsm.getSandBoxId());
+		sie.setCustomernumber(qsm.getCustomerNumber());
+		StockInvestmentEntity stock = (StockInvestmentEntity) stockInvestmentDao.findOne(sie);
+		if(stock!=null){
+			//model change
+			restock.setAccountnumber(stock.getAccountnumber());
+			restock.setCustomerNumber(stock.getCustomernumber());
 			result.setCode("1");
 			result.setMsg("Search Success");
 			result.setData(restock);

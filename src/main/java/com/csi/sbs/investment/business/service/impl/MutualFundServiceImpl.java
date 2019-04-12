@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.axis.utils.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -159,6 +160,40 @@ public class MutualFundServiceImpl implements MutualFundService {
 		result.setCode("0");
 		result.setMsg("Search Fail");
 		result.setData(reMutual);
+		return result;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public ResultUtil getOneMutualAccount(QueryMutualModel qmm) {
+		ReMutualModel reMutual = new ReMutualModel();
+		ResultUtil result = new ResultUtil();
+		// model change
+		MutualFundEntity mfe = new MutualFundEntity();
+		mfe.setAccountnumber(qmm.getAccountNumber());
+		mfe.setCountrycode(qmm.getCountryCode());
+		mfe.setClearingcode(qmm.getClearingCode());
+		if(!StringUtils.isEmpty(qmm.getSandBoxId())){
+			mfe.setBranchcode(null);
+		}else{
+			mfe.setBranchcode(qmm.getBranchCode());
+		}
+		mfe.setSandboxid(qmm.getSandBoxId());
+		mfe.setCustomernumber(qmm.getCustomerNumber());
+		MutualFundEntity remfe = (MutualFundEntity) mutualFundDao.findOne(mfe);
+		if(remfe!=null){
+			//model change
+			reMutual.setAccountnumber(remfe.getAccountnumber());
+			reMutual.setCustomerNumber(remfe.getCustomernumber());
+			result.setCode("1");
+			result.setMsg("Search Success");
+			result.setData(reMutual);
+			return result;
+		}
+		result.setCode("0");
+		result.setMsg("Search Fail");
+		result.setData(reMutual);
+		
 		return result;
 	}
 

@@ -222,7 +222,7 @@ public class Stock {
 	
 	
 	/**
-	 * 获取股票账号
+	 * 获取股票账号(多个)
 	 * @param sth
 	 * @param request
 	 * @return
@@ -241,6 +241,32 @@ public class Stock {
 			HttpServletRequest request) throws Exception {
 		try {
 			return stockInvestmentService.getStockAccount(qsm);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	
+	/**
+	 * 获取股票账号(单个)
+	 * @param sth
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/getOneStockAccount", method = RequestMethod.POST)
+	@ResponseBody
+	@ApiOperation(value = "This API is designed to retrieve stock information.", notes = "version 0.0.1")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Query completed successfully.(Returned By Get)"),
+			@ApiResponse(code = 404, message = "The requested deposit account does not exist.Action: Please make sure the account number and account type you’re inputting are correct."),
+			@ApiResponse(code = 201, message = "Normal execution. The request has succeeded. (Returned By Post)"),
+			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
+			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
+	public ResultUtil getOneStockAccount(@RequestBody @Validated QueryStockModel qsm,
+			HttpServletRequest request) throws Exception {
+		try {
+			return stockInvestmentService.getOneStockAccount(qsm);
 		} catch (Exception e) {
 			throw e;
 		}
