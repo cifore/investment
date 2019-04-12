@@ -45,6 +45,8 @@ public class MutualFundServiceImpl implements MutualFundService {
 	private MutualFundDao mutualFundDao;
 
 	private SimpleDateFormat format = new SimpleDateFormat();
+	
+	private SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	@Resource
 	private RestTemplate restTemplate;
@@ -185,6 +187,9 @@ public class MutualFundServiceImpl implements MutualFundService {
 			//model change
 			reMutual.setAccountnumber(remfe.getAccountnumber());
 			reMutual.setCustomerNumber(remfe.getCustomernumber());
+			reMutual.setAccountstatus(remfe.getAccountstatus());
+			reMutual.setLastupdateddate(format2.format(remfe.getLastupdateddate()));
+			reMutual.setRelaccountnumber(remfe.getRelaccountnumber());
 			result.setCode("1");
 			result.setMsg("Search Success");
 			result.setData(reMutual);

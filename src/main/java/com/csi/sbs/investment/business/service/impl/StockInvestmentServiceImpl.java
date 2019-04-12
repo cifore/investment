@@ -746,6 +746,8 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			//model change
 			restock.setAccountnumber(stock.getAccountnumber());
 			restock.setCustomerNumber(stock.getCustomernumber());
+			restock.setAccountstatus(stock.getAccountstatus());
+			restock.setRelaccountnumber(stock.getRelaccountnumber());
 			result.setCode("1");
 			result.setMsg("Search Success");
 			result.setData(restock);
