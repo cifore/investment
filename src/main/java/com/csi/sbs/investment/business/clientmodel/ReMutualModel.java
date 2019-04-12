@@ -3,11 +3,42 @@ package com.csi.sbs.investment.business.clientmodel;
 public class ReMutualModel {
 
 	private String accountnumber;
-	
+
+	private String accountstatus;
+
+	private String relaccountnumber;
+
 	private String customerNumber;
 	
+	private String lastupdateddate;
 	
 	
+	
+	
+
+	public String getLastupdateddate() {
+		return lastupdateddate;
+	}
+
+	public void setLastupdateddate(String lastupdateddate) {
+		this.lastupdateddate = lastupdateddate;
+	}
+
+	public String getAccountstatus() {
+		return accountstatus;
+	}
+
+	public void setAccountstatus(String accountstatus) {
+		this.accountstatus = accountstatus;
+	}
+
+	public String getRelaccountnumber() {
+		return relaccountnumber;
+	}
+
+	public void setRelaccountnumber(String relaccountnumber) {
+		this.relaccountnumber = relaccountnumber;
+	}
 
 	public String getCustomerNumber() {
 		return customerNumber;
