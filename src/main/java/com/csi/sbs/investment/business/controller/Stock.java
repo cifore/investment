@@ -36,6 +36,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import springfox.documentation.annotations.ApiIgnore;
 
 @CrossOrigin // 解决跨域请求
 @Controller
@@ -237,6 +238,7 @@ public class Stock {
 			@ApiResponse(code = 201, message = "Normal execution. The request has succeeded. (Returned By Post)"),
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
+	@ApiIgnore()
 	public ResultUtil getStockAccount(@RequestBody @Validated QueryStockModel qsm,
 			HttpServletRequest request) throws Exception {
 		try {
@@ -263,6 +265,7 @@ public class Stock {
 			@ApiResponse(code = 201, message = "Normal execution. The request has succeeded. (Returned By Post)"),
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
+	@ApiIgnore()
 	public ResultUtil getOneStockAccount(@RequestBody @Validated QueryStockModel qsm,
 			HttpServletRequest request) throws Exception {
 		try {
