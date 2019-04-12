@@ -41,6 +41,9 @@
     <if test="branchcode != null and branchcode !=''" >
        and BranchCode = #{branchcode}
     </if>
+    <if test="sandboxid != null" >
+       and SandBoxId = #{sandboxid}
+    </if>
   </select> 
   <select id="findOne" resultType="com.csi.sbs.investment.business.entity.StockPlatFormLogEntity" parameterType="com.csi.sbs.investment.business.entity.StockPlatFormLogEntity">
     select *  from t_stock_platform_log    
