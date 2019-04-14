@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
@@ -104,7 +105,7 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		String param = JsonProcess.changeEntityTOJSON(checknumber);
 		String fundRes = getResponse(path,param);
   		if(fundRes.length() == 0){
-  			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404005),ExceptionConstant.ERROR_CODE404005);
+  			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),ExceptionConstant.ERROR_CODE404010);
   		}
 		JSONObject fundObject = JsonProcess.changeToJSONObject(fundRes);
 		String code = JsonProcess.returnValue(fundObject, "code");
@@ -116,7 +117,7 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		param = JsonProcess.changeEntityTOJSON(checknumber);
 		String debitRes = getResponse(path,param);
   		if(debitRes.length() == 0){
-  			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404005),ExceptionConstant.ERROR_CODE404005);
+  			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),ExceptionConstant.ERROR_CODE404010);
   		}
 		JSONObject debitObject = JsonProcess.changeToJSONObject(debitRes);
 		code = JsonProcess.returnValue(debitObject, "code");
@@ -129,7 +130,12 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		fundaccountInfo.setAccountnumber(ase.getFundaccountnumber());
 		fundaccountInfo.setCountrycode(header.getCountryCode());
 		fundaccountInfo.setClearingcode(header.getClearingCode());
-		fundaccountInfo.setBranchcode(header.getBranchCode());
+		fundaccountInfo.setSandboxid(header.getSandBoxId());
+		if(!StringUtils.isEmpty(fundaccountInfo.getSandboxid())){
+			fundaccountInfo.setBranchcode(null);
+		}else{
+			fundaccountInfo.setBranchcode(header.getBranchCode());
+		}
 		MutualFundEntity fundaccount = (MutualFundEntity) mutualFundDao.findOne(fundaccountInfo);
 		if(fundaccount == null){
 			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),ExceptionConstant.ERROR_CODE404010);
@@ -149,10 +155,10 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
         	throw new CallOtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500002),ExceptionConstant.ERROR_CODE500002);
 		}
        //根据 debitAccountNum
-  		String debitAccountParam = "{\"customerNumber\":\"" + header.getCustomerNumber() +"\",\"accountNumber\":\"" + ase.getDebitaccountnumber() +"\",\"countrycode\":\"" + header.getCountryCode() +"\",\"clearingcode\":\"" + header.getClearingCode() +"\",\"branchcode\":\"" + header.getBranchCode() +"\"}";
+  		String debitAccountParam = "{\"customerNumber\":\"" + header.getCustomerNumber() +"\",\"accountNumber\":\"" + ase.getDebitaccountnumber() +"\",\"countrycode\":\"" + header.getCountryCode() +"\",\"clearingcode\":\"" + header.getClearingCode() +"\",\"branchcode\":\"" + header.getBranchCode() +"\",\"sandboxid\":\"" + header.getSandBoxId() +"\"}";
   		String debitAccountRes = getResponse(path1,debitAccountParam);
   		if(debitAccountRes.length() == 0){
-  			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404005),ExceptionConstant.ERROR_CODE404005);
+  			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),ExceptionConstant.ERROR_CODE404010);
   		}
   		JSONObject transObject = JsonProcess.changeToJSONObject(debitAccountRes);
 		String debitAccountInfo = JsonProcess.returnValue(transObject, "account");
@@ -230,6 +236,7 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		fundPlatformLogEntity.setId(UUIDUtil.generateUUID());
 		fundPlatformLogEntity.setAccountnumber(ase.getFundaccountnumber());
 		fundPlatformLogEntity.setBranchcode(header.getBranchCode());
+		fundPlatformLogEntity.setSandboxid(header.getSandBoxId());
 		fundPlatformLogEntity.setClearingcode(header.getClearingCode());
 		fundPlatformLogEntity.setCountrycode(header.getCountryCode());
 		fundPlatformLogEntity.setCurrencycode(fundInfo.getFundcurrency());
@@ -270,6 +277,7 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		insertTransacitonlog.setAccountnumber(ase.getDebitaccountnumber());
 		insertTransacitonlog.setActualbalamt(newBalance);
 		insertTransacitonlog.setBranchcode(header.getBranchCode());
+		insertTransacitonlog.setSandboxid(header.getSandBoxId());
 		insertTransacitonlog.setCcy(resavaccount.getCurrencycode());
 		insertTransacitonlog.setChannel(SysConstant.CHANNEL_TYPE);
 		insertTransacitonlog.setChannelid(header.getUserID());
@@ -358,9 +366,14 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		MutualFundEntity fundaccountInfo = new MutualFundEntity();
 		fundaccountInfo.setAccountnumber(ase.getFundaccountnumber());
 		fundaccountInfo.setCountrycode(header.getCountryCode());
+		fundaccountInfo.setSandboxid(header.getSandBoxId());
 		fundaccountInfo.setClearingcode(header.getClearingCode());
-		fundaccountInfo.setBranchcode(header.getBranchCode());
 		fundaccountInfo.setCustomernumber(header.getCustomerNumber());
+		if(!StringUtils.isEmpty(fundaccountInfo.getSandboxid())){
+			fundaccountInfo.setBranchcode(null);
+		}else{
+			fundaccountInfo.setBranchcode(header.getBranchCode());
+		}
 		MutualFundEntity fundaccount = (MutualFundEntity) mutualFundDao.findOne(fundaccountInfo);
 		if(fundaccount == null){
 			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),ExceptionConstant.ERROR_CODE404010);
@@ -381,7 +394,7 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
         	throw new CallOtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500002),ExceptionConstant.ERROR_CODE500002);
 		}
        //根据 debitAccountNum
-  		String debitAccountParam = "{\"accountNumber\":\"" + ase.getDebitaccountnumber() +"\",\"countrycode\":\"" + header.getCountryCode() +"\",\"clearingcode\":\"" + header.getClearingCode() +"\",\"branchcode\":\"" + header.getBranchCode() +"\"}";
+  		String debitAccountParam = "{\"accountNumber\":\"" + ase.getDebitaccountnumber() +"\",\"countrycode\":\"" + header.getCountryCode() +"\",\"clearingcode\":\"" + header.getClearingCode() +"\",\"branchcode\":\"" + header.getBranchCode() +"\",\"sandboxid\":\"" + header.getSandBoxId() +"\"}";
   		String debitAccountRes = getResponse(path1,debitAccountParam);
   		if(debitAccountRes.length() == 0){
   			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404005),ExceptionConstant.ERROR_CODE404005);
@@ -474,6 +487,7 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		fundPlatformLogEntity.setId(UUIDUtil.generateUUID());
 		fundPlatformLogEntity.setAccountnumber(ase.getFundaccountnumber());
 		fundPlatformLogEntity.setBranchcode(header.getBranchCode());
+		fundPlatformLogEntity.setSandboxid(header.getSandBoxId());
 		fundPlatformLogEntity.setClearingcode(header.getClearingCode());
 		fundPlatformLogEntity.setCountrycode(header.getCountryCode());
 		fundPlatformLogEntity.setCurrencycode(fundInfo.getFundcurrency());
@@ -516,6 +530,7 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		insertTransacitonlog.setAccountnumber(ase.getDebitaccountnumber());
 		insertTransacitonlog.setActualbalamt(newBalance);
 		insertTransacitonlog.setBranchcode(header.getBranchCode());
+		insertTransacitonlog.setSandboxid(header.getSandBoxId());
 		insertTransacitonlog.setCcy(resavaccount.getCurrencycode());
 		insertTransacitonlog.setChannel(SysConstant.CHANNEL_TYPE);
 		insertTransacitonlog.setChannelid(header.getUserID());
@@ -563,6 +578,7 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		fundaccountInfo.setCountrycode(header.getCountryCode());
 		fundaccountInfo.setClearingcode(header.getClearingCode());
 		fundaccountInfo.setBranchcode(header.getBranchCode());
+		fundaccountInfo.setSandboxid(header.getSandBoxId());
 		fundaccountInfo.setCustomernumber(header.getCustomerNumber());
 		MutualFundEntity fundaccount = (MutualFundEntity) mutualFundDao.findOne(fundaccountInfo);
 		if(fundaccount == null){

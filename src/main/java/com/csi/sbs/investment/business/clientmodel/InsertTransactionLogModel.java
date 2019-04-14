@@ -14,6 +14,8 @@ public class InsertTransactionLogModel {
     private String clearingcode;
 
     private String branchcode;
+    
+    private String sandboxid;
 
     private String trantype;
 
@@ -154,4 +156,12 @@ public class InsertTransactionLogModel {
     public void setCcy(String ccy) {
         this.ccy = ccy == null ? null : ccy.trim();
     }
+
+	public String getSandboxid() {
+		return sandboxid;
+	}
+
+	public void setSandboxid(String sandboxid) {
+		this.sandboxid = sandboxid;
+	}
 }
