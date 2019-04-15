@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.web.client.RestTemplate;
 
+import com.csi.sbs.investment.business.clientmodel.CloseAccountModel;
 import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.InvestmentOpeningAccountModel;
 import com.csi.sbs.investment.business.clientmodel.QueryMutualModel;
@@ -18,5 +19,8 @@ public interface MutualFundService{
     
     @SuppressWarnings("rawtypes")
 	public ResultUtil getOneMutualAccount(QueryMutualModel qmm);
+    
+    @SuppressWarnings("rawtypes")
+	public ResultUtil closeAccount(CloseAccountModel cam,RestTemplate restTemplate) throws Exception;
 
 }

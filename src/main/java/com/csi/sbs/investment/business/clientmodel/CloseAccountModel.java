@@ -1,26 +1,17 @@
 package com.csi.sbs.investment.business.clientmodel;
 
-public class QueryStockModel {
+public class CloseAccountModel {
 
 	private String userID;
 	private String countryCode;
 	private String clearingCode;
 	private String branchCode;
-	private String sandBoxId;
 	private String customerNumber;
 	private String accountNumber;
-	private String relaccountnumber;
+	private String sandBoxId;
 	
 	
 	
-
-	public String getRelaccountnumber() {
-		return relaccountnumber;
-	}
-
-	public void setRelaccountnumber(String relaccountnumber) {
-		this.relaccountnumber = relaccountnumber;
-	}
 
 	public String getAccountNumber() {
 		return accountNumber;
@@ -62,20 +53,20 @@ public class QueryStockModel {
 		this.branchCode = branchCode;
 	}
 
-	public String getSandBoxId() {
-		return sandBoxId;
-	}
-
-	public void setSandBoxId(String sandBoxId) {
-		this.sandBoxId = sandBoxId;
-	}
-
 	public String getCustomerNumber() {
 		return customerNumber;
 	}
 
 	public void setCustomerNumber(String customerNumber) {
 		this.customerNumber = customerNumber;
+	}
+
+	public String getSandBoxId() {
+		return sandBoxId;
+	}
+
+	public void setSandBoxId(String sandBoxId) {
+		this.sandBoxId = sandBoxId;
 	}
 
 }

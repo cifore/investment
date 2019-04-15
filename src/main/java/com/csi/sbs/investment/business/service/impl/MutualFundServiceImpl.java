@@ -20,6 +20,7 @@ import com.codingapi.tx.annotation.TxTransaction;
 import com.csi.sbs.common.business.constant.CommonConstant;
 import com.csi.sbs.common.business.json.JsonProcess;
 import com.csi.sbs.common.business.util.UUIDUtil;
+import com.csi.sbs.investment.business.clientmodel.CloseAccountModel;
 import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.InvestmentOpeningAccountModel;
 import com.csi.sbs.investment.business.clientmodel.QueryMutualModel;
@@ -28,6 +29,7 @@ import com.csi.sbs.investment.business.constant.ExceptionConstant;
 import com.csi.sbs.investment.business.constant.SysConstant;
 import com.csi.sbs.investment.business.dao.MutualFundDao;
 import com.csi.sbs.investment.business.entity.MutualFundEntity;
+import com.csi.sbs.investment.business.exception.NotFoundException;
 import com.csi.sbs.investment.business.exception.OtherException;
 import com.csi.sbs.investment.business.service.MutualFundService;
 import com.csi.sbs.investment.business.util.AvailableNumberUtil;
@@ -151,6 +153,7 @@ public class MutualFundServiceImpl implements MutualFundService {
 			for (int i = 0; i < remfe.size(); i++) {
 				ReMutualModel rm = new ReMutualModel();
 				rm.setAccountnumber(remfe.get(i).getAccountnumber());
+				rm.setAccountstatus(remfe.get(i).getAccountstatus());
 				reMutual.add(rm);
 			}
 			result.setCode("1");
@@ -200,6 +203,33 @@ public class MutualFundServiceImpl implements MutualFundService {
 		result.setData(reMutual);
 		
 		return result;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public ResultUtil closeAccount(CloseAccountModel cam, RestTemplate restTemplate) throws Exception {
+		ResultUtil result = new ResultUtil();
+		MutualFundEntity mutualccount = new MutualFundEntity();
+		mutualccount.setAccountnumber(cam.getAccountNumber());
+		mutualccount.setCountrycode(cam.getCountryCode());
+		mutualccount.setClearingcode(cam.getClearingCode());
+		mutualccount.setBranchcode(cam.getBranchCode());
+		mutualccount.setSandboxid(cam.getSandBoxId());
+		mutualccount.setCustomernumber(cam.getCustomerNumber());
+		@SuppressWarnings("unchecked")
+		MutualFundEntity mutualresult = (MutualFundEntity) mutualFundDao.findOne(mutualccount);
+		if (mutualresult != null) {
+			// execute close account
+			mutualccount.setAccountstatus(SysConstant.ACCOUNT_STATE3);
+			mutualccount.setLastupdateddate(format2.parse(format2.format(new Date())));
+			mutualFundDao.closeAccount(mutualccount);
+			
+			result.setCode("1");
+			result.setMsg("Close Account Success:" + cam.getAccountNumber());
+			return result;
+		}
+		throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404001),
+				ExceptionConstant.ERROR_CODE404001);
 	}
 
 }

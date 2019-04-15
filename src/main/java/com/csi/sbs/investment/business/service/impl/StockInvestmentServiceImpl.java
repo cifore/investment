@@ -26,6 +26,7 @@ import com.codingapi.tx.annotation.TxTransaction;
 import com.csi.sbs.common.business.json.JsonProcess;
 import com.csi.sbs.common.business.util.UUIDUtil;
 import com.csi.sbs.common.business.util.XmlToJsonUtil;
+import com.csi.sbs.investment.business.clientmodel.CloseAccountModel;
 import com.csi.sbs.investment.business.clientmodel.CurrentAccountMasterModel;
 import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.InsertTransactionLogModel;
@@ -710,6 +711,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			for(int i=0;i<stock.size();i++){
 				ReStockModel rm = new ReStockModel();
 				rm.setAccountnumber(stock.get(i).getAccountnumber());
+				rm.setAccountstatus(stock.get(i).getAccountstatus());
 				restock.add(rm);
 			}
 			result.setCode("1");
@@ -758,5 +760,31 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		result.setData(restock);
 		
 		return result;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public ResultUtil closeAccount(CloseAccountModel cam, RestTemplate restTemplate)
+			throws Exception {
+		ResultUtil result = new ResultUtil();
+		StockInvestmentEntity stkccount = new StockInvestmentEntity();
+		stkccount.setAccountnumber(cam.getAccountNumber());
+		stkccount.setCountrycode(cam.getCountryCode());
+		stkccount.setClearingcode(cam.getClearingCode());
+		stkccount.setBranchcode(cam.getBranchCode());
+		stkccount.setSandboxid(cam.getSandBoxId());
+		stkccount.setCustomernumber(cam.getCustomerNumber());
+		StockInvestmentEntity stkresult = (StockInvestmentEntity) stockInvestmentDao.findOne(stkccount);
+		if (stkresult != null) {
+			// execute close account
+			stkccount.setAccountstatus(SysConstant.ACCOUNT_STATE3);
+			stockInvestmentDao.closeAccount(stkccount);
+			
+			result.setCode("1");
+			result.setMsg("Close Account Success:" + cam.getAccountNumber());
+			return result;
+		}
+		throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404001),
+				ExceptionConstant.ERROR_CODE404001);
 	}
 }
