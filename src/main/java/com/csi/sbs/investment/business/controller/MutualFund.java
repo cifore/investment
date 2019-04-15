@@ -31,6 +31,7 @@ import com.csi.sbs.investment.business.clientmodel.FundSellTradingModel;
 import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.InvestmentOpeningAccountModel;
 import com.csi.sbs.investment.business.clientmodel.QueryMutualModel;
+import com.csi.sbs.investment.business.clientmodel.otherservice.AddMutualDepositModel;
 import com.csi.sbs.investment.business.constant.ExceptionConstant;
 import com.csi.sbs.investment.business.exception.AcceptException;
 import com.csi.sbs.investment.business.exception.AuthorityException;
@@ -312,6 +313,34 @@ public class MutualFund {
 	public ResultUtil accountClosure(@RequestBody CloseAccountModel cam) throws Exception {
 		try {
 			return mutualFundService.closeAccount(cam, restTemplate);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/addAccount", method = RequestMethod.POST)
+	@ResponseBody
+	@ApiOperation(value = "This API is designed to add Account.", notes = "version 0.0.1")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Query completed successfully.(Returned By Get)"),
+			@ApiResponse(code = 404, message = "The requested deposit account does not exist.Action: Please make sure the account number and account type you’re inputting are correct."),
+			@ApiResponse(code = 201, message = "Normal execution. The request has succeeded. (Returned By Post)"),
+			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
+			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
+	@ApiIgnore()
+	public ResultUtil addAccount(@RequestBody AddMutualDepositModel amdm) throws Exception {
+		try {
+			int i = mutualFundService.save(amdm);
+			ResultUtil result = new ResultUtil();
+			if(i>0){
+				result.setCode("1");
+				result.setMsg("Created Success");
+			}else{
+				result.setCode("0");
+				result.setMsg("Created Fail");
+			}
+			return result;
 		} catch (Exception e) {
 			throw e;
 		}

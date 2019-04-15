@@ -8,6 +8,7 @@ import com.csi.sbs.investment.business.clientmodel.CloseAccountModel;
 import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.InvestmentOpeningAccountModel;
 import com.csi.sbs.investment.business.clientmodel.QueryMutualModel;
+import com.csi.sbs.investment.business.clientmodel.otherservice.AddMutualDepositModel;
 import com.csi.sbs.investment.business.util.ResultUtil;
 
 public interface MutualFundService{
@@ -23,4 +24,6 @@ public interface MutualFundService{
     @SuppressWarnings("rawtypes")
 	public ResultUtil closeAccount(CloseAccountModel cam,RestTemplate restTemplate) throws Exception;
 
+    public int save(AddMutualDepositModel amdm) throws Exception;
+    
 }

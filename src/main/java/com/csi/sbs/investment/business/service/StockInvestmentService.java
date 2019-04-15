@@ -11,6 +11,7 @@ import com.csi.sbs.investment.business.clientmodel.QueryStockModel;
 import com.csi.sbs.investment.business.clientmodel.StockHoldingEnquiryModel;
 import com.csi.sbs.investment.business.clientmodel.StockTradingModel;
 import com.csi.sbs.investment.business.clientmodel.StockTradingPlatformModel;
+import com.csi.sbs.investment.business.clientmodel.otherservice.AddStockDepositModel;
 import com.csi.sbs.investment.business.util.ResultUtil;
 
 
@@ -34,4 +35,5 @@ public interface StockInvestmentService{
 	@SuppressWarnings("rawtypes")
 	public ResultUtil closeAccount(CloseAccountModel cam,RestTemplate restTemplate) throws Exception;
 	
+	public int save(AddStockDepositModel sie);
 }

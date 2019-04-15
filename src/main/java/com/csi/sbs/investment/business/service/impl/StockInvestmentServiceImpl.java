@@ -39,6 +39,7 @@ import com.csi.sbs.investment.business.clientmodel.StockInvestmentModel;
 import com.csi.sbs.investment.business.clientmodel.StockTradingModel;
 import com.csi.sbs.investment.business.clientmodel.StockTradingPlatformModel;
 import com.csi.sbs.investment.business.clientmodel.UpdateAccountBalanceModel;
+import com.csi.sbs.investment.business.clientmodel.otherservice.AddStockDepositModel;
 import com.csi.sbs.investment.business.constant.ExceptionConstant;
 import com.csi.sbs.investment.business.constant.PathConstant;
 import com.csi.sbs.investment.business.constant.SysConstant;
@@ -799,5 +800,23 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		}
 		throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404001),
 				ExceptionConstant.ERROR_CODE404001);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public int save(AddStockDepositModel sie) {
+		//model change
+		StockInvestmentEntity siee = new StockInvestmentEntity();
+		siee.setAccountnumber(sie.getAccountnumber());
+		siee.setAccountstatus(sie.getAccountstatus());
+		siee.setBranchcode(sie.getBranchcode());
+		siee.setClearingcode(sie.getClearingcode());
+		siee.setCountrycode(sie.getCountrycode());
+		siee.setCustomernumber(sie.getCustomernumber());
+		siee.setId(sie.getId());
+		siee.setRelaccountnumber(sie.getRelaccountnumber());
+		siee.setSandboxid(sie.getSandboxid());
+		return stockInvestmentDao.insert(siee);
+		
 	}
 }

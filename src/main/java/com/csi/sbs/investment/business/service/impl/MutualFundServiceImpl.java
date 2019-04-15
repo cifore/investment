@@ -25,6 +25,7 @@ import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.InvestmentOpeningAccountModel;
 import com.csi.sbs.investment.business.clientmodel.QueryMutualModel;
 import com.csi.sbs.investment.business.clientmodel.ReMutualModel;
+import com.csi.sbs.investment.business.clientmodel.otherservice.AddMutualDepositModel;
 import com.csi.sbs.investment.business.constant.ExceptionConstant;
 import com.csi.sbs.investment.business.constant.SysConstant;
 import com.csi.sbs.investment.business.dao.MutualFundDao;
@@ -230,6 +231,23 @@ public class MutualFundServiceImpl implements MutualFundService {
 		}
 		throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404001),
 				ExceptionConstant.ERROR_CODE404001);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public int save(AddMutualDepositModel amdm) throws Exception {
+		MutualFundEntity mfe = new MutualFundEntity();
+		mfe.setAccountnumber(amdm.getAccountnumber());
+		mfe.setAccountstatus(amdm.getAccountstatus());
+		mfe.setBranchcode(amdm.getBranchcode());
+		mfe.setClearingcode(amdm.getClearingcode());
+		mfe.setCountrycode(amdm.getCountrycode());
+		mfe.setCustomernumber(amdm.getCustomernumber());
+		mfe.setId(amdm.getId());
+		mfe.setLastupdateddate(format2.parse(format2.format(new Date())));
+		mfe.setRelaccountnumber(amdm.getRelaccountnumber());
+		mfe.setSandboxid(amdm.getSandboxid());
+		return mutualFundDao.insert(mfe);
 	}
 
 }
