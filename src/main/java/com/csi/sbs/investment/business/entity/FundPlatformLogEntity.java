@@ -12,6 +12,8 @@ public class FundPlatformLogEntity {
 
     private String branchcode;
     
+    private String sandboxid;
+    
     private String currencycode;
 
     private String accountnumber;
@@ -131,5 +133,13 @@ public class FundPlatformLogEntity {
 
 	public void setCurrencycode(String currencycode) {
 		this.currencycode = currencycode;
+	}
+
+	public String getSandboxid() {
+		return sandboxid;
+	}
+
+	public void setSandboxid(String sandboxid) {
+		this.sandboxid = sandboxid;
 	}
 }

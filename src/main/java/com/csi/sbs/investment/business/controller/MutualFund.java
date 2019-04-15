@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -148,12 +149,14 @@ public class MutualFund {
 			String clearingCode = request.getHeader("clearingCode");
 			String branchCode = request.getHeader("branchCode");
 			String customerNumber = request.getHeader("customerNumber");
+			String sandBoxId = request.getHeader("sandBoxId");
 			HeaderModel header = new HeaderModel();
 			header.setUserID(userID);
 			header.setCountryCode(countryCode);
 			header.setClearingCode(clearingCode);
 			header.setBranchCode(branchCode);
 			header.setCustomerNumber(customerNumber);
+			header.setSandBoxId(sandBoxId);
 			return fundMarketInfoService.fundBuyTradingService(header, ase, restTemplate);
 		} catch (Exception e) {
 			throw e;
@@ -184,12 +187,14 @@ public class MutualFund {
 			String countryCode = request.getHeader("countryCode");
 			String clearingCode = request.getHeader("clearingCode");
 			String branchCode = request.getHeader("branchCode");
+			String sandBoxId = request.getHeader("sandBoxId");
 			String customerNumber = request.getHeader("customerNumber");
 			HeaderModel header = new HeaderModel();
 			header.setUserID(userID);
 			header.setCountryCode(countryCode);
 			header.setClearingCode(clearingCode);
 			header.setBranchCode(branchCode);
+			header.setSandBoxId(sandBoxId);
 			header.setCustomerNumber(customerNumber);
 			return fundMarketInfoService.fundSellTradingService(header, ase, restTemplate);
 		} catch (Exception e) {
@@ -214,13 +219,19 @@ public class MutualFund {
 			String countryCode = request.getHeader("countryCode");
 			String clearingCode = request.getHeader("clearingCode");
 			String branchCode = request.getHeader("branchCode");
+			String sandBoxId = request.getHeader("sandBoxId");
 			String customerNumber = request.getHeader("customerNumber");
 			HeaderModel header = new HeaderModel();
 			header.setUserID(userID);
 			header.setCountryCode(countryCode);
 			header.setClearingCode(clearingCode);
-			header.setBranchCode(branchCode);
+			header.setSandBoxId(sandBoxId);
 			header.setCustomerNumber(customerNumber);
+			if(!StringUtils.isEmpty(sandBoxId)){
+				header.setBranchCode(null);
+			}else{
+				header.setBranchCode(branchCode);
+			}
 			return fundMarketInfoService.mutualfundHoldingEnquiry(header, ase, restTemplate);
 		} catch (Exception e) {
 			throw e;

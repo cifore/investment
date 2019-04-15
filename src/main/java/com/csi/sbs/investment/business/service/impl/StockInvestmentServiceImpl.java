@@ -14,7 +14,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.axis.utils.StringUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -174,9 +174,13 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		stockInvestmentEntity.setAccountnumber(stm.getStkaccountnumber());
 		stockInvestmentEntity.setCountrycode(header.getCountryCode());
 		stockInvestmentEntity.setClearingcode(header.getClearingCode());
-		stockInvestmentEntity.setBranchcode(header.getBranchCode());
 		stockInvestmentEntity.setSandboxid(header.getSandBoxId());
 		stockInvestmentEntity.setCustomernumber(header.getCustomerNumber());
+		if(!StringUtils.isEmpty(stockInvestmentEntity.getSandboxid())){
+			stockInvestmentEntity.setBranchcode(null);
+		}else{
+			stockInvestmentEntity.setBranchcode(header.getBranchCode());
+		}
 		StockInvestmentEntity stkaccount = (StockInvestmentEntity) stockInvestmentDao.findOne(stockInvestmentEntity);
 		if (stkaccount == null) {
 			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),
@@ -201,10 +205,14 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			SavingAccountMasterModel savaccount = new SavingAccountMasterModel();
 			savaccount.setCountrycode(header.getCountryCode());
 			savaccount.setClearingcode(header.getClearingCode());
-			savaccount.setBranchcode(header.getBranchCode());
 			savaccount.setSandboxid(header.getSandBoxId());
 			savaccount.setCustomernumber(header.getCustomerNumber());
 			savaccount.setAccountnumber(stm.getDebitaccountnumber());
+			if(!StringUtils.isEmpty(savaccount.getSandboxid())){
+				savaccount.setBranchcode(null);
+			}else{
+				savaccount.setBranchcode(header.getBranchCode());
+			}
 			ResponseEntity<String> result = SRUtil.sendOne(restTemplate, PathConstant.GET_SAV,
 					JsonProcess.changeEntityTOJSON(savaccount));
 			String temp = XmlToJsonUtil.xmlToJson(result.getBody()).toString();
@@ -221,10 +229,14 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			CurrentAccountMasterModel current = new CurrentAccountMasterModel();
 			current.setCountrycode(header.getCountryCode());
 			current.setClearingcode(header.getClearingCode());
-			current.setBranchcode(header.getBranchCode());
 			current.setSandboxid(header.getSandBoxId());
 			current.setCustomernumber(header.getCustomerNumber());
 			current.setAccountnumber(stm.getDebitaccountnumber());
+			if(!StringUtils.isEmpty(current.getSandboxid())){
+				current.setBranchcode(null);
+			}else{
+				current.setBranchcode(header.getBranchCode());
+			}
 			ResponseEntity<String> result = SRUtil.sendOne(restTemplate, PathConstant.GET_CURRENT,
 					JsonProcess.changeEntityTOJSON(current));
 			String temp = XmlToJsonUtil.xmlToJson(result.getBody()).toString();
@@ -418,6 +430,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		insertTransacitonlog.setActualbalamt(newBalance);
 		insertTransacitonlog.setBranchcode(header.getBranchCode());
 		insertTransacitonlog.setCcy(resavaccount.getCurrencycode());
+		insertTransacitonlog.setSandboxid(header.getSandBoxId());
 		insertTransacitonlog.setChannel(SysConstant.CHANNEL_TYPE);
 		insertTransacitonlog.setChannelid(header.getUserID());
 		insertTransacitonlog.setClearingcode(header.getClearingCode());
