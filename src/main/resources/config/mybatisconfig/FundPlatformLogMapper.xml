@@ -6,6 +6,7 @@
     <result column="CountryCode" property="countrycode" jdbcType="VARCHAR" />
     <result column="ClearingCode" property="clearingcode" jdbcType="VARCHAR" />
     <result column="BranchCode" property="branchcode" jdbcType="VARCHAR" />
+    <result column="SandBoxId" property="sandboxid" jdbcType="VARCHAR" />
     <result column="CurrencyCode" property="currencycode" jdbcType="VARCHAR" />
     <result column="AccountNumber" property="accountnumber" jdbcType="VARCHAR" />
     <result column="TradingOption" property="tradingoption" jdbcType="VARCHAR" />
@@ -46,6 +47,9 @@
     <if test="branchcode != null" >
        and BranchCode = #{branchcode}
     </if>
+    <if test="sandboxid != null" >
+       and SandBoxId = #{sandboxid}
+    </if>
   </select>
   <delete id="delete" parameterType="java.lang.String" >
     delete from t_mutualfund_platform_log
@@ -65,6 +69,9 @@
       </if>
       <if test="branchcode != null" >
         BranchCode,
+      </if>
+      <if test="sandboxid != null" >
+        SandBoxId,
       </if>
       <if test="currencycode != null" >
         CurrencyCode,
@@ -107,6 +114,9 @@
       <if test="branchcode != null" >
         #{branchcode,jdbcType=VARCHAR},
       </if>
+      <if test="sandboxid != null" >
+        #{sandboxid,jdbcType=VARCHAR},
+      </if>
       <if test="currencycode != null" >
         #{currencycode,jdbcType=VARCHAR},
       </if>
@@ -147,6 +157,9 @@
       </if>
       <if test="branchcode != null" >
         BranchCode = #{branchcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sandboxid != null" >
+        SandBoxId = #{sandboxid,jdbcType=VARCHAR},
       </if>
       <if test="currencycode != null" >
         CurrencyCode = #{currencycode,jdbcType=VARCHAR},
