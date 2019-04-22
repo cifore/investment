@@ -819,4 +819,9 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		return stockInvestmentDao.insert(siee);
 		
 	}
+
+	@Override
+	public void accountDateProcess() {
+		stockInvestmentDao.accountOldDateHandle();
+	}
 }

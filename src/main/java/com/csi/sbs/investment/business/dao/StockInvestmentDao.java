@@ -10,4 +10,6 @@ import com.csi.sbs.investment.business.entity.StockInvestmentEntity;
 public interface StockInvestmentDao<T> extends BaseDao<T> {
 	
 	public int closeAccount(StockInvestmentEntity ase);
+	
+	public void accountOldDateHandle();
 }

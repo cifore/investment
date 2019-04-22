@@ -166,4 +166,13 @@
     </set>
     where AccountNumber = #{accountnumber,jdbcType=VARCHAR}
   </update>
+  
+  
+  <!-- 账号-沙盘数据日期做旧处理 -->
+  <select id="accountOldDateHandle" parameterType="com.csi.sbs.investment.business.entity.StockInvestmentEntity" statementType="CALLABLE">
+     {
+        call accountOldDateHandle()
+     }
+  </select>
+  
 </mapper>

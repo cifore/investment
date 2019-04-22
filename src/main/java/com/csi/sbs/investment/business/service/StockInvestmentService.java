@@ -36,4 +36,7 @@ public interface StockInvestmentService{
 	public ResultUtil closeAccount(CloseAccountModel cam,RestTemplate restTemplate) throws Exception;
 	
 	public int save(AddStockDepositModel sie);
+	
+	public void accountDateProcess();
+	
 }
