@@ -11,5 +11,5 @@ public interface StockInvestmentDao<T> extends BaseDao<T> {
 	
 	public int closeAccount(StockInvestmentEntity ase);
 	
-	public void accountOldDateHandle();
+	public void accountOldDateHandle(StockInvestmentEntity se);
 }

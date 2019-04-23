@@ -40,6 +40,7 @@ import com.csi.sbs.investment.business.clientmodel.StockTradingModel;
 import com.csi.sbs.investment.business.clientmodel.StockTradingPlatformModel;
 import com.csi.sbs.investment.business.clientmodel.UpdateAccountBalanceModel;
 import com.csi.sbs.investment.business.clientmodel.otherservice.AddStockDepositModel;
+import com.csi.sbs.investment.business.clientmodel.otherservice.SeSandBoxIdModel;
 import com.csi.sbs.investment.business.constant.ExceptionConstant;
 import com.csi.sbs.investment.business.constant.PathConstant;
 import com.csi.sbs.investment.business.constant.SysConstant;
@@ -821,7 +822,9 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 	}
 
 	@Override
-	public void accountDateProcess() {
-		stockInvestmentDao.accountOldDateHandle();
+	public void accountDateProcess(SeSandBoxIdModel sm) {
+		StockInvestmentEntity se = new StockInvestmentEntity();
+		se.setSandboxid(sm.getSandBoxId());
+		stockInvestmentDao.accountOldDateHandle(se);
 	}
 }

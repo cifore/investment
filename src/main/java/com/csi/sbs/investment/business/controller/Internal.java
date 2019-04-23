@@ -5,10 +5,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.csi.sbs.investment.business.clientmodel.otherservice.SeSandBoxIdModel;
 import com.csi.sbs.investment.business.service.StockInvestmentService;
 import com.csi.sbs.investment.business.util.ResultUtil;
 
@@ -34,14 +36,16 @@ public class Internal {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value = "/accountDateProcess", method = RequestMethod.GET)
+	@RequestMapping(value = "/accountDateProcess/{sandBoxId}", method = RequestMethod.GET)
 	@ResponseBody
 	@ApiIgnore()
-	public ResultUtil accountDateProcess(HttpServletRequest request)
+	public ResultUtil accountDateProcess(@PathVariable("sandBoxId") String sandBoxId,HttpServletRequest request)
 			throws Exception {
 		ResultUtil result = new ResultUtil();
 		try {
-			stockInvestmentService.accountDateProcess();
+			SeSandBoxIdModel sm = new SeSandBoxIdModel();
+			sm.setSandBoxId(sandBoxId);
+			stockInvestmentService.accountDateProcess(sm);
 			result.setCode("1");
 			result.setMsg("Excute Success");
 			return result;
