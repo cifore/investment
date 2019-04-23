@@ -19,22 +19,22 @@
     <if test="accountnumber != null and accountnumber !=''" >
        and AccountNumber = #{accountnumber}
     </if>
-    <if test="countrycode != null" >
+    <if test="countrycode != null and countrycode !=''" >
        and CountryCode = #{countrycode}
     </if>
-    <if test="clearingcode != null" >
+    <if test="clearingcode != null and clearingcode !=''" >
        and ClearingCode = #{clearingcode}
     </if>
-    <if test="branchcode != null" >
+    <if test="branchcode != null and branchcode !=''" >
        and BranchCode = #{branchcode}
     </if>
     <if test="customernumber != null and customernumber !=''" >
        and CustomerNumber = #{customernumber}
     </if>
-    <if test="relaccountnumber != null" >
+    <if test="relaccountnumber != null and relaccountnumber !=''" >
        and RelAccountNumber = #{relaccountnumber}
     </if>
-    <if test="sandboxid != null" >
+    <if test="sandboxid != null and sandboxid !=''" >
        and SandBoxId = #{sandboxid}
     </if>
   </select>
@@ -45,16 +45,16 @@
 	<if test="accountnumber != null and accountnumber !=''" >
        and AccountNumber = #{accountnumber}
     </if>
-    <if test="countrycode != null" >
+    <if test="countrycode != null and countrycode !=''" >
        and CountryCode = #{countrycode}
     </if>
-    <if test="clearingcode != null" >
+    <if test="clearingcode != null and clearingcode !=''" >
        and ClearingCode = #{clearingcode}
     </if>
-    <if test="branchcode != null" >
+    <if test="branchcode != null and branchcode !=''" >
        and BranchCode = #{branchcode}
     </if>
-    <if test="sandboxid != null" >
+    <if test="sandboxid != null and sandboxid !=''" >
        and SandBoxId = #{sandboxid}
     </if>
   </select>
