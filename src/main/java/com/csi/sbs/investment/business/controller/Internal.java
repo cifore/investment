@@ -1,15 +1,20 @@
 package com.csi.sbs.investment.business.controller;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.csi.sbs.investment.business.entity.SandboxSearchEntity;
 import com.csi.sbs.investment.business.service.StockInvestmentService;
+import com.csi.sbs.investment.business.service.SandboxSearchService;
 import com.csi.sbs.investment.business.util.ResultUtil;
 
 import springfox.documentation.annotations.ApiIgnore;
@@ -25,6 +30,8 @@ public class Internal {
 	@Resource
 	private StockInvestmentService stockInvestmentService;
 	
+	@Resource
+	private SandboxSearchService sandboxSearchService;
 	
 	
 	/**
@@ -51,6 +58,13 @@ public class Internal {
 			result.setMsg("Excute Fail");
 			return result;
 		}
+	}
+	
+	@RequestMapping(value = "/sandboxSearch", method = RequestMethod.POST)
+	@ResponseBody
+	@ApiIgnore()
+	public Map<String, Object>sandboxSearch(@RequestBody SandboxSearchEntity ase, HttpServletRequest request) throws Exception {
+		return sandboxSearchService.getSearchInfo(ase);
 	}
 
 }
