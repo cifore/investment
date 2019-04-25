@@ -12,7 +12,7 @@ public class InvestmentOpeningAccountModel {
 	
 	@NotNull(message="accountnumber is a required field")
 	@NotBlank(message="accountnumber is a required field")
-	@ApiModelProperty(notes="An unique number used to identify a deposit bank account."
+	@ApiModelProperty(notes="A unique number used to identify a deposit bank account."
 	,example="HK780001001000001001")
     private String accountnumber;
 	

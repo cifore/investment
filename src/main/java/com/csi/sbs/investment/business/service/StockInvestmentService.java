@@ -12,6 +12,7 @@ import com.csi.sbs.investment.business.clientmodel.StockHoldingEnquiryModel;
 import com.csi.sbs.investment.business.clientmodel.StockTradingModel;
 import com.csi.sbs.investment.business.clientmodel.StockTradingPlatformModel;
 import com.csi.sbs.investment.business.clientmodel.otherservice.AddStockDepositModel;
+import com.csi.sbs.investment.business.clientmodel.otherservice.SeSandBoxIdModel;
 import com.csi.sbs.investment.business.util.ResultUtil;
 
 
@@ -37,6 +38,6 @@ public interface StockInvestmentService{
 	
 	public int save(AddStockDepositModel sie);
 	
-	public void accountDateProcess();
+	public void accountDateProcess(SeSandBoxIdModel sm);
 	
 }
