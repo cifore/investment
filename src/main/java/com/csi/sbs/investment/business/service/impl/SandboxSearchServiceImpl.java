@@ -26,5 +26,10 @@ public class SandboxSearchServiceImpl implements SandboxSearchService{
 		map.put("list", list);
 		return map;
 	}
+
+	@Override
+	public void delSandBoxData(String sandBoxId) {
+		sandboxSearchDao.delSandBoxData(sandBoxId);
+	}
 	
 }

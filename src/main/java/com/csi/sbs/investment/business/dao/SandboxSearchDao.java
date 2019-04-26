@@ -11,5 +11,7 @@ public interface SandboxSearchDao {
 	
 	@SuppressWarnings("rawtypes")
 	public List<Map> findMany(SandboxSearchEntity ase);
+	
+	public void delSandBoxData(String sandBoxId);
 
 }
