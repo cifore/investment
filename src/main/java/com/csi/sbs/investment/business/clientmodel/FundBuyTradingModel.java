@@ -23,7 +23,7 @@ public class FundBuyTradingModel{
 	private String fundcode;
 	
 	@NotNull(message = "tradingamount is a require field")
-	@ApiModelProperty(allowEmptyValue=true,required=false,notes = "Trading Amount",example="100")
+	@ApiModelProperty(allowEmptyValue=false,required=false,notes = "Trading Amount",example="100")
 	private BigDecimal tradingamount;
 		
 	@NotNull(message = "debitaccountnumber is a require field")
