@@ -3,7 +3,6 @@ package com.csi.sbs.investment.business.clientmodel;
 import java.math.BigDecimal;
 
 public class StockInvestmentModel {
-    private String id;
 
     private String accountnumber;
 
@@ -14,14 +13,6 @@ public class StockInvestmentModel {
     private BigDecimal averageprice;
     
     private String lastupdatedate;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
 
     public String getAccountnumber() {
         return accountnumber;

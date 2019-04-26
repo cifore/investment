@@ -640,7 +640,6 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			for (int i = 0; i < list.size(); i++) {
 				StockHoldingEntity stkholdingInfo = list.get(i);
 				StockInvestmentModel stkmodel = new StockInvestmentModel();
-				stkmodel.setId(stkholdingInfo.getId());
 				stkmodel.setAccountnumber(stkholdingInfo.getAccountnumber());
 				stkmodel.setAverageprice(stkholdingInfo.getAverageprice());
 				stkmodel.setLastupdatedate(format.format(stkholdingInfo.getLastupdatedate()));
