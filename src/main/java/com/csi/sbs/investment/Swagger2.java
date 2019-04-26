@@ -45,7 +45,7 @@ public class Swagger2 {
         .modelRef(new ModelRef("string"))
         .parameterType("header")
         .description("The most recent customer authorization token to third party app to access customer data from a bank, in JWT format.")
-        .defaultValue("eyJhbGciOiJIUzUxMiIsInppcCI6IkRFRiJ9.eNo8y0sKwjAUheG9ZOzg5rZptFMdKEL3kMe1BpoHsRFF3LsJitPvnP_FLN1piYny6cBGJixttVTmIhB7RLMji1r2oDU3XErBNszEEtb83EdLNTieGy2ksgvzzwCAV9VZBXP9W6Mlzi5MyjdJzre03NboKU_Fa8rfI3QoYagjPRIbuRADdAIB3h8AAAD__w.UbGDRxKA72AOiTfd04Eje34WuoX22jfDGoAtKlgKpWglb26RFucDnq5MCdJArKN_NxIG9l3Ekj4jU6_j2Fw_ew")
+        .defaultValue("eyJhbGciOiJIUzUxMiIsInppcCI6IkRFRiJ9.eNo8y00OwiAQhuG7zNoFkBLUpbqwadI7ADNWEn4aWozGeHchNs7yme99A9KDfJop9xc4gkTaG6XtTQrRCWEPhMKojhnDLVdKwg5sKnHNr3NCqsF1aORJZxenzRhjvKrJOtr73xr5NLk46tBkdqGlZVlToDyWYCj_hmy7Viw64ik9e6wv-HwBAAD__w.alc0ibAbJotnPxSQL2wtt9Qo8h0YYzl4WkxOK65PnGy1fK4SDmNRRVEohqOya_K7qOXJOt5Cjdm10cejK3PViA")
         .required(true).build();
         parameters.add(parameterBuilder.build());
         

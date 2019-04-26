@@ -12,41 +12,41 @@ public class StockTradingModel{
 	
 	@NotNull(message = "stkaccountnumber is a require field")
 	@NotBlank(message = "stkaccountnumber is a require field")
-	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "Stock Trading Account Number",example="HK750001001000009300")
+	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "Stock Trading Account Number",example="HK060001001000000008300")
 	private String stkaccountnumber;
 	
 	@NotNull(message = "tradingOption is a require field")
 	@NotBlank(message = "tradingOption is a require field")
-	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "Trading Optionr Buy or Sell",example="Buy")
+	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "To buy or sell stocks.",example="Buy")
 	private String tradingOption;
 	
 	@NotNull(message = "stocknumber is a require field")
 	@NotBlank(message = "stocknumber is a require field")
-	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "Stock Number",example="0100.HK")
+	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "Stock code.",example="0100.HK")
 	private String stocknumber;
 	
 	@NotNull(message = "orderType is a require field")
 	@NotBlank(message = "orderType is a require field")
-	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "Order Type: Market Price or Fix Price",example="Fix Price")
+	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "The order type for the trading price. Order Type: Market Price or Fix Price",example="Fix Price")
 	private String orderType;
 	
-	@ApiModelProperty(allowEmptyValue=true,required=false,notes = "Keep tradingPrice empty when orderType is Market Price",example="7.2")
+	@ApiModelProperty(allowEmptyValue=true,required=false,notes = "The price set for the stock trading when orderType is set Fix price.",example="7.2")
 	private String tradingPrice;
 	
-	@ApiModelProperty(allowEmptyValue=true,required=false,notes = "No. of Shares",example="200")
+	@ApiModelProperty(allowEmptyValue=true,required=false,notes = "The stock number you want to buy/sell.",example="200")
 	private String sharingNo;
 
-	@ApiModelProperty(allowEmptyValue=true,required=false,notes = "Keep sellAll empty when tradingOption is Buy",example="N")
+	@ApiModelProperty(allowEmptyValue=true,required=false,notes = "Whether to sell all the holding stocks. Keep sellAll empty when tradingOption is Buy",example="N")
 	private String sellAll;
 	
 
-	@ApiModelProperty(allowEmptyValue=true,required=false,notes="Keep expiredate empty when orderType is Market Price"
+	@ApiModelProperty(allowEmptyValue=true,required=false,notes="Expiry date set for fix price. Keep expiry date empty when orderType is Market Price."
 			,example="YYYY-MM-DD")
 	private String expiredate;
 	
 	@NotNull(message = "debitaccountnumber is a require field")
 	@NotBlank(message = "debitaccountnumber is a require field")
-	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "Transfer from/to account number",example="HK780001001000001001")
+	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "A debit account number is used to make transactions with the associated stock trading account.",example="HK720001001000000001001")
 	private String debitaccountnumber;
 	
 	public String getStkaccountnumber() {

@@ -12,7 +12,7 @@ public class FundHoldingEnquiryModel{
 	
 	@NotNull(message = "fundccountnumber is a require field")
 	@NotBlank(message = "fundccountnumber is a require field")
-	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "Mutual fund Account Number",example="HK120001001000066500")
+	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "Mutual fund Account Number",example="HK720001001000000007500")
 	private String fundaccountnumber;
 
 	public String getFundaccountnumber() {

@@ -12,7 +12,7 @@ public class StockHoldingEnquiryModel{
 	
 	@NotNull(message = "stkaccountnumber is a require field")
 	@NotBlank(message = "stkaccountnumber is a require field")
-	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "Stock Trading Account Number",example="HK750001001000009300")
+	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "Stock Trading Account Number",example="HK060001001000000008300")
 	private String stkaccountnumber;
 	
 	public String getStkaccountnumber() {

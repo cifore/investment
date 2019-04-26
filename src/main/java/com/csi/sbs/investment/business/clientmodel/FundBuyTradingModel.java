@@ -14,7 +14,7 @@ public class FundBuyTradingModel{
 	
 	@NotNull(message = "fundaccountnumber is a require field")
 	@NotBlank(message = "fundaccountnumber is a require field")
-	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "Mutual Fund Account Number",example="HK120001001000066500")
+	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "Mutual Fund Account Number",example="HK720001001000000007500")
 	private String fundaccountnumber;
 	
 	@NotNull(message = "fundcode is a require field")
@@ -28,7 +28,7 @@ public class FundBuyTradingModel{
 		
 	@NotNull(message = "debitaccountnumber is a require field")
 	@NotBlank(message = "debitaccountnumber is a require field")
-	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "Transfer from/to account number",example="HK780001001000001001")
+	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "A debit account number is used to make transactions with the associated mutual fund account.",example="HK720001001000000001001")
 	private String debitaccountnumber;
 	
 	public String getDebitaccountnumber() {
