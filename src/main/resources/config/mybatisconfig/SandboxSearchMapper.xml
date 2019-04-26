@@ -7,7 +7,7 @@
   </resultMap>
   
   <select id="findMany" resultType="Map" parameterType="java.lang.String" statementType="STATEMENT">
-    select * from ${tablename} where SandBoxId = ${sandboxid}
+    select * from ${tablename} where SandBoxId = '${sandboxid}'
   </select>
   
   </mapper>
