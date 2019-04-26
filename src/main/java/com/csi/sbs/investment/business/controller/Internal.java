@@ -72,5 +72,33 @@ public class Internal {
 	public Map<String, Object>sandboxSearch(@RequestBody SandboxSearchEntity ase, HttpServletRequest request) throws Exception {
 		return sandboxSearchService.getSearchInfo(ase);
 	}
+	
+	
+	/**
+	 * 根据sandBoxId删除 sandBox数据
+	 * @param sandBoxId
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/delSandBoxId/{sandBoxId}", method = RequestMethod.GET)
+	@ResponseBody
+	@ApiIgnore()
+	public ResultUtil delSandBoxId(@PathVariable("sandBoxId") String sandBoxId,
+			HttpServletRequest request)
+			throws Exception {
+		ResultUtil result = new ResultUtil();
+		try {
+			sandboxSearchService.delSandBoxData(sandBoxId);
+			result.setCode("1");
+			result.setMsg("Delete SandBox Data Success");
+			return result;
+		} catch (Exception e) {
+			result.setCode("0");
+			result.setMsg("Delete SandBox Data Fail");
+			return result;
+		}
+	}
 
 }

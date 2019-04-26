@@ -10,4 +10,11 @@
     select * from ${tablename} where SandBoxId = '${sandboxid}'
   </select>
   
-  </mapper>
+  <!-- 删除沙盘数据 -->
+  <select id="delSandBoxData" parameterType="java.lang.String" statementType="CALLABLE">
+     {
+        call delSandBoxData(#{sandboxid,mode=IN})
+     }
+  </select>
+  
+</mapper>

@@ -7,4 +7,7 @@ import com.csi.sbs.investment.business.entity.SandboxSearchEntity;
 public interface SandboxSearchService{
 	
 	public Map<String, Object> getSearchInfo(SandboxSearchEntity ase) throws Exception;
+
+	public void delSandBoxData(String sandBoxId);
+
 }
