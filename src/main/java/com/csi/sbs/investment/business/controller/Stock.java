@@ -143,7 +143,7 @@ public class Stock {
 			@ApiResponse(code = 201, message = "Normal execution. The request has succeeded. (Returned By Post)"),
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
-	public ResultUtil stockTradingService(@RequestBody @Validated StockTradingModel stm,HttpServletRequest request)
+	public ResultUtil stockTrading(@RequestBody @Validated StockTradingModel stm,HttpServletRequest request)
 			throws Exception {
 		Map<String, Object> normalmap = null;
 		ResultUtil result = new ResultUtil();

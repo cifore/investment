@@ -121,13 +121,13 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 					ExceptionConstant.ERROR_CODE202016);
 		}
 
-		if (ordertype.equals("MARKET PRICE") && stm.getExpiredate() != null && stm.getExpiredate().length() > 0) {
+		if (ordertype.equals("MARKET PRICE") && stm.getExpiryDate() != null && stm.getExpiryDate().length() > 0) {
 			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE202022),
 					ExceptionConstant.ERROR_CODE202022);
 		}
 
 		if (ordertype.equals("FIX PRICE")) {
-			if (!CheckDate(stm.getExpiredate())) {
+			if (!CheckDate(stm.getExpiryDate())) {
 				throw new DateException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500004),
 						ExceptionConstant.ERROR_CODE500004);
 			}
@@ -157,8 +157,8 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			String datelong = JsonProcess.returnValue(jsonObject1, "value");
 			Calendar cal = Calendar.getInstance();
 			cal.add(Calendar.DATE, Integer.parseInt(datelong));
-			if (format1.parse(stm.getExpiredate()).getTime() < format1.parse(format1.format(new Date())).getTime()
-					|| format1.parse(stm.getExpiredate()).getTime() > format1.parse(format1.format(cal.getTime()))
+			if (format1.parse(stm.getExpiryDate()).getTime() < format1.parse(format1.format(new Date())).getTime()
+					|| format1.parse(stm.getExpiryDate()).getTime() > format1.parse(format1.format(cal.getTime()))
 							.getTime()) {
 				throw new AcceptException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE202017),
 						ExceptionConstant.ERROR_CODE202017);

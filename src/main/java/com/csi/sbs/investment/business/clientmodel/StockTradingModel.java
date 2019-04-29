@@ -40,9 +40,10 @@ public class StockTradingModel{
 	private String sellAll;
 	
 
-	@ApiModelProperty(allowEmptyValue=true,required=false,notes="Expiry date set for fix price. Keep expiry date empty when orderType is Market Price."
+	@ApiModelProperty(allowEmptyValue=true,required=false,notes="Expiry date set for fix price."
+			+ "Keep expiry date empty when orderType is Market Price. "
 			,example="YYYY-MM-DD")
-	private String expiredate;
+	private String expiryDate;
 	
 	@NotNull(message = "debitaccountnumber is a require field")
 	@NotBlank(message = "debitaccountnumber is a require field")
@@ -81,11 +82,12 @@ public class StockTradingModel{
 	public void setSellAll(String sellAll) {
 		this.sellAll = sellAll;
 	}
-	public String getExpiredate() {
-		return expiredate;
+	
+	public String getExpiryDate() {
+		return expiryDate;
 	}
-	public void setExpiredate(String expiredate) {
-		this.expiredate = expiredate;
+	public void setExpiryDate(String expiryDate) {
+		this.expiryDate = expiryDate;
 	}
 	public String getDebitaccountnumber() {
 		return debitaccountnumber;
