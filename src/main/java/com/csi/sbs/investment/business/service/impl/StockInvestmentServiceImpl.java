@@ -266,7 +266,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		}
 
 		StockInformationEntity stockInformationEntity = new StockInformationEntity();
-		stockInformationEntity.setStockcode(stm.getStocknumber());
+		stockInformationEntity.setStockcode(stm.getStockCode());
 		StockInformationEntity stkInfo = (StockInformationEntity) stockInformationDao.findOne(stockInformationEntity);
 		if (stkInfo == null) {
 			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404011),
@@ -327,7 +327,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 			// If stock code does not exist, reject the transaction
 			StockHoldingEntity stockHoldingEntity = new StockHoldingEntity();
 			stockHoldingEntity.setAccountnumber(stm.getStkaccountnumber());
-			stockHoldingEntity.setStockcode(stm.getStocknumber());
+			stockHoldingEntity.setStockcode(stm.getStockCode());
 			StockHoldingEntity stkHoldInfo = (StockHoldingEntity) stockHoldingDao.findOne(stockHoldingEntity);
 			if (stkHoldInfo == null) {
 				throw new AcceptException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE202020),
@@ -385,7 +385,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		StockTradingPlatformModel stockTradingPlatformModel = new StockTradingPlatformModel();
 		stockTradingPlatformModel.setSharingNo(new BigDecimal(stm.getSharingNo()));
 		stockTradingPlatformModel.setStkaccountnumber(stm.getStkaccountnumber());
-		stockTradingPlatformModel.setStocknumber(stm.getStocknumber());
+		stockTradingPlatformModel.setStocknumber(stm.getStockCode());
 		stockTradingPlatformModel.setTradingOption(stm.getTradingOption());
 		stockTradingPlatformModel.setTradingPrice(new BigDecimal(stm.getTradingPrice()));
 		map2 = stockTradingPlatform(header, stockTradingPlatformModel, restTemplate);

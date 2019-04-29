@@ -20,10 +20,10 @@ public class StockTradingModel{
 	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "To buy or sell stocks.",example="Buy")
 	private String tradingOption;
 	
-	@NotNull(message = "stocknumber is a require field")
-	@NotBlank(message = "stocknumber is a require field")
+	@NotNull(message = "stockCode is a require field")
+	@NotBlank(message = "stockCode is a require field")
 	@ApiModelProperty(allowEmptyValue=false,required=true,notes = "Stock code.",example="0100.HK")
-	private String stocknumber;
+	private String stockCode;
 	
 	@NotNull(message = "orderType is a require field")
 	@NotBlank(message = "orderType is a require field")
@@ -61,11 +61,12 @@ public class StockTradingModel{
 	public void setTradingOption(String tradingOption) {
 		this.tradingOption = tradingOption;
 	}
-	public String getStocknumber() {
-		return stocknumber;
+	
+	public String getStockCode() {
+		return stockCode;
 	}
-	public void setStocknumber(String stocknumber) {
-		this.stocknumber = stocknumber;
+	public void setStockCode(String stockCode) {
+		this.stockCode = stockCode;
 	}
 	public String getOrderType() {
 		return orderType;
