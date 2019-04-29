@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.util.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -206,11 +205,7 @@ public class Stock {
 			header.setUserID(userID);
 			header.setCountryCode(countryCode);
 			header.setClearingCode(clearingCode);
-			if(!StringUtils.isEmpty(sandBoxId)){
-				header.setBranchCode(null);
-			}else{
-				header.setBranchCode(branchCode);
-			}
+			header.setBranchCode(branchCode);
 			header.setSandBoxId(sandBoxId);
 			header.setCustomerNumber(customerNumber);
 			normalmap = stockInvestmentService.stockHoldingEnquiry(header, sth, restTemplate);

@@ -620,8 +620,12 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		stockInvestmentEntity.setCustomernumber(header.getCustomerNumber());
 		stockInvestmentEntity.setCountrycode(header.getCountryCode());
 		stockInvestmentEntity.setClearingcode(header.getClearingCode());
-		stockInvestmentEntity.setBranchcode(header.getBranchCode());
-		stockInvestmentEntity.setSandboxid(header.getSandBoxId());
+		if(!StringUtils.isEmpty(header.getSandBoxId())){
+			stockInvestmentEntity.setBranchcode(null);
+		}else{
+			stockInvestmentEntity.setSandboxid(null);
+			stockInvestmentEntity.setBranchcode(header.getBranchCode());
+		}
 		stockInvestmentEntity.setAccountnumber(sth.getStkaccountnumber());
 		StockInvestmentEntity stkaccount = (StockInvestmentEntity) stockInvestmentDao.findOne(stockInvestmentEntity);
 		if (stkaccount == null) {
