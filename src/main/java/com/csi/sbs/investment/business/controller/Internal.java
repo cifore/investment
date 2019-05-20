@@ -1,5 +1,6 @@
 package com.csi.sbs.investment.business.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.csi.sbs.investment.business.entity.BranchDataSearchEntity;
 import com.csi.sbs.investment.business.entity.SandboxSearchEntity;
 
 import com.csi.sbs.investment.business.clientmodel.otherservice.SeSandBoxIdModel;
 import com.csi.sbs.investment.business.service.StockInvestmentService;
+import com.csi.sbs.investment.business.service.BranchDataSearchService;
 import com.csi.sbs.investment.business.service.SandboxSearchService;
 import com.csi.sbs.investment.business.util.ResultUtil;
 
@@ -36,6 +39,9 @@ public class Internal {
 	
 	@Resource
 	private SandboxSearchService sandboxSearchService;
+	
+	@Resource
+	private BranchDataSearchService branchDataSearchService;
 	
 	
 	/**
@@ -71,6 +77,14 @@ public class Internal {
 	@ApiIgnore()
 	public Map<String, Object>sandboxSearch(@RequestBody SandboxSearchEntity ase, HttpServletRequest request) throws Exception {
 		return sandboxSearchService.getSearchInfo(ase);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/branchDataSearch", method = RequestMethod.POST)
+	@ResponseBody
+	@ApiIgnore()
+	public List branchDataSearch(@RequestBody BranchDataSearchEntity bdse, HttpServletRequest request) throws Exception {
+		return branchDataSearchService.getSearchInfo(bdse);
 	}
 	
 	
