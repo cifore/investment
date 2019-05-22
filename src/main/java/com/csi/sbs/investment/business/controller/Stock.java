@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.csi.sbs.common.business.model.HeaderModel;
+import com.csi.sbs.common.business.util.HeaderModelUtil;
 import com.csi.sbs.investment.business.clientmodel.CloseAccountModel;
-import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.InvestmentOpeningAccountModel;
 import com.csi.sbs.investment.business.clientmodel.QueryStockModel;
 import com.csi.sbs.investment.business.clientmodel.StockHoldingEnquiryModel;
@@ -82,23 +83,10 @@ public class Stock {
 		Map<String, Object> normalmap = null;
 		ResultUtil result = new ResultUtil();
 		try {
-			// 获取请求头参数
-			String userID = request.getHeader("developerID");
-			String countryCode = request.getHeader("countryCode");
-			String clearingCode = request.getHeader("clearingCode");
-			String branchCode = request.getHeader("branchCode");
-			String sandBoxId = request.getHeader("sandBoxId");
-			String customerNumber = request.getHeader("customerNumber");
-			HeaderModel header = new HeaderModel();
-			header.setUserID(userID);
-			header.setCountryCode(countryCode);
-			header.setClearingCode(clearingCode);
-			header.setBranchCode(branchCode);
-			header.setSandBoxId(sandBoxId);
-			header.setCustomerNumber(customerNumber);
-			investmentOpeningAccountModel.setCountrycode(countryCode);
-			investmentOpeningAccountModel.setClearingcode(clearingCode);
-			investmentOpeningAccountModel.setBranchcode(branchCode);
+			HeaderModel header = HeaderModelUtil.getHeader(request);
+			investmentOpeningAccountModel.setCountrycode(header.getCountryCode());
+			investmentOpeningAccountModel.setClearingcode(header.getClearingCode());
+			investmentOpeningAccountModel.setBranchcode(header.getBranchCode());
 
 			normalmap = stockInvestmentService.openingSTKccount(header, investmentOpeningAccountModel, restTemplate);
 			result.setCode(normalmap.get("code").toString());
@@ -148,20 +136,7 @@ public class Stock {
 		Map<String, Object> normalmap = null;
 		ResultUtil result = new ResultUtil();
 		try {
-			// 获取请求头参数
-			String userID = request.getHeader("developerID");
-			String countryCode = request.getHeader("countryCode");
-			String clearingCode = request.getHeader("clearingCode");
-			String branchCode = request.getHeader("branchCode");
-			String sandBoxId = request.getHeader("sandBoxId");
-			String customerNumber = request.getHeader("customerNumber");
-			HeaderModel header = new HeaderModel();
-			header.setUserID(userID);
-			header.setCountryCode(countryCode);
-			header.setClearingCode(clearingCode);
-			header.setBranchCode(branchCode);
-			header.setSandBoxId(sandBoxId);
-			header.setCustomerNumber(customerNumber);
+			HeaderModel header = HeaderModelUtil.getHeader(request);
 			normalmap = stockInvestmentService.stockTradingService(header, stm, restTemplate);
 			result.setCode(normalmap.get("code").toString());
 			result.setMsg(normalmap.get("msg").toString());
@@ -194,20 +169,7 @@ public class Stock {
 		Map<String, Object> normalmap = null;
 		ResultUtil result = new ResultUtil();
 		try {
-			// 获取请求头参数
-			String userID = request.getHeader("developerID");
-			String countryCode = request.getHeader("countryCode");
-			String clearingCode = request.getHeader("clearingCode");
-			String branchCode = request.getHeader("branchCode");
-			String sandBoxId = request.getHeader("sandBoxId");
-			String customerNumber = request.getHeader("customerNumber");
-			HeaderModel header = new HeaderModel();
-			header.setUserID(userID);
-			header.setCountryCode(countryCode);
-			header.setClearingCode(clearingCode);
-			header.setBranchCode(branchCode);
-			header.setSandBoxId(sandBoxId);
-			header.setCustomerNumber(customerNumber);
+			HeaderModel header = HeaderModelUtil.getHeader(request);
 			normalmap = stockInvestmentService.stockHoldingEnquiry(header, sth, restTemplate);
 			result.setCode(normalmap.get("code").toString());
 			result.setMsg(normalmap.get("msg").toString());

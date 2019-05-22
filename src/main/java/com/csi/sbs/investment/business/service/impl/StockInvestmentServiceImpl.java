@@ -7,7 +7,6 @@ import java.util.Calendar;
 
 import java.util.ArrayList;
 import java.util.Date;
-//import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +23,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.codingapi.tx.annotation.TxTransaction;
 import com.csi.sbs.common.business.json.JsonProcess;
+import com.csi.sbs.common.business.model.HeaderModel;
+import com.csi.sbs.common.business.util.DataIsolationUtil;
 import com.csi.sbs.common.business.util.UUIDUtil;
 import com.csi.sbs.common.business.util.XmlToJsonUtil;
 import com.csi.sbs.investment.business.clientmodel.CloseAccountModel;
 import com.csi.sbs.investment.business.clientmodel.CurrentAccountMasterModel;
-import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.InsertTransactionLogModel;
 import com.csi.sbs.investment.business.clientmodel.InvestmentOpeningAccountModel;
 import com.csi.sbs.investment.business.clientmodel.QueryStockModel;
@@ -175,15 +175,9 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		// Account Number. If record does not exist, reject the transaction
 		StockInvestmentEntity stockInvestmentEntity = new StockInvestmentEntity();
 		stockInvestmentEntity.setAccountnumber(stm.getStkaccountnumber());
-		stockInvestmentEntity.setCountrycode(header.getCountryCode());
-		stockInvestmentEntity.setClearingcode(header.getClearingCode());
-		stockInvestmentEntity.setSandboxid(header.getSandBoxId());
 		stockInvestmentEntity.setCustomernumber(header.getCustomerNumber());
-		if(!StringUtils.isEmpty(stockInvestmentEntity.getSandboxid())){
-			stockInvestmentEntity.setBranchcode(null);
-		}else{
-			stockInvestmentEntity.setBranchcode(header.getBranchCode());
-		}
+		//调用数据隔离工具类
+		stockInvestmentEntity = (StockInvestmentEntity) DataIsolationUtil.condition(header, stockInvestmentEntity);
 		StockInvestmentEntity stkaccount = (StockInvestmentEntity) stockInvestmentDao.findOne(stockInvestmentEntity);
 		if (stkaccount == null) {
 			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),
@@ -206,16 +200,10 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 
 		if (relaccountType.equals(SysConstant.ACCOUNT_TYPE1)) {
 			SavingAccountMasterModel savaccount = new SavingAccountMasterModel();
-			savaccount.setCountrycode(header.getCountryCode());
-			savaccount.setClearingcode(header.getClearingCode());
-			savaccount.setSandboxid(header.getSandBoxId());
 			savaccount.setCustomernumber(header.getCustomerNumber());
 			savaccount.setAccountnumber(stm.getDebitaccountnumber());
-			if(!StringUtils.isEmpty(savaccount.getSandboxid())){
-				savaccount.setBranchcode(null);
-			}else{
-				savaccount.setBranchcode(header.getBranchCode());
-			}
+			//调用数据隔离工具类
+			savaccount = (SavingAccountMasterModel) DataIsolationUtil.condition(header, savaccount);
 			ResponseEntity<String> result = SRUtil.sendOne(restTemplate, PathConstant.GET_SAV,
 					JsonProcess.changeEntityTOJSON(savaccount));
 			String temp = XmlToJsonUtil.xmlToJson(result.getBody()).toString();
@@ -230,16 +218,10 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		}
 		if (relaccountType.equals(SysConstant.ACCOUNT_TYPE2)) {
 			CurrentAccountMasterModel current = new CurrentAccountMasterModel();
-			current.setCountrycode(header.getCountryCode());
-			current.setClearingcode(header.getClearingCode());
-			current.setSandboxid(header.getSandBoxId());
 			current.setCustomernumber(header.getCustomerNumber());
 			current.setAccountnumber(stm.getDebitaccountnumber());
-			if(!StringUtils.isEmpty(current.getSandboxid())){
-				current.setBranchcode(null);
-			}else{
-				current.setBranchcode(header.getBranchCode());
-			}
+			//调用数据隔离工具类
+			current = (CurrentAccountMasterModel) DataIsolationUtil.condition(header, current);
 			ResponseEntity<String> result = SRUtil.sendOne(restTemplate, PathConstant.GET_CURRENT,
 					JsonProcess.changeEntityTOJSON(current));
 			String temp = XmlToJsonUtil.xmlToJson(result.getBody()).toString();
@@ -618,15 +600,9 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		StockInvestmentEntity stockInvestmentEntity = new StockInvestmentEntity();
 		stockInvestmentEntity.setCustomernumber(header.getCustomerNumber());
-		stockInvestmentEntity.setCountrycode(header.getCountryCode());
-		stockInvestmentEntity.setClearingcode(header.getClearingCode());
-		if(!StringUtils.isEmpty(header.getSandBoxId())){
-			stockInvestmentEntity.setBranchcode(null);
-		}else{
-			stockInvestmentEntity.setSandboxid(null);
-			stockInvestmentEntity.setBranchcode(header.getBranchCode());
-		}
 		stockInvestmentEntity.setAccountnumber(sth.getStkaccountnumber());
+		//调用数据隔离工具类
+		stockInvestmentEntity = (StockInvestmentEntity) DataIsolationUtil.condition(header, stockInvestmentEntity);
 		StockInvestmentEntity stkaccount = (StockInvestmentEntity) stockInvestmentDao.findOne(stockInvestmentEntity);
 		if (stkaccount == null) {
 			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),
@@ -702,6 +678,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		account.setClearingcode(stk.getClearingcode());
 		account.setBranchcode(stk.getBranchcode());
 		account.setSandboxid(header.getSandBoxId());
+		account.setDockerid(header.getDockerId());
 
 		stockInvestmentDao.insert(account);
 

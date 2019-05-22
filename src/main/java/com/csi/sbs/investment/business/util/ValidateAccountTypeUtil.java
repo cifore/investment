@@ -3,16 +3,16 @@ package com.csi.sbs.investment.business.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.util.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.csi.sbs.common.business.json.JsonProcess;
+import com.csi.sbs.common.business.model.HeaderModel;
+import com.csi.sbs.common.business.util.DataIsolationUtil;
 import com.csi.sbs.common.business.util.XmlToJsonUtil;
 import com.csi.sbs.investment.business.clientmodel.CurrentAccountMasterModel;
-import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.SavingAccountMasterModel;
 import com.csi.sbs.investment.business.constant.ExceptionConstant;
 import com.csi.sbs.investment.business.constant.PathConstant;
@@ -30,15 +30,9 @@ public class ValidateAccountTypeUtil {
 			// get customerID
 			SavingAccountMasterModel savaccount = new SavingAccountMasterModel();
 			savaccount.setAccountnumber(relaccountNumber);
-			savaccount.setCountrycode(header.getCountryCode());
-			savaccount.setClearingcode(header.getClearingCode());
-			if(!StringUtils.isEmpty(header.getSandBoxId())){
-				savaccount.setBranchcode(null);
-			}else{
-				savaccount.setBranchcode(header.getBranchCode());
-			}
-			savaccount.setSandboxid(header.getSandBoxId());
 			savaccount.setCustomernumber(header.getCustomerNumber());
+			//调用数据隔离工具类
+			savaccount = (SavingAccountMasterModel) DataIsolationUtil.condition(header, savaccount);
 			ResponseEntity<String> result = SRUtil.sendOne(restTemplate,PathConstant.GET_SAV, JsonProcess.changeEntityTOJSON(savaccount));
             JSONObject temp = XmlToJsonUtil.xmlToJson(result.getBody());
             String temp_ = JsonProcess.returnValue(temp, "SavingAccountInternalModel");
@@ -55,15 +49,9 @@ public class ValidateAccountTypeUtil {
 			// get customerID
 			CurrentAccountMasterModel currentaccount = new CurrentAccountMasterModel();
 			currentaccount.setAccountnumber(relaccountNumber);
-			currentaccount.setCountrycode(header.getCountryCode());
-			currentaccount.setClearingcode(header.getClearingCode());
-			if(!StringUtils.isEmpty(header.getSandBoxId())){
-				currentaccount.setBranchcode(null);
-			}else{
-				currentaccount.setBranchcode(header.getBranchCode());
-			}
-			currentaccount.setSandboxid(header.getSandBoxId());
 			currentaccount.setCustomernumber(header.getCustomerNumber());
+			//调用数据隔离工具类
+			currentaccount = (CurrentAccountMasterModel) DataIsolationUtil.condition(header, currentaccount);
 			ResponseEntity<String> result = SRUtil.sendOne(restTemplate,PathConstant.GET_SAV, JsonProcess.changeEntityTOJSON(currentaccount));
             JSONObject temp = XmlToJsonUtil.xmlToJson(result.getBody());
             String temp_ = JsonProcess.returnValue(temp, "CurrentAccountInternalModel");

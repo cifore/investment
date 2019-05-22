@@ -6,7 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import com.csi.sbs.investment.business.clientmodel.HeaderModel;
+import com.csi.sbs.common.business.model.HeaderModel;
+
 
 
 public class SRUtil {

@@ -19,9 +19,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.codingapi.tx.annotation.TxTransaction;
 import com.csi.sbs.common.business.constant.CommonConstant;
 import com.csi.sbs.common.business.json.JsonProcess;
+import com.csi.sbs.common.business.model.HeaderModel;
 import com.csi.sbs.common.business.util.UUIDUtil;
 import com.csi.sbs.investment.business.clientmodel.CloseAccountModel;
-import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.InvestmentOpeningAccountModel;
 import com.csi.sbs.investment.business.clientmodel.QueryMutualModel;
 import com.csi.sbs.investment.business.clientmodel.ReMutualModel;
@@ -91,6 +91,7 @@ public class MutualFundServiceImpl implements MutualFundService {
 		account.setClearingcode(fun.getClearingcode());
 		account.setBranchcode(fun.getBranchcode());
 		account.setSandboxid(header.getSandBoxId());
+		account.setDockerid(header.getDockerId());
 
 		mutualFundDao.insert(account);
 

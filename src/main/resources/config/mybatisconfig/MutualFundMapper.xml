@@ -7,6 +7,7 @@
     <result column="ClearingCode" property="clearingcode" jdbcType="VARCHAR" />
     <result column="BranchCode" property="branchcode" jdbcType="VARCHAR" />
     <result column="SandBoxId" property="sandboxid" jdbcType="VARCHAR" />
+    <result column="DockerId" property="dockerid" jdbcType="VARCHAR" />
     <result column="CustomerNumber" property="customernumber" jdbcType="VARCHAR" />
     <result column="AccountNumber" property="accountnumber" jdbcType="VARCHAR" />
     <result column="RelAccountNumber" property="relaccountnumber" jdbcType="VARCHAR" />
@@ -85,6 +86,9 @@
       <if test="sandboxid != null" >
         SandBoxId,
       </if>
+      <if test="dockerid != null" >
+        DockerId,
+      </if>
       <if test="customernumber != null" >
         CustomerNumber,
       </if>
@@ -117,6 +121,9 @@
       <if test="sandboxid != null" >
         #{sandboxid,jdbcType=VARCHAR},
       </if>
+      <if test="dockerid != null" >
+        #{dockerid,jdbcType=VARCHAR},
+      </if>
       <if test="customernumber != null" >
         #{customernumber,jdbcType=VARCHAR},
       </if>
@@ -148,6 +155,9 @@
       </if>
       <if test="sandboxid != null" >
         SandBoxId = #{sandboxid,jdbcType=VARCHAR},
+      </if>
+      <if test="dockerid != null" >
+        DockerId = #{dockerid,jdbcType=VARCHAR},
       </if>
       <if test="customernumber != null" >
         CustomerNumber = #{customernumber,jdbcType=VARCHAR},

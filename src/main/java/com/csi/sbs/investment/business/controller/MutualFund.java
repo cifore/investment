@@ -6,7 +6,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,11 +23,12 @@ import io.swagger.annotations.ApiResponses;
 import springfox.documentation.annotations.ApiIgnore;
 
 import com.csi.sbs.common.business.exception.CallOtherException;
+import com.csi.sbs.common.business.model.HeaderModel;
+import com.csi.sbs.common.business.util.HeaderModelUtil;
 import com.csi.sbs.investment.business.clientmodel.CloseAccountModel;
 import com.csi.sbs.investment.business.clientmodel.FundBuyTradingModel;
 import com.csi.sbs.investment.business.clientmodel.FundHoldingEnquiryModel;
 import com.csi.sbs.investment.business.clientmodel.FundSellTradingModel;
-import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.InvestmentOpeningAccountModel;
 import com.csi.sbs.investment.business.clientmodel.QueryMutualModel;
 import com.csi.sbs.investment.business.clientmodel.otherservice.AddMutualDepositModel;
@@ -83,23 +83,10 @@ public class MutualFund {
 		Map<String, Object> normalmap = null;
 		ResultUtil result = new ResultUtil();
 		try {
-			// 获取请求头参数
-			String userID = request.getHeader("developerID");
-			String countryCode = request.getHeader("countryCode");
-			String clearingCode = request.getHeader("clearingCode");
-			String branchCode = request.getHeader("branchCode");
-			String sandBoxId = request.getHeader("sandBoxId");
-			String customerNumber = request.getHeader("customerNumber");
-			HeaderModel header = new HeaderModel();
-			header.setUserID(userID);
-			header.setCountryCode(countryCode);
-			header.setClearingCode(clearingCode);
-			header.setBranchCode(branchCode);
-			header.setSandBoxId(sandBoxId);
-			header.setCustomerNumber(customerNumber);
-			investmentOpeningAccountModel.setCountrycode(countryCode);
-			investmentOpeningAccountModel.setClearingcode(clearingCode);
-			investmentOpeningAccountModel.setBranchcode(branchCode);
+			HeaderModel header = HeaderModelUtil.getHeader(request);
+			investmentOpeningAccountModel.setCountrycode(header.getCountryCode());
+			investmentOpeningAccountModel.setClearingcode(header.getClearingCode());
+			investmentOpeningAccountModel.setBranchcode(header.getBranchCode());
 
 			normalmap = mutualFundService.openingFUNccount(header, investmentOpeningAccountModel, restTemplate);
 			result.setCode(normalmap.get("code").toString());
@@ -145,20 +132,7 @@ public class MutualFund {
 	public ResultUtil subscription(@RequestBody @Validated FundBuyTradingModel ase, HttpServletRequest request)
 			throws Exception {
 		try {
-			// 获取请求头参数
-			String userID = request.getHeader("developerID");
-			String countryCode = request.getHeader("countryCode");
-			String clearingCode = request.getHeader("clearingCode");
-			String branchCode = request.getHeader("branchCode");
-			String customerNumber = request.getHeader("customerNumber");
-			String sandBoxId = request.getHeader("sandBoxId");
-			HeaderModel header = new HeaderModel();
-			header.setUserID(userID);
-			header.setCountryCode(countryCode);
-			header.setClearingCode(clearingCode);
-			header.setBranchCode(branchCode);
-			header.setCustomerNumber(customerNumber);
-			header.setSandBoxId(sandBoxId);
+			HeaderModel header = HeaderModelUtil.getHeader(request);
 			return fundMarketInfoService.fundBuyTradingService(header, ase, restTemplate);
 		} catch (Exception e) {
 			throw e;
@@ -184,20 +158,7 @@ public class MutualFund {
 	public ResultUtil redemption(@RequestBody @Validated FundSellTradingModel ase, HttpServletRequest request)
 			throws Exception {
 		try {
-			// 获取请求头参数
-			String userID = request.getHeader("developerID");
-			String countryCode = request.getHeader("countryCode");
-			String clearingCode = request.getHeader("clearingCode");
-			String branchCode = request.getHeader("branchCode");
-			String sandBoxId = request.getHeader("sandBoxId");
-			String customerNumber = request.getHeader("customerNumber");
-			HeaderModel header = new HeaderModel();
-			header.setUserID(userID);
-			header.setCountryCode(countryCode);
-			header.setClearingCode(clearingCode);
-			header.setBranchCode(branchCode);
-			header.setSandBoxId(sandBoxId);
-			header.setCustomerNumber(customerNumber);
+			HeaderModel header = HeaderModelUtil.getHeader(request);
 			return fundMarketInfoService.fundSellTradingService(header, ase, restTemplate);
 		} catch (Exception e) {
 			throw e;
@@ -216,24 +177,7 @@ public class MutualFund {
 	public ResultUtil holdingEnquiry(@RequestBody @Validated FundHoldingEnquiryModel ase, HttpServletRequest request)
 			throws Exception {
 		try {
-			// 获取请求头参数
-			String userID = request.getHeader("developerID");
-			String countryCode = request.getHeader("countryCode");
-			String clearingCode = request.getHeader("clearingCode");
-			String branchCode = request.getHeader("branchCode");
-			String sandBoxId = request.getHeader("sandBoxId");
-			String customerNumber = request.getHeader("customerNumber");
-			HeaderModel header = new HeaderModel();
-			header.setUserID(userID);
-			header.setCountryCode(countryCode);
-			header.setClearingCode(clearingCode);
-			header.setSandBoxId(sandBoxId);
-			header.setCustomerNumber(customerNumber);
-			if(!StringUtils.isEmpty(sandBoxId)){
-				header.setBranchCode(null);
-			}else{
-				header.setBranchCode(branchCode);
-			}
+			HeaderModel header = HeaderModelUtil.getHeader(request);
 			return fundMarketInfoService.mutualfundHoldingEnquiry(header, ase, restTemplate);
 		} catch (Exception e) {
 			throw e;

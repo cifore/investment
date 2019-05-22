@@ -3,9 +3,9 @@ package com.csi.sbs.investment.business.service;
 
 import org.springframework.web.client.RestTemplate;
 
+import com.csi.sbs.common.business.model.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.FundBuyTradingModel;
 import com.csi.sbs.investment.business.clientmodel.FundSellTradingModel;
-import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.FundHoldingEnquiryModel;
 import com.csi.sbs.investment.business.util.ResultUtil;
 

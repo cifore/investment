@@ -24,9 +24,19 @@ public class MutualFundEntity {
     
     private String sandboxid;
     
+    private String dockerid;
     
     
     
+    
+	public String getDockerid() {
+		return dockerid;
+	}
+
+	public void setDockerid(String dockerid) {
+		this.dockerid = dockerid;
+	}
+
 	public String getSandboxid() {
 		return sandboxid;
 	}

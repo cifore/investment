@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
@@ -18,6 +17,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.csi.sbs.common.business.constant.CommonConstant;
 import com.csi.sbs.common.business.json.JsonProcess;
+import com.csi.sbs.common.business.model.HeaderModel;
+import com.csi.sbs.common.business.util.DataIsolationUtil;
 import com.csi.sbs.common.business.util.UUIDUtil;
 import com.csi.sbs.common.business.util.XmlToJsonUtil;
 import com.csi.sbs.investment.business.exception.InsertException;
@@ -29,7 +30,6 @@ import com.csi.sbs.investment.business.clientmodel.FundBuyTradingModel;
 import com.csi.sbs.investment.business.clientmodel.FundHoldingEnquiryModel;
 import com.csi.sbs.investment.business.clientmodel.FundInvestmentModel;
 import com.csi.sbs.investment.business.clientmodel.FundSellTradingModel;
-import com.csi.sbs.investment.business.clientmodel.HeaderModel;
 import com.csi.sbs.investment.business.clientmodel.CurrencyInfoModel;
 import com.csi.sbs.investment.business.clientmodel.InsertTransactionLogModel;
 import com.csi.sbs.investment.business.clientmodel.UpdateAccountBalanceModel;
@@ -128,14 +128,8 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		//Read Mutual Fund Account Master file with the inputted Fund Trading Account Number. If record does not exist, reject the transaction 
 		MutualFundEntity fundaccountInfo = new MutualFundEntity();
 		fundaccountInfo.setAccountnumber(ase.getFundaccountnumber());
-		fundaccountInfo.setCountrycode(header.getCountryCode());
-		fundaccountInfo.setClearingcode(header.getClearingCode());
-		fundaccountInfo.setSandboxid(header.getSandBoxId());
-		if(!StringUtils.isEmpty(fundaccountInfo.getSandboxid())){
-			fundaccountInfo.setBranchcode(null);
-		}else{
-			fundaccountInfo.setBranchcode(header.getBranchCode());
-		}
+		//调用数据隔离工具类
+		fundaccountInfo = (MutualFundEntity) DataIsolationUtil.condition(header, fundaccountInfo);
 		MutualFundEntity fundaccount = (MutualFundEntity) mutualFundDao.findOne(fundaccountInfo);
 		if(fundaccount == null){
 			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),ExceptionConstant.ERROR_CODE404010);
@@ -365,15 +359,9 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		//Read Mutual Fund Account Master file with the inputted Mutual Fund Trading Account Number. If record does not exist, reject the transaction 
 		MutualFundEntity fundaccountInfo = new MutualFundEntity();
 		fundaccountInfo.setAccountnumber(ase.getFundaccountnumber());
-		fundaccountInfo.setCountrycode(header.getCountryCode());
-		fundaccountInfo.setSandboxid(header.getSandBoxId());
-		fundaccountInfo.setClearingcode(header.getClearingCode());
 		fundaccountInfo.setCustomernumber(header.getCustomerNumber());
-		if(!StringUtils.isEmpty(fundaccountInfo.getSandboxid())){
-			fundaccountInfo.setBranchcode(null);
-		}else{
-			fundaccountInfo.setBranchcode(header.getBranchCode());
-		}
+		//调用数据隔离工具类
+		fundaccountInfo = (MutualFundEntity) DataIsolationUtil.condition(header, fundaccountInfo);
 		MutualFundEntity fundaccount = (MutualFundEntity) mutualFundDao.findOne(fundaccountInfo);
 		if(fundaccount == null){
 			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),ExceptionConstant.ERROR_CODE404010);
@@ -575,11 +563,9 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		ResultUtil result = new ResultUtil();
 		MutualFundEntity fundaccountInfo = new MutualFundEntity();
 		fundaccountInfo.setAccountnumber(ase.getFundaccountnumber());
-		fundaccountInfo.setCountrycode(header.getCountryCode());
-		fundaccountInfo.setClearingcode(header.getClearingCode());
-		fundaccountInfo.setBranchcode(header.getBranchCode());
-		fundaccountInfo.setSandboxid(header.getSandBoxId());
 		fundaccountInfo.setCustomernumber(header.getCustomerNumber());
+		//调用数据隔离工具类
+		fundaccountInfo = (MutualFundEntity) DataIsolationUtil.condition(header, fundaccountInfo);
 		MutualFundEntity fundaccount = (MutualFundEntity) mutualFundDao.findOne(fundaccountInfo);
 		if(fundaccount == null){
 			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),ExceptionConstant.ERROR_CODE404010);

@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONObject;
 import com.csi.sbs.common.business.json.JsonProcess;
-import com.csi.sbs.investment.business.clientmodel.HeaderModel;
+import com.csi.sbs.common.business.model.HeaderModel;
 import com.csi.sbs.investment.business.constant.ExceptionConstant;
 import com.csi.sbs.investment.business.constant.PathConstant;
 import com.csi.sbs.investment.business.exception.OtherException;

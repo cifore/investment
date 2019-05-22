@@ -11,6 +11,8 @@ public class StockInvestmentEntity {
     private String branchcode;
     
     private String sandboxid;
+    
+    private String dockerid;
 
     private String customernumber;
 
@@ -24,6 +26,14 @@ public class StockInvestmentEntity {
     
     
     
+	public String getDockerid() {
+		return dockerid;
+	}
+
+	public void setDockerid(String dockerid) {
+		this.dockerid = dockerid;
+	}
+
 	public String getSandboxid() {
 		return sandboxid;
 	}
