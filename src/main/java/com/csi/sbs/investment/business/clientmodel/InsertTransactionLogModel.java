@@ -16,6 +16,8 @@ public class InsertTransactionLogModel {
     private String branchcode;
     
     private String sandboxid;
+    
+    private String dockerid;
 
     private String trantype;
 
@@ -36,8 +38,20 @@ public class InsertTransactionLogModel {
 
     private String ccy;
 
+    
+    
+    
+    
 
-    public String getAccountnumber() {
+    public String getDockerid() {
+		return dockerid;
+	}
+
+	public void setDockerid(String dockerid) {
+		this.dockerid = dockerid;
+	}
+
+	public String getAccountnumber() {
         return accountnumber;
     }
 

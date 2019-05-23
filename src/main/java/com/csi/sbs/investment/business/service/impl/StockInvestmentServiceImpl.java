@@ -416,6 +416,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		insertTransacitonlog.setBranchcode(header.getBranchCode());
 		insertTransacitonlog.setCcy(resavaccount.getCurrencycode());
 		insertTransacitonlog.setSandboxid(header.getSandBoxId());
+		insertTransacitonlog.setDockerid(header.getDockerId());
 		insertTransacitonlog.setChannel(SysConstant.CHANNEL_TYPE);
 		insertTransacitonlog.setChannelid(header.getUserID());
 		insertTransacitonlog.setClearingcode(header.getClearingCode());
@@ -572,6 +573,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		stockPlatFormLogEntity.setClearingcode(header.getClearingCode());
 		stockPlatFormLogEntity.setBranchcode(header.getBranchCode());
 		stockPlatFormLogEntity.setSandboxid(header.getSandBoxId());
+		stockPlatFormLogEntity.setDockerid(header.getDockerId());
 		stockPlatFormLogEntity.setAccountnumber(stp.getStkaccountnumber());
 		stockPlatFormLogEntity.setCustodycharges(new BigDecimal(CustodyCharges));
 		stockPlatFormLogEntity.setSharingno(stp.getSharingNo());
