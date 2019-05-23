@@ -20,6 +20,8 @@
   <select id="findMany" resultMap="BaseResultMap" parameterType="com.csi.sbs.investment.business.entity.StockPlatFormLogEntity">
     select *  from t_stock_platform_log   
     where 1=1
+    <!-- 拼接数据隔离公共配置 -->
+    <include refid="com.csi.sbs.investment.business.base.BaseDao.dataIsolationSql"/>
     <if test="accountnumber != null and accountnumber !=''" >
        and AccountNumber = #{accountnumber}
     </if>
@@ -31,18 +33,6 @@
     </if>
     <if test="transToDate != null and transToDate != ''" >
        and DATE_FORMAT(TransactionDate, '%Y-%m-%d') &lt;= #{transToDate}
-    </if>
-    <if test="countrycode != null and countrycode !=''" >
-       and CountryCode = #{countrycode}
-    </if>
-    <if test="clearingcode != null and clearingcode !=''" >
-       and ClearingCode = #{clearingcode}
-    </if>
-    <if test="branchcode != null and branchcode !=''" >
-       and BranchCode = #{branchcode}
-    </if>
-    <if test="sandboxid != null" >
-       and SandBoxId = #{sandboxid}
     </if>
   </select> 
   <select id="findOne" resultType="com.csi.sbs.investment.business.entity.StockPlatFormLogEntity" parameterType="com.csi.sbs.investment.business.entity.StockPlatFormLogEntity">

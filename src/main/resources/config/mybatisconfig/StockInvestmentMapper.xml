@@ -17,17 +17,10 @@
   <select id="findMany" resultMap="BaseResultMap" parameterType="com.csi.sbs.investment.business.entity.StockInvestmentEntity" >
     select * from t_stocktradingaccount_master
     where 1=1
+    <!-- 拼接数据隔离公共配置 -->
+    <include refid="com.csi.sbs.investment.business.base.BaseDao.dataIsolationSql"/>
     <if test="accountnumber != null and accountnumber !=''" >
        and AccountNumber = #{accountnumber}
-    </if>
-    <if test="countrycode != null and countrycode !=''" >
-       and CountryCode = #{countrycode}
-    </if>
-    <if test="clearingcode != null and clearingcode !=''" >
-       and ClearingCode = #{clearingcode}
-    </if>
-    <if test="branchcode != null and branchcode !=''" >
-       and BranchCode = #{branchcode}
     </if>
     <if test="customernumber != null and customernumber !=''" >
        and CustomerNumber = #{customernumber}
@@ -35,28 +28,15 @@
     <if test="relaccountnumber != null and relaccountnumber !=''" >
        and RelAccountNumber = #{relaccountnumber}
     </if>
-    <if test="sandboxid != null and sandboxid !=''" >
-       and SandBoxId = #{sandboxid}
-    </if>
   </select>
   
   <select id="findOne" resultType="com.csi.sbs.investment.business.entity.StockInvestmentEntity" parameterType="com.csi.sbs.investment.business.entity.StockInvestmentEntity">
 	select * from t_stocktradingaccount_master
 	where 1=1
+	<!-- 拼接数据隔离公共配置 -->
+    <include refid="com.csi.sbs.investment.business.base.BaseDao.dataIsolationSql"/>
 	<if test="accountnumber != null and accountnumber !=''" >
        and AccountNumber = #{accountnumber}
-    </if>
-    <if test="countrycode != null and countrycode !=''" >
-       and CountryCode = #{countrycode}
-    </if>
-    <if test="clearingcode != null and clearingcode !=''" >
-       and ClearingCode = #{clearingcode}
-    </if>
-    <if test="branchcode != null and branchcode !=''" >
-       and BranchCode = #{branchcode}
-    </if>
-    <if test="sandboxid != null and sandboxid !=''" >
-       and SandBoxId = #{sandboxid}
     </if>
   </select>
   

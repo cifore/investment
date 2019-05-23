@@ -31,24 +31,13 @@
     <select id="findMany" resultMap="BaseResultMap" parameterType="com.csi.sbs.investment.business.entity.FundPlatformLogEntity" >
     select * from t_mutualfund_platform_log
     where 1=1
+    <!-- 拼接数据隔离公共配置 -->
+    <include refid="com.csi.sbs.investment.business.base.BaseDao.dataIsolationSql"/>
     <if test="currencycode != null" >
        and CurrencyCode = #{currencycode}
     </if>
     <if test="accountnumber != null and accountnumber !=''" >
        and AccountNumber = #{accountnumber}
-    </if>
-
-    <if test="countrycode != null" >
-       and CountryCode = #{countrycode}
-    </if>
-    <if test="clearingcode != null" >
-       and ClearingCode = #{clearingcode}
-    </if>
-    <if test="branchcode != null" >
-       and BranchCode = #{branchcode}
-    </if>
-    <if test="sandboxid != null" >
-       and SandBoxId = #{sandboxid}
     </if>
   </select>
   <delete id="delete" parameterType="java.lang.String" >

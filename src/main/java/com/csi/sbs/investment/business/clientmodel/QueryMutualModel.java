@@ -7,6 +7,7 @@ public class QueryMutualModel {
 	private String clearingCode;
 	private String branchCode;
 	private String sandBoxId;
+	private String dockerid;
 	private String customerNumber;
 	private String accountNumber;
 	
@@ -14,6 +15,14 @@ public class QueryMutualModel {
 	
 	
 	
+
+	public String getDockerid() {
+		return dockerid;
+	}
+
+	public void setDockerid(String dockerid) {
+		this.dockerid = dockerid;
+	}
 
 	public String getAccountNumber() {
 		return accountNumber;
