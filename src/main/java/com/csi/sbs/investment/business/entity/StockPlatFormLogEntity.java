@@ -13,6 +13,8 @@ public class StockPlatFormLogEntity {
     private String branchcode;
     
     private String sandboxid;
+    
+    private String dockerid;
 
     private String accountnumber;
 
@@ -41,7 +43,15 @@ public class StockPlatFormLogEntity {
     
     
 
-    public String getSandboxid() {
+    public String getDockerid() {
+		return dockerid;
+	}
+
+	public void setDockerid(String dockerid) {
+		this.dockerid = dockerid;
+	}
+
+	public String getSandboxid() {
 		return sandboxid;
 	}
 

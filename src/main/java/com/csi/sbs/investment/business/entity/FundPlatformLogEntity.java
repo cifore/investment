@@ -14,6 +14,8 @@ public class FundPlatformLogEntity {
     
     private String sandboxid;
     
+    private String dockerid;
+    
     private String currencycode;
 
     private String accountnumber;
@@ -31,8 +33,20 @@ public class FundPlatformLogEntity {
     private BigDecimal transactionamount;
 
     private Date transactiondate;
+    
+    
+    
+    
 
-    public String getId() {
+    public String getDockerid() {
+		return dockerid;
+	}
+
+	public void setDockerid(String dockerid) {
+		this.dockerid = dockerid;
+	}
+
+	public String getId() {
         return id;
     }
 
