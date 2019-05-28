@@ -149,7 +149,13 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
         	throw new CallOtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE500002),ExceptionConstant.ERROR_CODE500002);
 		}
        //根据 debitAccountNum
-  		String debitAccountParam = "{\"customerNumber\":\"" + header.getCustomerNumber() +"\",\"accountNumber\":\"" + ase.getDebitaccountnumber() +"\",\"countrycode\":\"" + header.getCountryCode() +"\",\"clearingcode\":\"" + header.getClearingCode() +"\",\"branchcode\":\"" + header.getBranchCode() +"\",\"sandboxid\":\"" + header.getSandBoxId() +"\"}";
+        if(header.getDockerId()==null){
+        	header.setDockerId("");
+        }
+        if(header.getSandBoxId()==null){
+        	header.setSandBoxId("");
+        }
+  		String debitAccountParam = "{\"customerNumber\":\"" + header.getCustomerNumber() +"\",\"accountNumber\":\"" + ase.getDebitaccountnumber() +"\",\"countryCode\":\"" + header.getCountryCode() +"\",\"clearingCode\":\"" + header.getClearingCode() +"\",\"branchCode\":\"" + header.getBranchCode() +"\",\"dockerid\":\"" + header.getDockerId() +"\",\"sandboxid\":\"" + header.getSandBoxId() +"\"}";
   		String debitAccountRes = getResponse(path1,debitAccountParam);
   		if(debitAccountRes.length() == 0){
   			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404010),ExceptionConstant.ERROR_CODE404010);
