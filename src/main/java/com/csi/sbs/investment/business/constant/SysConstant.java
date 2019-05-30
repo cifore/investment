@@ -128,7 +128,7 @@ public class SysConstant {
        //本服务内网地址
        public static final String LOCAL_SERVICE_URL = "http://localhost:8097/investment";
        //网关地址(服务器)
-       public static final String GATEWAY_SERVICE = "117.78.38.89:8086/investment";
+       public static final String GATEWAY_SERVICE = "47.112.146.96:8086/investment";
        //网关地址(本地)
        public static final String GATEWAY_LOCALHOST = "localhost:8086/investment";
        //本服务名称
