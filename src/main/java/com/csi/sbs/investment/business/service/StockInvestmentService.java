@@ -40,4 +40,7 @@ public interface StockInvestmentService{
 	
 	public void accountDateProcess(SeSandBoxIdModel sm);
 	
+	@SuppressWarnings("rawtypes")
+	public ResultUtil stockQuotation(HeaderModel header,String accountNumber) throws Exception;
+	
 }

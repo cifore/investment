@@ -26,4 +26,7 @@ public interface MutualFundService{
 
     public int save(AddMutualDepositModel amdm) throws Exception;
     
+    @SuppressWarnings("rawtypes")
+	public ResultUtil fundQuotation(HeaderModel header,String accountNumber) throws Exception;
+    
 }

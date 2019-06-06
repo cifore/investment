@@ -129,4 +129,16 @@ public class ExceptionConstant {
     	map.put(ERROR_CODE500012, "Operation failed");//操作失败-开卡失败
     	return map;
     }
+    
+    
+    //执行成功码
+    public static final int SUCCESS_CODE200 = 200;//执行成功
+    public static Map<Integer,String> getSuccessMap(){
+    	Map<Integer,String> map = new HashMap<Integer,String>();
+    	map.put(SUCCESS_CODE200, "Operation Successed");//执行成功
+    	
+    	return map;
+    }
+    
+    
 }

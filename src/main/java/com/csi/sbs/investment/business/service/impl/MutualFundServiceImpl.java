@@ -28,7 +28,9 @@ import com.csi.sbs.investment.business.clientmodel.ReMutualModel;
 import com.csi.sbs.investment.business.clientmodel.otherservice.AddMutualDepositModel;
 import com.csi.sbs.investment.business.constant.ExceptionConstant;
 import com.csi.sbs.investment.business.constant.SysConstant;
+import com.csi.sbs.investment.business.dao.FundHoldingDao;
 import com.csi.sbs.investment.business.dao.MutualFundDao;
+import com.csi.sbs.investment.business.entity.FundHoldingEntity;
 import com.csi.sbs.investment.business.entity.MutualFundEntity;
 import com.csi.sbs.investment.business.exception.NotFoundException;
 import com.csi.sbs.investment.business.exception.OtherException;
@@ -46,6 +48,10 @@ public class MutualFundServiceImpl implements MutualFundService {
 	@SuppressWarnings("rawtypes")
 	@Resource
 	private MutualFundDao mutualFundDao;
+	
+	@SuppressWarnings("rawtypes")
+	@Resource
+	private FundHoldingDao fundHoldingDao;
 
 	private SimpleDateFormat format = new SimpleDateFormat();
 	
@@ -249,6 +255,22 @@ public class MutualFundServiceImpl implements MutualFundService {
 		mfe.setRelaccountnumber(amdm.getRelaccountnumber());
 		mfe.setSandboxid(amdm.getSandboxid());
 		return mutualFundDao.insert(mfe);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public ResultUtil fundQuotation(HeaderModel header, String accountNumber) throws Exception {
+		ResultUtil result = new ResultUtil();
+		FundHoldingEntity fe = new FundHoldingEntity();
+		fe.setAccountnumber(accountNumber);
+		List<FundHoldingEntity> res = fundHoldingDao.findMany(fe);
+		if(res==null || res.size()==0){
+			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404014),ExceptionConstant.ERROR_CODE404014);
+		}
+		result.setCode(String.valueOf(ExceptionConstant.SUCCESS_CODE200));
+		result.setMsg("Search Success");
+		result.setData(res);
+		return result;
 	}
 
 }

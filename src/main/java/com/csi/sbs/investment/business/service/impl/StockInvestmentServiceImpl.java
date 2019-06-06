@@ -809,4 +809,20 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		se.setSandboxid(sm.getSandBoxId());
 		stockInvestmentDao.accountOldDateHandle(se);
 	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public ResultUtil stockQuotation(HeaderModel header, String accountNumber) throws Exception {
+		ResultUtil result = new ResultUtil();
+		StockHoldingEntity se = new StockHoldingEntity();
+		se.setAccountnumber(accountNumber);
+		List<StockHoldingEntity> res = stockHoldingDao.findMany(se);
+		if(res==null || res.size()==0){
+			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404012),ExceptionConstant.ERROR_CODE404012);
+		}
+		result.setCode(String.valueOf(ExceptionConstant.SUCCESS_CODE200));
+		result.setMsg("Search Success");
+		result.setData(res);
+		return result;
+	}
 }
