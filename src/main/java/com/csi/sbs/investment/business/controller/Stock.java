@@ -131,13 +131,13 @@ public class Stock {
 			@ApiResponse(code = 201, message = "Normal execution. The request has succeeded. (Returned By Post)"),
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
-	public ResultUtil stockTrading(@RequestBody @Validated StockTradingModel stm,HttpServletRequest request)
+	public ResultUtil stockTrading(@RequestBody @Validated StockTradingModel stockTradingModel,HttpServletRequest request)
 			throws Exception {
 		Map<String, Object> normalmap = null;
 		ResultUtil result = new ResultUtil();
 		try {
 			HeaderModel header = HeaderModelUtil.getHeader(request);
-			normalmap = stockInvestmentService.stockTradingService(header, stm, restTemplate);
+			normalmap = stockInvestmentService.stockTradingService(header, stockTradingModel, restTemplate);
 			result.setCode(normalmap.get("code").toString());
 			result.setMsg(normalmap.get("msg").toString());
 			result.setData("");
@@ -164,13 +164,13 @@ public class Stock {
 			@ApiResponse(code = 201, message = "Normal execution. The request has succeeded. (Returned By Post)"),
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
-	public ResultUtil stockHoldingEnquiry(@RequestBody @Validated StockHoldingEnquiryModel sth,
+	public ResultUtil stockHoldingEnquiry(@RequestBody @Validated StockHoldingEnquiryModel stockHoldingEnquiryModel,
 			HttpServletRequest request) throws Exception {
 		Map<String, Object> normalmap = null;
 		ResultUtil result = new ResultUtil();
 		try {
 			HeaderModel header = HeaderModelUtil.getHeader(request);
-			normalmap = stockInvestmentService.stockHoldingEnquiry(header, sth, restTemplate);
+			normalmap = stockInvestmentService.stockHoldingEnquiry(header, stockHoldingEnquiryModel, restTemplate);
 			result.setCode(normalmap.get("code").toString());
 			result.setMsg(normalmap.get("msg").toString());
 			result.setData(normalmap.get("list"));
@@ -198,10 +198,10 @@ public class Stock {
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
 	@ApiIgnore()
-	public ResultUtil getStockAccount(@RequestBody @Validated QueryStockModel qsm,
+	public ResultUtil getStockAccount(@RequestBody @Validated QueryStockModel queryStockModel,
 			HttpServletRequest request) throws Exception {
 		try {
-			return stockInvestmentService.getStockAccount(qsm);
+			return stockInvestmentService.getStockAccount(queryStockModel);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -225,10 +225,10 @@ public class Stock {
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
 	@ApiIgnore()
-	public ResultUtil getOneStockAccount(@RequestBody @Validated QueryStockModel qsm,
+	public ResultUtil getOneStockAccount(@RequestBody @Validated QueryStockModel queryStockModel,
 			HttpServletRequest request) throws Exception {
 		try {
-			return stockInvestmentService.getOneStockAccount(qsm);
+			return stockInvestmentService.getOneStockAccount(queryStockModel);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -251,9 +251,9 @@ public class Stock {
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
 	@ApiIgnore()
-	public ResultUtil accountClosure(@RequestBody CloseAccountModel cam) throws Exception {
+	public ResultUtil accountClosure(@RequestBody CloseAccountModel closeAccountModel) throws Exception {
 		try {
-			return stockInvestmentService.closeAccount(cam, restTemplate);
+			return stockInvestmentService.closeAccount(closeAccountModel, restTemplate);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -270,9 +270,9 @@ public class Stock {
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
 	@ApiIgnore()
-	public ResultUtil addAccount(@RequestBody AddStockDepositModel asdm) throws Exception {
+	public ResultUtil addAccount(@RequestBody AddStockDepositModel addStockDepositModel) throws Exception {
 		try {
-			int i = stockInvestmentService.save(asdm);
+			int i = stockInvestmentService.save(addStockDepositModel);
 			ResultUtil result = new ResultUtil();
 			if(i>0){
 				result.setCode("1");

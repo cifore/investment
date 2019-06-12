@@ -191,12 +191,13 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 
 		// Read Account Master File by using the Input Transfer From/To account
 		// number. If record does not exist, reject the transaction
+		ValidateAccountTypeUtil.checkSavOrCurType(stm.getDebitaccountnumber());
 		String relaccountType = stm.getDebitaccountnumber().substring(stm.getDebitaccountnumber().length() - 3);
-		if (relaccountType.equals(SysConstant.ACCOUNT_TYPE1) == false
-				&& relaccountType.equals(SysConstant.ACCOUNT_TYPE2) == false) {
-			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE201001),
-					ExceptionConstant.ERROR_CODE201001);
-		}
+//		if (relaccountType.equals(SysConstant.ACCOUNT_TYPE1) == false
+//				&& relaccountType.equals(SysConstant.ACCOUNT_TYPE2) == false) {
+//			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE201001),
+//					ExceptionConstant.ERROR_CODE201001);
+//		}
 
 		if (relaccountType.equals(SysConstant.ACCOUNT_TYPE1)) {
 			SavingAccountMasterModel savaccount = new SavingAccountMasterModel();

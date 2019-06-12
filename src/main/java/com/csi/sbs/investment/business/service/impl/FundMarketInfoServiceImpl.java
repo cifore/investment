@@ -39,6 +39,7 @@ import com.csi.sbs.investment.business.service.FundMarketInfoService;
 import com.csi.sbs.investment.business.util.LogUtil;
 import com.csi.sbs.investment.business.util.PostUtil;
 import com.csi.sbs.investment.business.util.ResultUtil;
+import com.csi.sbs.investment.business.util.ValidateAccountTypeUtil;
 import com.csi.sbs.investment.business.dao.FundMarketInfoDao;
 import com.csi.sbs.investment.business.dao.FundHoldingDao;
 import com.csi.sbs.investment.business.dao.MutualFundDao;
@@ -50,7 +51,6 @@ import com.csi.sbs.investment.business.entity.FundMarketInfoEntity;
 import com.csi.sbs.investment.business.exception.AcceptException;
 import com.csi.sbs.investment.business.exception.CallOtherException;
 import com.csi.sbs.investment.business.exception.NotFoundException;
-import com.csi.sbs.investment.business.exception.OtherException;
 
 @Service("FundMarketInfoService")
 public class FundMarketInfoServiceImpl implements FundMarketInfoService{
@@ -76,7 +76,7 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 	
 	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
 	@Override
 	public ResultUtil fundBuyTradingService(HeaderModel header, FundBuyTradingModel ase, RestTemplate restTemplate)
 			throws Exception {
@@ -139,9 +139,10 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		}	
 		//Read Account Master File by using the Input Transfer From account number. If record does not exist, reject the transaction
 		String relaccountType = ase.getDebitaccountnumber().substring(ase.getDebitaccountnumber().length() - 3);
-		if(relaccountType.equals(SysConstant.ACCOUNT_TYPE1)== false && relaccountType.equals(SysConstant.ACCOUNT_TYPE2)== false){
-			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE201001),ExceptionConstant.ERROR_CODE201001);
-		}
+		ValidateAccountTypeUtil.checkSavOrCurType(ase.getDebitaccountnumber());
+//		if(relaccountType.equals(SysConstant.ACCOUNT_TYPE1)== false && relaccountType.equals(SysConstant.ACCOUNT_TYPE2)== false){
+//			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE201001),ExceptionConstant.ERROR_CODE201001);
+//		}
 		
 		//获取API accountSearch的内网地址
         String path1 = getInternalUrl("accountSearch");
@@ -312,7 +313,7 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		return result;
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
 	@Override
 	public ResultUtil fundSellTradingService(HeaderModel header, FundSellTradingModel ase, RestTemplate restTemplate)
 			throws Exception {
@@ -378,9 +379,10 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		
 		//Read Account Master File by using the Input Transfer From/To account number. If record does not exist, reject the transaction
 		String relaccountType = ase.getDebitaccountnumber().substring(ase.getDebitaccountnumber().length() - 3);
-		if(relaccountType.equals(SysConstant.ACCOUNT_TYPE1)== false && relaccountType.equals(SysConstant.ACCOUNT_TYPE2)== false){
-			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE201001),ExceptionConstant.ERROR_CODE201001);
-		}
+		ValidateAccountTypeUtil.checkSavOrCurType(ase.getDebitaccountnumber());
+//		if(relaccountType.equals(SysConstant.ACCOUNT_TYPE1)== false && relaccountType.equals(SysConstant.ACCOUNT_TYPE2)== false){
+//			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE201001),ExceptionConstant.ERROR_CODE201001);
+//		}
 		
 		//获取API accountSearch的内网地址
         String path1 = getInternalUrl("accountSearch");

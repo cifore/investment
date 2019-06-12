@@ -18,6 +18,7 @@ import com.csi.sbs.investment.business.constant.ExceptionConstant;
 import com.csi.sbs.investment.business.constant.PathConstant;
 import com.csi.sbs.investment.business.constant.SysConstant;
 import com.csi.sbs.investment.business.exception.NotFoundException;
+import com.csi.sbs.investment.business.exception.OtherException;
 
 
 
@@ -70,6 +71,19 @@ public class ValidateAccountTypeUtil {
 
 		return map;
 
+	}
+	
+	
+	public static Map<String, Object> checkSavOrCurType(String accountNumber) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String type =  accountNumber.substring(accountNumber.length()-3);
+		if(type.equals(SysConstant.ACCOUNT_TYPE1) == false && type.equals(SysConstant.ACCOUNT_TYPE2) == false){
+			throw new OtherException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE201001),ExceptionConstant.ERROR_CODE201001);
+		}
+		
+		map.put("code", "1");
+		map.put("msg", "Transaction Accepted");
+		return map;
 	}
 
 }

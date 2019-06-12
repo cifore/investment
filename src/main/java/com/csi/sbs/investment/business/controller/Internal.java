@@ -75,16 +75,16 @@ public class Internal {
 	@RequestMapping(value = "/sandboxSearch", method = RequestMethod.POST)
 	@ResponseBody
 	@ApiIgnore()
-	public Map<String, Object>sandboxSearch(@RequestBody SandboxSearchEntity ase, HttpServletRequest request) throws Exception {
-		return sandboxSearchService.getSearchInfo(ase);
+	public Map<String, Object>sandboxSearch(@RequestBody SandboxSearchEntity sandboxSearchEntity, HttpServletRequest request) throws Exception {
+		return sandboxSearchService.getSearchInfo(sandboxSearchEntity);
 	}
 	
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/branchDataSearch", method = RequestMethod.POST)
 	@ResponseBody
 	@ApiIgnore()
-	public List branchDataSearch(@RequestBody BranchDataSearchEntity bdse, HttpServletRequest request) throws Exception {
-		return branchDataSearchService.getSearchInfo(bdse);
+	public List branchDataSearch(@RequestBody BranchDataSearchEntity branchDataSearchEntity, HttpServletRequest request) throws Exception {
+		return branchDataSearchService.getSearchInfo(branchDataSearchEntity);
 	}
 	
 	

@@ -129,11 +129,11 @@ public class MutualFund {
 			@ApiResponse(code = 201, message = "Normal execution. The request has succeeded. (Returned By Post)"),
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
-	public ResultUtil subscription(@RequestBody @Validated FundBuyTradingModel ase, HttpServletRequest request)
+	public ResultUtil subscription(@RequestBody @Validated FundBuyTradingModel fundBuyTradingModel, HttpServletRequest request)
 			throws Exception {
 		try {
 			HeaderModel header = HeaderModelUtil.getHeader(request);
-			return fundMarketInfoService.fundBuyTradingService(header, ase, restTemplate);
+			return fundMarketInfoService.fundBuyTradingService(header, fundBuyTradingModel, restTemplate);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -155,11 +155,11 @@ public class MutualFund {
 			@ApiResponse(code = 201, message = "Normal execution. The request has succeeded. (Returned By Post)"),
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
-	public ResultUtil redemption(@RequestBody @Validated FundSellTradingModel ase, HttpServletRequest request)
+	public ResultUtil redemption(@RequestBody @Validated FundSellTradingModel fundSellTradingModel, HttpServletRequest request)
 			throws Exception {
 		try {
 			HeaderModel header = HeaderModelUtil.getHeader(request);
-			return fundMarketInfoService.fundSellTradingService(header, ase, restTemplate);
+			return fundMarketInfoService.fundSellTradingService(header, fundSellTradingModel, restTemplate);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -174,11 +174,11 @@ public class MutualFund {
 			@ApiResponse(code = 201, message = "Normal execution. The request has succeeded. (Returned By Post)"),
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
-	public ResultUtil holdingEnquiry(@RequestBody @Validated FundHoldingEnquiryModel ase, HttpServletRequest request)
+	public ResultUtil holdingEnquiry(@RequestBody @Validated FundHoldingEnquiryModel fundHoldingEnquiryModel, HttpServletRequest request)
 			throws Exception {
 		try {
 			HeaderModel header = HeaderModelUtil.getHeader(request);
-			return fundMarketInfoService.mutualfundHoldingEnquiry(header, ase, restTemplate);
+			return fundMarketInfoService.mutualfundHoldingEnquiry(header, fundHoldingEnquiryModel, restTemplate);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -202,10 +202,10 @@ public class MutualFund {
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
 	@ApiIgnore()
-	public ResultUtil getMutualAccount(@RequestBody @Validated QueryMutualModel qmm,
+	public ResultUtil getMutualAccount(@RequestBody @Validated QueryMutualModel queryMutualModel,
 			HttpServletRequest request) throws Exception {
 		try {
-			return mutualFundService.getMutualAccount(qmm);
+			return mutualFundService.getMutualAccount(queryMutualModel);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -228,10 +228,10 @@ public class MutualFund {
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
 	@ApiIgnore()
-	public ResultUtil getOneMutualAccount(@RequestBody @Validated QueryMutualModel qmm,
+	public ResultUtil getOneMutualAccount(@RequestBody @Validated QueryMutualModel queryMutualModel,
 			HttpServletRequest request) throws Exception {
 		try {
-			return mutualFundService.getOneMutualAccount(qmm);
+			return mutualFundService.getOneMutualAccount(queryMutualModel);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -254,9 +254,9 @@ public class MutualFund {
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
 	@ApiIgnore()
-	public ResultUtil accountClosure(@RequestBody CloseAccountModel cam) throws Exception {
+	public ResultUtil accountClosure(@RequestBody CloseAccountModel closeAccountModel) throws Exception {
 		try {
-			return mutualFundService.closeAccount(cam, restTemplate);
+			return mutualFundService.closeAccount(closeAccountModel, restTemplate);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -273,9 +273,9 @@ public class MutualFund {
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
 	@ApiIgnore()
-	public ResultUtil addAccount(@RequestBody AddMutualDepositModel amdm) throws Exception {
+	public ResultUtil addAccount(@RequestBody AddMutualDepositModel addMutualDepositModel) throws Exception {
 		try {
-			int i = mutualFundService.save(amdm);
+			int i = mutualFundService.save(addMutualDepositModel);
 			ResultUtil result = new ResultUtil();
 			if(i>0){
 				result.setCode("1");
