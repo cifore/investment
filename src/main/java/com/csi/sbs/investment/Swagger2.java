@@ -3,10 +3,12 @@ package com.csi.sbs.investment;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.csi.sbs.investment.business.constant.SysConstant;
+import com.csi.sbs.investment.business.config.PathConfig;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
@@ -28,6 +30,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class Swagger2 {
+	
+	
+	@Resource
+	private PathConfig pathConfig;
     
     /**
      * 创建API应用
@@ -68,7 +74,7 @@ public class Swagger2 {
         
         return new Docket(DocumentationType.SWAGGER_2)
         		.globalOperationParameters(parameters)
-                .host(SysConstant.GATEWAY_SERVICE)
+                .host(pathConfig.getGateWayUrl())
                 .groupName("investment-api")
                 .useDefaultResponseMessages(false)
                 .apiInfo(apiInfo())
@@ -88,9 +94,9 @@ public class Swagger2 {
     @SuppressWarnings("deprecation")
 	private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Open API for investment service")
-                .description(SysConstant.LOCAL_DESCRIBE)
-                .termsOfServiceUrl(SysConstant.LOCAL_SERVICE_URL)
+                .title("Investment service")
+                .description("Investment service")
+                //.termsOfServiceUrl()
                 .contact("Pim li:lihuacheng@chinasofti.com")
                 .version("1.0")
                 .build();

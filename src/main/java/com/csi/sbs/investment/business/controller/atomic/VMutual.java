@@ -35,14 +35,14 @@ public class VMutual {
 	
 	
 	/**
-	 * 获取基金持有信息
+	 * 获取基金信息
 	 * @param accountNumber
 	 * @param request
 	 * @return
 	 * @throws Exception
 	 */
 	@SuppressWarnings({"rawtypes" })
-	@RequestMapping(value = "/fundQuotation/{accountNumber}", method = RequestMethod.GET)
+	@RequestMapping(value = "/fundQuotation/{fundcode}", method = RequestMethod.GET)
 	@ResponseBody
 	@ApiOperation(value = "This API is designed to return fundQuotation.", notes = "version 0.0.1")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Query completed successfully.(Returned By Get)"),
@@ -51,11 +51,11 @@ public class VMutual {
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
 	public ResultUtil fundQuotation(
-			@ApiParam(name = "accountNumber", value = "This parameter is required in the GET method. eg: HK720001001000000001001", required = true) @PathVariable("accountNumber") String accountNumber,
+			@ApiParam(name = "fundcode", value = "This parameter is required in the GET method. eg: U000001", required = true) @PathVariable("fundcode") String fundcode,
 			HttpServletRequest request) throws Exception {
 		try {
 			HeaderModel header = HeaderModelUtil.getHeader(request);
-			return mutualFundService.fundQuotation(header, accountNumber);
+			return mutualFundService.fundQuotation(header, fundcode);
 		} catch (NotFoundException e) {
 			throw e;
 		} catch (Exception e){

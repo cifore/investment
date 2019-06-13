@@ -29,8 +29,9 @@ import com.csi.sbs.investment.business.clientmodel.otherservice.AddMutualDeposit
 import com.csi.sbs.investment.business.constant.ExceptionConstant;
 import com.csi.sbs.investment.business.constant.SysConstant;
 import com.csi.sbs.investment.business.dao.FundHoldingDao;
+import com.csi.sbs.investment.business.dao.FundMarketInfoDao;
 import com.csi.sbs.investment.business.dao.MutualFundDao;
-import com.csi.sbs.investment.business.entity.FundHoldingEntity;
+import com.csi.sbs.investment.business.entity.FundMarketInfoEntity;
 import com.csi.sbs.investment.business.entity.MutualFundEntity;
 import com.csi.sbs.investment.business.exception.NotFoundException;
 import com.csi.sbs.investment.business.exception.OtherException;
@@ -52,6 +53,10 @@ public class MutualFundServiceImpl implements MutualFundService {
 	@SuppressWarnings("rawtypes")
 	@Resource
 	private FundHoldingDao fundHoldingDao;
+	
+	@SuppressWarnings("rawtypes")
+	@Resource
+	private FundMarketInfoDao fundMarketInfoDao;
 
 	private SimpleDateFormat format = new SimpleDateFormat();
 	
@@ -259,12 +264,12 @@ public class MutualFundServiceImpl implements MutualFundService {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public ResultUtil fundQuotation(HeaderModel header, String accountNumber) throws Exception {
+	public ResultUtil fundQuotation(HeaderModel header, String fundcode) throws Exception {
 		ResultUtil result = new ResultUtil();
-		FundHoldingEntity fe = new FundHoldingEntity();
-		fe.setAccountnumber(accountNumber);
-		List<FundHoldingEntity> res = fundHoldingDao.findMany(fe);
-		if(res==null || res.size()==0){
+		FundMarketInfoEntity fme = new FundMarketInfoEntity();
+		fme.setFundcode(fundcode);
+		FundMarketInfoEntity res = (FundMarketInfoEntity) fundMarketInfoDao.findOne(fme);
+		if(res==null){
 			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404014),ExceptionConstant.ERROR_CODE404014);
 		}
 		result.setCode(String.valueOf(ExceptionConstant.SUCCESS_CODE200));

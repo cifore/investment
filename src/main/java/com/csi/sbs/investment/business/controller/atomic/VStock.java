@@ -44,7 +44,7 @@ public class VStock {
 	 * @throws Exception
 	 */
 	@SuppressWarnings({"rawtypes" })
-	@RequestMapping(value = "/stockQuotation/{accountNumber}", method = RequestMethod.GET)
+	@RequestMapping(value = "/stockQuotation/{stockcode}", method = RequestMethod.GET)
 	@ResponseBody
 	@ApiOperation(value = "This API is designed to return stockQuotation.", notes = "version 0.0.1")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Query completed successfully.(Returned By Get)"),
@@ -53,11 +53,11 @@ public class VStock {
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
 	public ResultUtil stockQuotation(
-			@ApiParam(name = "accountNumber", value = "This parameter is required in the GET method. eg: HK720001001000000001001", required = true) @PathVariable("accountNumber") String accountNumber,
+			@ApiParam(name = "stockcode", value = "This parameter is required in the GET method. eg: 0100.HK", required = true) @PathVariable("stockcode") String stockcode,
 			HttpServletRequest request) throws Exception {
 		try {
 			HeaderModel header = HeaderModelUtil.getHeader(request);
-			return stockInvestmentService.stockQuotation(header, accountNumber);
+			return stockInvestmentService.stockQuotation(header, stockcode);
 		} catch (NotFoundException e) {
 			throw e;
 		} catch (Exception e){

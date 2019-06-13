@@ -125,16 +125,8 @@ public class SysConstant {
 	   public static final String WRITE_LOG_SERVICEPATH = "http://SYSADMIN/sysadmin/log/writeTransactionLog";
 	   //返回内部服务接口地址 URL
        public static final String SERVICE_INTERNAL_URL = "/sysadmin/getServiceInternalURL";
-       //本服务内网地址
-       public static final String LOCAL_SERVICE_URL = "http://localhost:8097/investment";
-       //网关地址(服务器)
-       public static final String GATEWAY_SERVICE = "47.112.146.96:8086/investment";
-       //网关地址(本地)
-       public static final String GATEWAY_LOCALHOST = "localhost:8086/investment";
        //本服务名称
        public static final String LOCAL_SERVICE_NAME = "investment";
-       //本服务描述
-       public static final String LOCAL_DESCRIBE = "This is the investment service module, which contains all associated API resources.";
         
        //maturity Status
        public static final String MATURITY_STATUS_A = "A";

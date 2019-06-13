@@ -813,12 +813,12 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public ResultUtil stockQuotation(HeaderModel header, String accountNumber) throws Exception {
+	public ResultUtil stockQuotation(HeaderModel header, String stockcode) throws Exception {
 		ResultUtil result = new ResultUtil();
-		StockHoldingEntity se = new StockHoldingEntity();
-		se.setAccountnumber(accountNumber);
-		List<StockHoldingEntity> res = stockHoldingDao.findMany(se);
-		if(res==null || res.size()==0){
+		StockInformationEntity sie = new StockInformationEntity();
+		sie.setStockcode(stockcode);
+		StockInformationEntity res = (StockInformationEntity) stockInformationDao.findOne(sie);
+		if(res==null){
 			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404012),ExceptionConstant.ERROR_CODE404012);
 		}
 		result.setCode(String.valueOf(ExceptionConstant.SUCCESS_CODE200));
