@@ -7,7 +7,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
-import com.csi.sbs.investment.Application;
+import com.csi.sbs.investment.InvestmentApplication;
 
 import org.springframework.context.ApplicationContext;
 
@@ -15,7 +15,7 @@ import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 @EnableEurekaClient
-public class Application {
+public class InvestmentApplication {
 	
 	
 	@Bean
@@ -27,7 +27,7 @@ public class Application {
 	
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
-		ApplicationContext context = SpringApplication.run(Application.class, args);
+		ApplicationContext context = SpringApplication.run(InvestmentApplication.class, args);
 		//InitLog.loadLogConfig(context,"investment");//初始化日志相关配置
 	}
 
