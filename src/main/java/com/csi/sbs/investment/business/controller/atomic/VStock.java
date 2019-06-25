@@ -6,20 +6,20 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.csi.sbs.common.business.model.HeaderModel;
 import com.csi.sbs.common.business.util.HeaderModelUtil;
+import com.csi.sbs.investment.business.clientmodel.VstockCodeModel;
 import com.csi.sbs.investment.business.exception.NotFoundException;
 import com.csi.sbs.investment.business.service.StockInvestmentService;
 import com.csi.sbs.investment.business.util.ResultUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -44,7 +44,7 @@ public class VStock {
 	 * @throws Exception
 	 */
 	@SuppressWarnings({"rawtypes" })
-	@RequestMapping(value = "/stockQuotation/{stockcode}", method = RequestMethod.GET)
+	@RequestMapping(value = "/stockQuotation", method = RequestMethod.POST)
 	@ResponseBody
 	@ApiOperation(value = "This API is designed to return the stock quotation.", notes = "version 0.0.1")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Query completed successfully.(Returned By Get)"),
@@ -52,12 +52,11 @@ public class VStock {
 			@ApiResponse(code = 201, message = "Normal execution. The request has succeeded. (Returned By Post)"),
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
-	public ResultUtil stockQuotation(
-			@ApiParam(name = "stockcode", value = "This parameter is required in the GET method. eg: 0100.HK", required = true) @PathVariable("stockcode") String stockcode,
+	public ResultUtil stockQuotation(@RequestBody VstockCodeModel vstockCodeModel,
 			HttpServletRequest request) throws Exception {
 		try {
 			HeaderModel header = HeaderModelUtil.getHeader(request);
-			return stockInvestmentService.stockQuotation(header, stockcode);
+			return stockInvestmentService.stockQuotation(header, vstockCodeModel.getStockCode());
 		} catch (NotFoundException e) {
 			throw e;
 		} catch (Exception e){
