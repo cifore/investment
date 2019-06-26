@@ -270,7 +270,7 @@ public class MutualFundServiceImpl implements MutualFundService {
 		fme.setFundcode(fundcode);
 		FundMarketInfoEntity res = (FundMarketInfoEntity) fundMarketInfoDao.findOne(fme);
 		if(res==null){
-			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404013),ExceptionConstant.ERROR_CODE404013);
+			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404014),ExceptionConstant.ERROR_CODE404014);
 		}
 		result.setCode(String.valueOf(ExceptionConstant.SUCCESS_CODE200));
 		result.setMsg("Search Success");

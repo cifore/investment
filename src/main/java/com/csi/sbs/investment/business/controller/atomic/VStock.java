@@ -46,7 +46,7 @@ public class VStock {
 	@SuppressWarnings({"rawtypes" })
 	@RequestMapping(value = "/stockQuotation", method = RequestMethod.POST)
 	@ResponseBody
-	@ApiOperation(value = "This API is designed to return the stock quotation.", notes = "version 0.0.1")
+	@ApiOperation(value = "This API is designed to retrieve the stock quotation details.", notes = "version 0.0.1")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Query completed successfully.(Returned By Get)"),
 			@ApiResponse(code = 404, message = "The requested deposit account does not exist.Action: Please make sure the account number and account type you’re inputting are correct."),
 			@ApiResponse(code = 201, message = "Normal execution. The request has succeeded. (Returned By Post)"),

@@ -44,14 +44,14 @@ public class VMutual {
 	@SuppressWarnings({"rawtypes" })
 	@RequestMapping(value = "/fundQuotation/{fundcode}", method = RequestMethod.GET)
 	@ResponseBody
-	@ApiOperation(value = "This API is designed to return the fund quotation.", notes = "version 0.0.1")
+	@ApiOperation(value = "This API is designed to retrieve the fund quotation details.", notes = "version 0.0.1")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Query completed successfully.(Returned By Get)"),
 			@ApiResponse(code = 404, message = "The requested deposit account does not exist.Action: Please make sure the account number and account type you’re inputting are correct."),
 			@ApiResponse(code = 201, message = "Normal execution. The request has succeeded. (Returned By Post)"),
 			@ApiResponse(code = 403, message = "Token has incorrect scope or a security policy was violated. Action: Please check whether you’re using the right token with the legal authorized user account."),
 			@ApiResponse(code = 500, message = "Something went wrong on the API gateway or micro-service. Action: check your network and try again later."), })
 	public ResultUtil fundQuotation(
-			@ApiParam(name = "fundcode", value = "This parameter is required in the GET method. eg: U000001", required = true) @PathVariable("fundcode") String fundcode,
+			@ApiParam(name = "fundcode", value = "Mutual Fund Code eg: U000001", required = true) @PathVariable("fundcode") String fundcode,
 			HttpServletRequest request) throws Exception {
 		try {
 			HeaderModel header = HeaderModelUtil.getHeader(request);
