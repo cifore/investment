@@ -427,6 +427,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 		insertTransacitonlog.setTrandesc("stock sell");
 		insertTransacitonlog.setCrdrmaintind(SysConstant.CR_DR_MAINT_IND_TYPE2);
 		insertTransacitonlog.setTrantype(SysConstant.TRANSACTION_TYPE10);
+		insertTransacitonlog.setRefaccountnumber(stm.getStkaccountnumber());
 		if (tradingaction.equals("BUY")) {
 			insertTransacitonlog.setCrdrmaintind(SysConstant.CR_DR_MAINT_IND_TYPE1);
 			insertTransacitonlog.setTrantype(SysConstant.TRANSACTION_TYPE9);

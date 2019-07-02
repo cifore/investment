@@ -289,6 +289,7 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		insertTransacitonlog.setCrdrmaintind(SysConstant.CR_DR_MAINT_IND_TYPE1);
 		insertTransacitonlog.setTrantype(SysConstant.TRANSACTION_TYPE11);
 		insertTransacitonlog.setTrandesc("fund buy");
+		insertTransacitonlog.setRefaccountnumber(ase.getFundaccountnumber());
 		
 		//更新 transaction detail file
 		String insertTransactionString = JsonProcess.changeEntityTOJSON(insertTransacitonlog);
@@ -537,6 +538,7 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 		insertTransacitonlog.setTrandesc("fund sell");
 		insertTransacitonlog.setCrdrmaintind(SysConstant.CR_DR_MAINT_IND_TYPE2);
 		insertTransacitonlog.setTrantype(SysConstant.TRANSACTION_TYPE12);
+		insertTransacitonlog.setRefaccountnumber(ase.getFundaccountnumber());
 		
 		//更新 transaction detail file
 		String insertTransactionString = JsonProcess.changeEntityTOJSON(insertTransacitonlog);
