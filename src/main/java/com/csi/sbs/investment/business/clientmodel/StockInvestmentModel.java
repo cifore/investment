@@ -7,6 +7,8 @@ public class StockInvestmentModel {
     private String accountnumber;
 
     private String stockcode;
+    
+    private String currencycode;
 
     private BigDecimal sharesholdingno;
 
@@ -52,5 +54,13 @@ public class StockInvestmentModel {
 
 	public void setSharesholdingno(BigDecimal sharesholdingno) {
 		this.sharesholdingno = sharesholdingno;
+	}
+
+	public String getCurrencycode() {
+		return currencycode;
+	}
+
+	public void setCurrencycode(String currencycode) {
+		this.currencycode = currencycode;
 	}
 }

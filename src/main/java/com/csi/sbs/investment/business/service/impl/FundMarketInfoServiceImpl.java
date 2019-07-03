@@ -594,13 +594,14 @@ public class FundMarketInfoServiceImpl implements FundMarketInfoService{
 				fundmodel.setId(fundholdingInfo.getId());
 				fundmodel.setAccountnumber(fundholdingInfo.getAccountnumber());
 				fundmodel.setAverageprice(fundholdingInfo.getAverageprice());
+				fundmodel.setCurrencycode(fundholdingInfo.getCurrencycode());
 				fundmodel.setLastupdatedate(format.format(fundholdingInfo.getLastupdatedate()));
 				fundmodel.setSharesholdingno(fundholdingInfo.getSharesholding());
 				fundmodel.setFundcode(fundholdingInfo.getFundcode());
 				list1.add(fundmodel);
 			}
 		}else{
-			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404014),ExceptionConstant.ERROR_CODE404014);
+			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404016),ExceptionConstant.ERROR_CODE404016);
 		}
 		result.setCode("1");
 		result.setMsg("Information collected");
