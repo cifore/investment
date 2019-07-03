@@ -8,6 +8,8 @@ public class FundInvestmentModel {
     private String accountnumber;
 
     private String fundcode;
+    
+    private String currencycode;
 
     private BigDecimal sharesholdingno;
 
@@ -61,5 +63,13 @@ public class FundInvestmentModel {
 
 	public void setFundcode(String fundcode) {
 		this.fundcode = fundcode;
+	}
+
+	public String getCurrencycode() {
+		return currencycode;
+	}
+
+	public void setCurrencycode(String currencycode) {
+		this.currencycode = currencycode;
 	}
 }

@@ -602,6 +602,7 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 	public Map<String, Object> stockHoldingEnquiry(HeaderModel header, StockHoldingEnquiryModel sth,
 			RestTemplate restTemplate) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
+		
 		StockInvestmentEntity stockInvestmentEntity = new StockInvestmentEntity();
 		stockInvestmentEntity.setCustomernumber(header.getCustomerNumber());
 		stockInvestmentEntity.setAccountnumber(sth.getStkaccountnumber());
@@ -629,11 +630,12 @@ public class StockInvestmentServiceImpl implements StockInvestmentService {
 				stkmodel.setLastupdatedate(format.format(stkholdingInfo.getLastupdatedate()));
 				stkmodel.setSharesholdingno(stkholdingInfo.getSharesholdingno());
 				stkmodel.setStockcode(stkholdingInfo.getStockcode());
+				stkmodel.setCurrencycode("HKD");
 				list1.add(stkmodel);
 			}
 		} else {
-			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404012),
-					ExceptionConstant.ERROR_CODE404012);
+			throw new NotFoundException(ExceptionConstant.getExceptionMap().get(ExceptionConstant.ERROR_CODE404015),
+					ExceptionConstant.ERROR_CODE404015);
 		}
 		map.put("code", "1");
 		map.put("msg", "Information collected");

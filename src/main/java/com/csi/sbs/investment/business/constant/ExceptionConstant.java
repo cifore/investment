@@ -46,9 +46,11 @@ public class ExceptionConstant {
     public static final int ERROR_CODE404009 = 404009;//关联账号不存在
     public static final int ERROR_CODE404010 = 404010;//账号不存在
     public static final int ERROR_CODE404011 = 404011;//股票number不存在
-    public static final int ERROR_CODE404012 = 404012;//没有股票持有信息
+    public static final int ERROR_CODE404012 = 404012;//没有股票信息
     public static final int ERROR_CODE404013 = 404013;//基金code不存在
-    public static final int ERROR_CODE404014 = 404014;//没有基金持有信息
+    public static final int ERROR_CODE404014 = 404014;//没有基金信息
+    public static final int ERROR_CODE404015 = 404015;//没有股票持有信息
+    public static final int ERROR_CODE404016 = 404016;//没有基金信息
     
     public static final int ERROR_CODE403002 = 403002;//无权限
     
@@ -109,6 +111,8 @@ public class ExceptionConstant {
     	map.put(ERROR_CODE404012, "Stock code not found");
     	map.put(ERROR_CODE404013, "Fund Code does not exist");
     	map.put(ERROR_CODE404014, "Fund code not found");
+    	map.put(ERROR_CODE404015, "No Stock Holding Infomation");
+    	map.put(ERROR_CODE404016, "No Mutual Fund Holding Infomation");
 
     	map.put(ERROR_CODE404007, "debitAccountNumber Not Found");//debitAccountNumber不存在
     	map.put(ERROR_CODE404008, "No interest rate retrieved");//没有找到利率
