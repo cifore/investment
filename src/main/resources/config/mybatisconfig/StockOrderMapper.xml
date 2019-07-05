@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.csi.sbs.investment.business.dao.StockOrderDao" >
+  <resultMap id="BaseResultMap" type="com.csi.sbs.investment.business.entity.StockOrderEntity" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="StockAccountNumber" property="stockaccountnumber" jdbcType="VARCHAR" />
+    <result column="RelAccountNumber" property="relaccountnumber" jdbcType="VARCHAR" />
+    <result column="StockCode" property="stockcode" jdbcType="VARCHAR" />
+    <result column="OrderType" property="ordertype" jdbcType="VARCHAR" />
+    <result column="TradingOption" property="tradingoption" jdbcType="VARCHAR" />
+    <result column="SharingNo" property="sharingno" jdbcType="DECIMAL" />
+    <result column="TradingPrice" property="tradingprice" jdbcType="DECIMAL" />
+    <result column="TotalAmount" property="totalamount" jdbcType="DECIMAL" />
+    <result column="Currencycode" property="currencycode" jdbcType="VARCHAR" />
+    <result column="RequestTime" property="requesttime" jdbcType="DECIMAL" />
+    <result column="ExpiryDate" property="expirydate" jdbcType="DECIMAL" />
+    <result column="Status" property="status" jdbcType="VARCHAR" />
+    <result column="OperationReasons" property="operationreasons" jdbcType="VARCHAR" />
+    <result column="OperationDate" property="operationdate" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <select id="findMany" resultMap="BaseResultMap" parameterType="com.csi.sbs.investment.business.entity.StockOrderEntity" >
+    select * from t_stock_order_request
+    where 1=1
+  </select>
+
+  <select id="findOne" resultType="com.csi.sbs.investment.business.entity.StockOrderEntity" parameterType="com.csi.sbs.investment.business.entity.StockOrderEntity">
+    select * from t_stock_order_request
+    where 1=1
+  </select>
+
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from t_stock_order_request
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.csi.sbs.investment.business.entity.StockOrderEntity" >
+    insert into t_stock_order_request (ID, StockAccountNumber, RelAccountNumber, 
+      StockCode, OrderType, TradingOption, 
+      SharingNo, TradingPrice, TotalAmount, 
+      Currencycode, RequestTime, ExpiryDate, 
+      Status, OperationReasons, OperationDate
+      )
+    values (#{id,jdbcType=VARCHAR}, #{stockaccountnumber,jdbcType=VARCHAR}, #{relaccountnumber,jdbcType=VARCHAR}, 
+      #{stockcode,jdbcType=VARCHAR}, #{ordertype,jdbcType=VARCHAR}, #{tradingoption,jdbcType=VARCHAR}, 
+      #{sharingno,jdbcType=DECIMAL}, #{tradingprice,jdbcType=DECIMAL}, #{totalamount,jdbcType=DECIMAL}, 
+      #{currencycode,jdbcType=VARCHAR}, #{requesttime,jdbcType=DECIMAL}, #{expirydate,jdbcType=DECIMAL}, 
+      #{status,jdbcType=VARCHAR}, #{operationreasons,jdbcType=VARCHAR}, #{operationdate,jdbcType=DECIMAL}
+      )
+  </insert>
+  <update id="update" parameterType="com.csi.sbs.investment.business.entity.StockOrderEntity" >
+    update t_stock_order_request
+    set StockAccountNumber = #{stockaccountnumber,jdbcType=VARCHAR},
+      RelAccountNumber = #{relaccountnumber,jdbcType=VARCHAR},
+      StockCode = #{stockcode,jdbcType=VARCHAR},
+      OrderType = #{ordertype,jdbcType=VARCHAR},
+      TradingOption = #{tradingoption,jdbcType=VARCHAR},
+      SharingNo = #{sharingno,jdbcType=DECIMAL},
+      TradingPrice = #{tradingprice,jdbcType=DECIMAL},
+      TotalAmount = #{totalamount,jdbcType=DECIMAL},
+      Currencycode = #{currencycode,jdbcType=VARCHAR},
+      RequestTime = #{requesttime,jdbcType=DECIMAL},
+      ExpiryDate = #{expirydate,jdbcType=DECIMAL},
+      Status = #{status,jdbcType=VARCHAR},
+      OperationReasons = #{operationreasons,jdbcType=VARCHAR},
+      OperationDate = #{operationdate,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
