@@ -22,6 +22,9 @@
   <select id="findMany" resultMap="BaseResultMap" parameterType="com.csi.sbs.investment.business.entity.StockOrderEntity" >
     select * from t_stock_order_request
     where 1=1
+    <if test="status != null and status !=''" >
+      and Status = #{status}
+    </if>
   </select>
 
   <select id="findOne" resultType="com.csi.sbs.investment.business.entity.StockOrderEntity" parameterType="com.csi.sbs.investment.business.entity.StockOrderEntity">

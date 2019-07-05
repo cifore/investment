@@ -20,6 +20,7 @@ public class StockOrderServiceImpl implements StockOrderService{
     public ResultUtil getOrderList() {
         ResultUtil result = new ResultUtil();
         StockOrderEntity order = new StockOrderEntity();
+        order.setStatus("0");
         List<StockOrderEntity> orderDaoMany = orderDao.findMany(order);
         result.setCode("1");
         result.setMsg("Search Success");
